@@ -1,4 +1,4 @@
 # OPB-zavarovalnica
-Projekt pri OPB \n
+Projekt pri OPB 
 
-Enej Kovač, Tomas Rode, Matej Škerlep
+(Enej Kovač, Tomas Rode, Matej Škerlep)
