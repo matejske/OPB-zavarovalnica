@@ -6,4 +6,4 @@ Projekt pri predmetu Osnove podatkovnih baz
 
 # ER diagram
 
-<img src="/ER diagram/ER_diagram_zavarovalnica.png", alt="ER diagram"/>
+<img src="./ER diagram/ER_diagram_zavarovalnica.png" alt="ER diagram"/>
