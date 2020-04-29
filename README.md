@@ -1,6 +1,6 @@
 # OPB-zavarovalnica
 
-Projekt pri predmetu Osnove podatkovnih baz.
+Projekt pri predmetu Osnove podatkovnih baz v letu 2020
 
 Avtorji: Enej Kovač, Tomas Rode, Matej Škerlep)
 
