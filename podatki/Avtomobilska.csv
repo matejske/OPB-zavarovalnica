@@ -1,0 +1,328 @@
+"polica_id","vrsta","avto_id"
+1,"kasko +",1
+2,"avtomobilska asistenca",2
+3,"kasko +",3
+6,"kasko +",6
+12,"kasko",12
+15,"kasko +",15
+21,"kasko",19
+22,"kasko",20
+23,"kasko +",21
+24,"avtomobilska asistenca",22
+29,"kasko +",27
+31,"avtomobilska asistenca",29
+34,"avtomobilska asistenca",31
+43,"kasko +",40
+48,"avtomobilska asistenca",45
+50,"avtomobilska asistenca",47
+55,"kasko",51
+58,"avtomobilska asistenca",53
+61,"kasko +",56
+62,"kasko +",57
+64,"kasko +",59
+65,"kasko",60
+69,"kasko",64
+71,"kasko +",66
+79,"kasko +",73
+80,"kasko +",74
+81,"kasko +",75
+83,"kasko +",76
+84,"avtomobilska asistenca",77
+86,"kasko",79
+90,"kasko",83
+96,"kasko +",89
+109,"kasko +",101
+110,"kasko +",102
+116,"kasko",108
+117,"avtomobilska asistenca",109
+120,"kasko +",112
+121,"kasko +",113
+124,"avtomobilska asistenca",116
+126,"avtomobilska asistenca",118
+130,"avtomobilska asistenca",121
+132,"avtomobilska asistenca",123
+134,"avtomobilska asistenca",125
+140,"avtomobilska asistenca",130
+142,"avtomobilska asistenca",132
+145,"kasko +",135
+146,"avtomobilska asistenca",136
+164,"kasko",153
+165,"avtomobilska asistenca",154
+168,"avtomobilska asistenca",157
+170,"kasko +",159
+172,"kasko +",161
+176,"kasko",165
+180,"kasko",169
+181,"kasko +",170
+183,"kasko",172
+184,"kasko +",173
+188,"kasko",177
+189,"kasko +",178
+191,"kasko",180
+196,"kasko",185
+198,"kasko",187
+201,"kasko",190
+208,"kasko",197
+209,"kasko +",198
+210,"kasko +",199
+211,"kasko",200
+212,"avtomobilska asistenca",201
+213,"avtomobilska asistenca",202
+217,"kasko",206
+219,"kasko +",207
+221,"avtomobilska asistenca",209
+223,"kasko +",211
+225,"avtomobilska asistenca",213
+226,"kasko +",214
+232,"kasko",220
+233,"avtomobilska asistenca",221
+235,"avtomobilska asistenca",223
+236,"kasko",224
+237,"kasko +",225
+239,"kasko +",227
+242,"kasko",230
+244,"kasko +",232
+245,"kasko",233
+246,"kasko",234
+251,"kasko",238
+254,"avtomobilska asistenca",241
+256,"kasko",243
+257,"avtomobilska asistenca",244
+261,"avtomobilska asistenca",248
+265,"avtomobilska asistenca",252
+269,"kasko +",256
+276,"kasko",263
+279,"kasko",266
+283,"avtomobilska asistenca",269
+288,"kasko",274
+293,"avtomobilska asistenca",278
+306,"avtomobilska asistenca",291
+309,"kasko",294
+310,"kasko",295
+311,"kasko",296
+316,"avtomobilska asistenca",301
+320,"kasko",305
+324,"avtomobilska asistenca",309
+327,"avtomobilska asistenca",311
+328,"avtomobilska asistenca",312
+330,"kasko",314
+335,"avtomobilska asistenca",318
+341,"kasko +",322
+342,"kasko",323
+344,"avtomobilska asistenca",325
+347,"kasko +",328
+353,"kasko +",334
+357,"kasko",338
+361,"avtomobilska asistenca",341
+365,"kasko",345
+367,"kasko +",347
+372,"kasko",350
+373,"kasko",351
+374,"kasko",352
+376,"kasko",354
+384,"avtomobilska asistenca",362
+386,"avtomobilska asistenca",364
+388,"avtomobilska asistenca",366
+391,"kasko",369
+392,"avtomobilska asistenca",370
+394,"avtomobilska asistenca",372
+397,"kasko +",374
+399,"avtomobilska asistenca",376
+400,"kasko",377
+404,"kasko",381
+412,"avtomobilska asistenca",389
+413,"kasko +",390
+414,"avtomobilska asistenca",391
+415,"kasko",392
+416,"kasko +",393
+425,"kasko",402
+427,"avtomobilska asistenca",404
+429,"avtomobilska asistenca",406
+430,"kasko +",407
+433,"avtomobilska asistenca",410
+437,"kasko +",414
+438,"kasko +",415
+446,"kasko",423
+447,"avtomobilska asistenca",424
+450,"avtomobilska asistenca",427
+454,"avtomobilska asistenca",431
+457,"kasko +",434
+459,"kasko",436
+460,"avtomobilska asistenca",437
+462,"avtomobilska asistenca",439
+468,"kasko",445
+473,"avtomobilska asistenca",450
+474,"kasko",451
+476,"kasko +",453
+485,"kasko",462
+486,"avtomobilska asistenca",463
+487,"kasko +",464
+488,"kasko",465
+489,"kasko",466
+495,"kasko",470
+497,"avtomobilska asistenca",472
+501,"kasko",476
+505,"avtomobilska asistenca",480
+507,"avtomobilska asistenca",482
+508,"avtomobilska asistenca",483
+518,"kasko +",491
+520,"avtomobilska asistenca",493
+522,"kasko +",495
+524,"avtomobilska asistenca",497
+531,"kasko",504
+532,"kasko +",505
+534,"kasko +",507
+537,"kasko +",510
+538,"kasko +",511
+541,"kasko",514
+543,"kasko",516
+544,"kasko +",517
+545,"avtomobilska asistenca",518
+549,"avtomobilska asistenca",522
+550,"kasko",523
+551,"avtomobilska asistenca",524
+560,"kasko +",533
+568,"kasko",541
+571,"avtomobilska asistenca",544
+572,"kasko",545
+573,"kasko +",546
+575,"kasko",548
+579,"avtomobilska asistenca",552
+581,"avtomobilska asistenca",554
+582,"kasko +",555
+584,"avtomobilska asistenca",557
+591,"kasko +",564
+597,"kasko +",570
+598,"kasko +",571
+599,"avtomobilska asistenca",572
+601,"avtomobilska asistenca",574
+602,"kasko +",575
+604,"kasko +",577
+608,"avtomobilska asistenca",581
+610,"kasko",583
+611,"kasko",584
+612,"kasko",585
+613,"kasko +",586
+616,"avtomobilska asistenca",589
+617,"kasko",590
+622,"kasko +",593
+624,"kasko +",595
+626,"kasko +",597
+627,"avtomobilska asistenca",598
+630,"avtomobilska asistenca",601
+640,"kasko",610
+642,"kasko +",611
+644,"kasko +",613
+647,"kasko",616
+653,"kasko",622
+655,"avtomobilska asistenca",624
+657,"avtomobilska asistenca",626
+658,"kasko +",627
+660,"kasko +",629
+663,"kasko",632
+669,"kasko",638
+672,"kasko +",641
+674,"kasko",643
+677,"kasko +",646
+679,"kasko",648
+683,"kasko +",651
+685,"kasko +",653
+687,"kasko",655
+689,"kasko",657
+696,"avtomobilska asistenca",663
+698,"kasko +",665
+699,"avtomobilska asistenca",666
+703,"kasko +",668
+704,"avtomobilska asistenca",669
+706,"kasko +",670
+709,"kasko",673
+722,"kasko",686
+726,"avtomobilska asistenca",690
+727,"kasko +",691
+732,"kasko",696
+735,"kasko",699
+738,"avtomobilska asistenca",702
+740,"avtomobilska asistenca",704
+741,"kasko +",705
+742,"kasko",706
+748,"kasko +",712
+749,"avtomobilska asistenca",713
+756,"avtomobilska asistenca",720
+757,"kasko",721
+758,"kasko +",722
+759,"avtomobilska asistenca",723
+762,"avtomobilska asistenca",726
+765,"kasko",729
+767,"kasko",731
+771,"kasko +",733
+772,"kasko +",734
+773,"kasko +",735
+776,"kasko +",737
+780,"avtomobilska asistenca",741
+788,"avtomobilska asistenca",748
+789,"kasko",749
+797,"kasko",755
+801,"kasko +",758
+804,"kasko",761
+805,"kasko",762
+812,"kasko +",769
+813,"avtomobilska asistenca",770
+815,"kasko +",772
+819,"avtomobilska asistenca",776
+822,"kasko",779
+827,"kasko +",784
+829,"avtomobilska asistenca",786
+835,"avtomobilska asistenca",790
+840,"kasko",795
+841,"kasko",796
+842,"kasko",797
+846,"avtomobilska asistenca",801
+847,"avtomobilska asistenca",802
+849,"avtomobilska asistenca",804
+860,"kasko",815
+863,"avtomobilska asistenca",818
+864,"avtomobilska asistenca",819
+865,"avtomobilska asistenca",820
+869,"kasko +",824
+871,"kasko +",826
+872,"kasko +",827
+876,"kasko",831
+877,"kasko +",832
+887,"kasko +",841
+888,"avtomobilska asistenca",842
+891,"kasko",844
+892,"kasko +",845
+896,"avtomobilska asistenca",849
+897,"kasko",850
+898,"kasko +",851
+902,"kasko +",855
+904,"kasko",857
+906,"kasko",859
+907,"avtomobilska asistenca",860
+908,"kasko",861
+910,"kasko +",863
+919,"avtomobilska asistenca",870
+922,"kasko +",872
+923,"avtomobilska asistenca",873
+924,"kasko",874
+925,"avtomobilska asistenca",875
+926,"avtomobilska asistenca",876
+929,"avtomobilska asistenca",879
+931,"kasko",881
+936,"kasko",886
+937,"kasko",887
+938,"kasko +",888
+941,"avtomobilska asistenca",891
+945,"kasko +",895
+947,"kasko",897
+949,"kasko +",899
+956,"kasko",902
+957,"kasko +",903
+958,"avtomobilska asistenca",904
+959,"avtomobilska asistenca",905
+979,"kasko",923
+984,"kasko +",928
+985,"avtomobilska asistenca",929
+987,"kasko +",931
+990,"avtomobilska asistenca",934
+1000,"avtomobilska asistenca",944

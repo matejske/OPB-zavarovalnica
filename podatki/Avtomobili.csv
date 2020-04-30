@@ -1,0 +1,1001 @@
+registrska,model,znamka,vrednost
+1,Mark VIII,Lincoln,777
+2,Eclipse,Mitsubishi,768
+3,QX,Infiniti,705
+4,F350,Ford,717
+5,F350,Ford,749
+6,Pajero,Mitsubishi,788
+7,Escalade EXT,Cadillac,694
+8,ES,Lexus,734
+9,RX Hybrid,Lexus,762
+10,Biturbo,Maserati,757
+11,Metro,Geo,736
+12,Avalanche 2500,Chevrolet,757
+13,62,Maybach,719
+14,CTS-V,Cadillac,797
+15,MX-5,Mazda,734
+16,Elantra,Hyundai,803
+17,Defender 90,Land Rover,739
+18,Impala,Chevrolet,743
+19,Freestar,Ford,753
+20,Regal,Buick,727
+21,Dakota Club,Dodge,721
+22,Talon,Eagle,769
+23,Civic,Honda,710
+24,STS-V,Cadillac,710
+25,Civic,Honda,710
+26,Legacy,Subaru,733
+27,Fox,Volkswagen,733
+28,Daytona,Dodge,715
+29,Explorer,Ford,759
+30,Corvette,Chevrolet,735
+31,Firebird,Pontiac,740
+32,S4,Audi,684
+33,Eos,Volkswagen,752
+34,Escalade,Cadillac,734
+35,Cougar,Mercury,740
+36,New Yorker,Chrysler,733
+37,GTI,Volkswagen,790
+38,A8,Audi,788
+39,Q,Infiniti,768
+40,3000GT,Mitsubishi,743
+41,Alcyone SVX,Subaru,709
+42,9-5,Saab,743
+43,GT350,Shelby,764
+44,F250,Ford,728
+45,D250,Dodge,717
+46,GTO,Mitsubishi,728
+47,3500,Chevrolet,744
+48,Celica,Toyota,791
+49,L-Series,Saturn,730
+50,Pajero,Mitsubishi,733
+51,E-Class,Mercedes-Benz,737
+52,Montero Sport,Mitsubishi,707
+53,Element,Honda,745
+54,Envoy,GMC,753
+55,Corvette,Chevrolet,758
+56,Continental,Bentley,763
+57,300M,Chrysler,748
+58,LR4,Land Rover,776
+59,Envoy,GMC,762
+60,Frontier,Nissan,772
+61,Grand Prix,Pontiac,719
+62,Mustang,Ford,719
+63,62,Maybach,729
+64,Sprinter 2500,Mercedes-Benz,760
+65,Oasis,Isuzu,738
+66,Tracker,Chevrolet,744
+67,Concorde,Chrysler,723
+68,Sportage,Kia,701
+69,Festiva,Ford,769
+70,LeSabre,Buick,749
+71,Accord,Honda,750
+72,Range Rover,Land Rover,751
+73,Equinox,Chevrolet,776
+74,9000,Saab,749
+75,Azera,Hyundai,739
+76,V90,Volvo,682
+77,Town Car,Lincoln,738
+78,Veracruz,Hyundai,701
+79,G,Infiniti,756
+80,Mazda6 Sport,Mazda,742
+81,Sienna,Toyota,746
+82,207,Peugeot,784
+83,W201,Mercedes-Benz,773
+84,H2,Hummer,731
+85,Viper,Dodge,659
+86,Golf,Volkswagen,807
+87,RAV4,Toyota,685
+88,9000,Saab,752
+89,Mirage,Mitsubishi,715
+90,F-Series,Ford,743
+91,Mentor,Kia,738
+92,Ranger,Ford,723
+93,7 Series,BMW,737
+94,E150,Ford,747
+95,Avenger,Dodge,730
+96,57,Maybach,716
+97,Legacy,Subaru,726
+98,XC90,Volvo,717
+99,Outlander,Mitsubishi,728
+100,S4,Audi,723
+101,1500,Chevrolet,751
+102,TundraMax,Toyota,754
+103,Mariner,Mercury,693
+104,Axiom,Isuzu,715
+105,C-Class,Mercedes-Benz,742
+106,Continental GTC,Bentley,769
+107,Econoline E150,Ford,749
+108,Tacoma,Toyota,758
+109,Reatta,Buick,745
+110,Mighty Max Macro,Mitsubishi,737
+111,Sable,Mercury,756
+112,B-Series,Mazda,751
+113,V50,Volvo,749
+114,Concorde,Chrysler,768
+115,GTI,Volkswagen,752
+116,Frontier,Nissan,789
+117,Commander,Jeep,727
+118,3 Series,BMW,701
+119,Dakota Club,Dodge,758
+120,Montana,Pontiac,744
+121,Boxster,Porsche,795
+122,Silhouette,Oldsmobile,782
+123,X5,BMW,768
+124,IS,Lexus,711
+125,98,Oldsmobile,748
+126,Cougar,Mercury,709
+127,Daewoo Lacetti,Suzuki,758
+128,B-Series Plus,Mazda,739
+129,Pilot,Honda,699
+130,Cutlass,Oldsmobile,760
+131,Type 2,Volkswagen,828
+132,Bonneville,Pontiac,732
+133,C70,Volvo,721
+134,LHS,Chrysler,787
+135,riolet,Volkswagen,722
+136,1500,Chevrolet,745
+137,S80,Volvo,694
+138,Insight,Honda,748
+139,Tempo,Ford,710
+140,Ram Wagon B150,Dodge,760
+141,Daewoo Magnus,Suzuki,746
+142,Supra,Toyota,792
+143,Pilot,Honda,765
+144,Navigator,Lincoln,731
+145,Escalade EXT,Cadillac,763
+146,S4,Audi,706
+147,LR3,Land Rover,772
+148,Lumina,Chevrolet,769
+149,LTD Crown Victoria,Ford,746
+150,3500 Club Coupe,GMC,745
+151,Malibu,Chevrolet,745
+152,Astro,Chevrolet,724
+153,Park Avenue,Buick,777
+154,Bronco,Ford,710
+155,Allroad,Audi,762
+156,Acadia,GMC,709
+157,Camry,Toyota,757
+158,Savana 1500,GMC,730
+159,Cabriolet,Audi,717
+160,Tucson,Hyundai,694
+161,Century,Buick,765
+162,New Beetle,Volkswagen,750
+163,Range Rover Sport,Land Rover,745
+164,430,Maserati,705
+165,GS,Lexus,791
+166,6 Series,BMW,737
+167,E150,Ford,683
+168,Grand Vitara,Suzuki,780
+169,rio,Volkswagen,737
+170,Avalanche,Chevrolet,720
+171,Crown Victoria,Ford,793
+172,911,Porsche,726
+173,F-Series,Ford,722
+174,F150,Ford,754
+175,Elise,Lotus,726
+176,Golf,Volkswagen,780
+177,APV,Chevrolet,697
+178,Compass,Jeep,793
+179,Venza,Toyota,753
+180,2500,GMC,753
+181,RL,Acura,748
+182,C30,Volvo,757
+183,XF,Jaguar,753
+184,Grand Vitara,Suzuki,736
+185,Vandura 2500,GMC,745
+186,9-2X,Saab,731
+187,Corvette,Chevrolet,733
+188,Elantra,Hyundai,765
+189,SL-Class,Mercedes-Benz,742
+190,Diamante,Mitsubishi,721
+191,Villager,Mercury,715
+192,TL,Acura,684
+193,Samurai,Suzuki,760
+194,Rondo,Kia,725
+195,CTS,Cadillac,724
+196,H2,Hummer,754
+197,Viper,Dodge,789
+198,9000,Saab,793
+199,Electra,Buick,702
+200,Lanos,Daewoo,789
+201,Type 2,Volkswagen,731
+202,Malibu,Chevrolet,736
+203,Express 1500,Chevrolet,791
+204,Tribute,Mazda,741
+205,FX,Infiniti,741
+206,RDX,Acura,713
+207,Miata MX-5,Mazda,747
+208,Daewoo Lacetti,Suzuki,731
+209,Brat,Subaru,747
+210,XJ Series,Jaguar,753
+211,XF,Jaguar,797
+212,Golf,Volkswagen,727
+213,Highlander,Toyota,713
+214,Corvette,Chevrolet,745
+215,Challenger,Dodge,743
+216,Dakota,Dodge,739
+217,GranTurismo,Maserati,801
+218,SLS AMG,Mercedes-Benz,716
+219,Eldorado,Cadillac,740
+220,Escort,Ford,757
+221,Silverado 3500,Chevrolet,706
+222,Astro,Chevrolet,688
+223,Grand Am,Pontiac,737
+224,GTO,Pontiac,786
+225,Yukon XL 1500,GMC,752
+226,Malibu,Chevrolet,735
+227,Laser,Ford,743
+228,Mustang,Ford,810
+229,Outlander Sport,Mitsubishi,727
+230,Laser,Ford,752
+231,Vibe,Pontiac,749
+232,Caravan,Dodge,749
+233,SRX,Cadillac,789
+234,CLS-Class,Mercedes-Benz,733
+235,Grand Cherokee,Jeep,752
+236,Suburban 1500,Chevrolet,762
+237,M,Infiniti,757
+238,Vision,Eagle,680
+239,Firefly,Pontiac,753
+240,Accent,Hyundai,775
+241,Ram,Dodge,736
+242,Mazda2,Mazda,754
+243,Express 1500,Chevrolet,715
+244,Explorer,Ford,705
+245,Legacy,Subaru,736
+246,SLR McLaren,Mercedes-Benz,728
+247,Topaz,Mercury,743
+248,RX-8,Mazda,731
+249,Maxima,Nissan,730
+250,Silhouette,Oldsmobile,762
+251,Spyder,Maserati,785
+252,Tracer,Mercury,782
+253,Scoupe,Hyundai,719
+254,Rio,Kia,759
+255,9000,Saab,728
+256,Yaris,Toyota,748
+257,Sable,Mercury,750
+258,E-Class,Mercedes-Benz,765
+259,Grand Prix,Pontiac,767
+260,Monte Carlo,Chevrolet,723
+261,E150,Ford,759
+262,Challenger,Mitsubishi,773
+263,GT500,Shelby,768
+264,SVX,Subaru,742
+265,Corrado,Volkswagen,721
+266,Matrix,Toyota,682
+267,Sonata,Hyundai,716
+268,F150,Ford,777
+269,Mighty Max,Mitsubishi,754
+270,Diablo,Lamborghini,707
+271,LR2,Land Rover,714
+272,RX Hybrid,Lexus,730
+273,FX,Infiniti,703
+274,Navigator,Lincoln,789
+275,S-Class,Mercedes-Benz,742
+276,GTI,Volkswagen,718
+277,riolet,Audi,716
+278,Arnage,Bentley,728
+279,Forester,Subaru,742
+280,944,Porsche,723
+281,Festiva,Ford,734
+282,GL-Class,Mercedes-Benz,723
+283,Z4,BMW,823
+284,H1,Hummer,755
+285,Range Rover,Land Rover,743
+286,Trans Sport,Pontiac,795
+287,Astro,Chevrolet,758
+288,RX Hybrid,Lexus,693
+289,CX-9,Mazda,747
+290,Elise,Lotus,778
+291,Elantra,Hyundai,757
+292,Laser,Plymouth,777
+293,Paseo,Toyota,726
+294,Trooper,Isuzu,724
+295,Savana 2500,GMC,772
+296,T100,Toyota,730
+297,Eldorado,Cadillac,727
+298,Villager,Mercury,729
+299,Escalade ESV,Cadillac,769
+300,RAV4,Toyota,751
+301,Cayenne,Porsche,731
+302,Bronco II,Ford,771
+303,9-3,Saab,756
+304,Frontier,Nissan,750
+305,Silverado 2500,Chevrolet,792
+306,Golf,Volkswagen,720
+307,Econoline E150,Ford,714
+308,Spider,Alfa Romeo,746
+309,DeVille,Cadillac,812
+310,Safari,GMC,709
+311,300SL,Mercedes-Benz,716
+312,XC70,Volvo,729
+313,Ram,Dodge,777
+314,300,Chrysler,692
+315,G,Infiniti,783
+316,Montero,Mitsubishi,719
+317,Rodeo Sport,Isuzu,719
+318,Santa Fe,Hyundai,798
+319,GT500,Ford,751
+320,Challenger,Dodge,752
+321,Maxima,Nissan,778
+322,Fury,Plymouth,731
+323,Galant,Mitsubishi,772
+324,A5,Audi,753
+325,Expo,Mitsubishi,742
+326,612 Scaglietti,Ferrari,756
+327,MPV,Mazda,745
+328,TL,Acura,729
+329,B-Series,Mazda,715
+330,ES,Lexus,745
+331,Toronado,Oldsmobile,753
+332,E150,Ford,762
+333,Firefly,Pontiac,739
+334,B-Series,Mazda,776
+335,Jimmy,GMC,748
+336,Precis,Mitsubishi,728
+337,B-Series,Mazda,776
+338,Spectra,Kia,761
+339,Touareg,Volkswagen,732
+340,Vega,Chevrolet,733
+341,Grand Am,Pontiac,778
+342,MPV,Mazda,731
+343,Expedition,Ford,767
+344,XJ Series,Jaguar,731
+345,1500,GMC,761
+346,E250,Ford,720
+347,Trooper,Isuzu,773
+348,Golf,Volkswagen,712
+349,XT,Subaru,717
+350,Grand Voyager,Plymouth,783
+351,Roadster,Tesla,715
+352,E-Class,Mercedes-Benz,800
+353,Blazer,Chevrolet,755
+354,Rio,Kia,746
+355,300ZX,Nissan,709
+356,Trans Sport,Pontiac,740
+357,CLS-Class,Mercedes-Benz,738
+358,S60,Volvo,738
+359,Sigma,Mitsubishi,700
+360,XJ Series,Jaguar,731
+361,Gallardo,Lamborghini,742
+362,Blazer,Chevrolet,705
+363,928,Porsche,811
+364,Expedition,Ford,748
+365,LeMans,Pontiac,770
+366,Grand Prix,Pontiac,764
+367,M6,BMW,762
+368,CLK-Class,Mercedes-Benz,778
+369,Spectra,Kia,778
+370,F250,Ford,728
+371,Suburban 1500,Chevrolet,814
+372,Legacy,Subaru,730
+373,Diablo,Lamborghini,767
+374,Prizm,Geo,753
+375,Caravan,Dodge,752
+376,TundraMax,Toyota,749
+377,Prowler,Plymouth,762
+378,C-Class,Mercedes-Benz,737
+379,Sonata,Hyundai,768
+380,Excel,Mitsubishi,747
+381,Accord,Honda,746
+382,500SL,Mercedes-Benz,720
+383,Safari,GMC,730
+384,Savana 1500,GMC,739
+385,DeVille,Cadillac,696
+386,LTD Crown Victoria,Ford,724
+387,Pajero,Mitsubishi,703
+388,57S,Maybach,757
+389,Neon,Plymouth,718
+390,Outback,Subaru,712
+391,Continental GTC,Bentley,735
+392,Canyon,GMC,755
+393,1000,Pontiac,785
+394,3 Series,BMW,768
+395,tC,Scion,768
+396,Savana 1500,GMC,784
+397,S80,Volvo,750
+398,Explorer,Ford,738
+399,GTI,Volkswagen,734
+400,C-Class,Mercedes-Benz,746
+401,Passat,Volkswagen,749
+402,F450,Ford,766
+403,Ranger,Ford,758
+404,Century,Buick,761
+405,Express,Chevrolet,741
+406,Neon,Plymouth,742
+407,XK Series,Jaguar,737
+408,Insight,Honda,756
+409,Riviera,Buick,721
+410,Sierra 1500,GMC,793
+411,Brooklands,Bentley,717
+412,57,Maybach,729
+413,SLR McLaren,Mercedes-Benz,735
+414,FX,Infiniti,769
+415,Camry,Toyota,716
+416,Murano,Nissan,778
+417,Grand Marquis,Mercury,739
+418,Continental Mark VII,Lincoln,727
+419,Express 2500,Chevrolet,666
+420,Prelude,Honda,747
+421,Azera,Hyundai,692
+422,Ram 1500,Dodge,695
+423,3500,Chevrolet,720
+424,Golf,Volkswagen,794
+425,7 Series,BMW,730
+426,A4,Audi,755
+427,Sentra,Nissan,736
+428,Pajero,Mitsubishi,758
+429,Concorde,Chrysler,742
+430,Protege,Mazda,720
+431,Xtra,Toyota,737
+432,E250,Ford,731
+433,E-Class,Mercedes-Benz,774
+434,Samurai,Suzuki,753
+435,Bronco II,Ford,753
+436,Crown Victoria,Ford,779
+437,Grand Vitara,Suzuki,749
+438,2500 Club Coupe,GMC,769
+439,Previa,Toyota,727
+440,Cirrus,Chrysler,729
+441,Mini,Austin,710
+442,Firebird,Pontiac,698
+443,S8,Audi,776
+444,Acclaim,Plymouth,746
+445,Accord,Honda,710
+446,Celica,Toyota,692
+447,626,Mazda,737
+448,Range Rover,Land Rover,756
+449,Focus,Ford,726
+450,Integra,Acura,772
+451,New Beetle,Volkswagen,725
+452,Skylark,Buick,737
+453,1500 Club Coupe,GMC,707
+454,Silverado 3500,Chevrolet,773
+455,Mighty Max,Mitsubishi,743
+456,Tiburon,Hyundai,736
+457,Contour,Ford,756
+458,G-Series G10,Chevrolet,766
+459,Altima,Nissan,740
+460,Hearse,Buick,775
+461,Grand Caravan,Dodge,709
+462,Celica,Toyota,722
+463,Outback,Subaru,738
+464,80/90,Audi,746
+465,NSX,Acura,764
+466,X6,BMW,693
+467,Sentra,Nissan,792
+468,Grand Prix,Pontiac,691
+469,Club Wagon,Ford,701
+470,7 Series,BMW,761
+471,Fit,Honda,759
+472,RL,Acura,764
+473,Elantra,Hyundai,726
+474,Taurus,Ford,744
+475,Maxima,Nissan,693
+476,Continental Mark VII,Lincoln,741
+477,SLK-Class,Mercedes-Benz,774
+478,Ram Van 3500,Dodge,780
+479,Tahoe,Chevrolet,783
+480,LSS,Oldsmobile,730
+481,Grand Marquis,Mercury,728
+482,MKX,Lincoln,718
+483,Durango,Dodge,706
+484,Civic,Honda,750
+485,LHS,Chrysler,720
+486,300SD,Mercedes-Benz,729
+487,Z4,BMW,705
+488,Elantra,Hyundai,778
+489,Sebring,Chrysler,794
+490,928,Porsche,731
+491,CL-Class,Mercedes-Benz,748
+492,Maxima,Nissan,746
+493,740,Volvo,753
+494,G6,Pontiac,731
+495,G25,Infiniti,745
+496,Aura,Saturn,750
+497,TT,Audi,774
+498,MX-6,Mazda,720
+499,IS F,Lexus,725
+500,Versa,Nissan,741
+501,Expedition,Ford,729
+502,Cayenne,Porsche,780
+503,Mustang,Ford,782
+504,911,Porsche,773
+505,RX,Lexus,725
+506,E150,Ford,773
+507,Typ-1,Aptera,715
+508,Crossfire,Chrysler,790
+509,GTI,Volkswagen,730
+510,Taurus,Ford,721
+511,300SL,Mercedes-Benz,739
+512,Fillmore,Fillmore,708
+513,Park Avenue,Buick,741
+514,Tahoe,Chevrolet,718
+515,Grand Am,Pontiac,723
+516,Omni,Dodge,735
+517,Allante,Cadillac,749
+518,8 Series,BMW,726
+519,Prelude,Honda,757
+520,Express 1500,Chevrolet,784
+521,Z4,BMW,727
+522,XR4Ti,Merkur,711
+523,riolet,Audi,790
+524,rio,Volkswagen,719
+525,Silverado,Chevrolet,765
+526,Corvette,Chevrolet,761
+527,QX,Infiniti,716
+528,Catera,Cadillac,739
+529,Contour,Ford,763
+530,Seville,Cadillac,692
+531,Yaris,Toyota,726
+532,Daewoo Lacetti,Suzuki,749
+533,Cabriolet,Volkswagen,715
+534,B-Series,Mazda,719
+535,Avalon,Toyota,765
+536,Dakota,Dodge,719
+537,Grand Marquis,Mercury,723
+538,Sorento,Kia,733
+539,Econoline E250,Ford,709
+540,Quattroporte,Maserati,740
+541,Avalon,Toyota,754
+542,XC90,Volvo,707
+543,Lucerne,Buick,762
+544,Imperial,Chrysler,747
+545,Crossfire,Chrysler,748
+546,M5,BMW,720
+547,Passat,Volkswagen,756
+548,XLR-V,Cadillac,722
+549,E-Series,Ford,790
+550,Legend,Acura,722
+551,Mighty Max,Mitsubishi,696
+552,Explorer,Ford,743
+553,QX,Infiniti,760
+554,Charger,Dodge,751
+555,Grand Voyager,Plymouth,749
+556,240,Volvo,713
+557,Ram Wagon B350,Dodge,736
+558,Colt Vista,Plymouth,752
+559,LS,Lincoln,733
+560,323,Mazda,687
+561,New Beetle,Volkswagen,741
+562,Maxima,Nissan,718
+563,Diablo,Lamborghini,749
+564,Santa Fe,Hyundai,722
+565,Tacoma,Toyota,697
+566,Element,Honda,759
+567,V90,Volvo,776
+568,Skylark,Buick,667
+569,Tracer,Mercury,762
+570,Mark VII,Lincoln,763
+571,Edge,Ford,764
+572,500SL,Mercedes-Benz,716
+573,F-Series,Ford,759
+574,Continental Mark VII,Lincoln,768
+575,Taurus,Ford,781
+576,Econoline E350,Ford,687
+577,Achieva,Oldsmobile,793
+578,8 Series,BMW,726
+579,Sportvan G30,Chevrolet,707
+580,MPV,Mazda,789
+581,MR2,Toyota,717
+582,GTO,Mitsubishi,772
+583,Sigma,Mitsubishi,732
+584,Expo,Mitsubishi,762
+585,SRX,Cadillac,753
+586,Ram Van 2500,Dodge,721
+587,Sedona,Kia,793
+588,TL,Acura,743
+589,Phantom,Rolls-Royce,743
+590,V70,Volvo,734
+591,370Z,Nissan,745
+592,FX,Infiniti,770
+593,900,Saab,738
+594,Amanti,Kia,763
+595,Suburban 1500,GMC,747
+596,CTS,Cadillac,753
+597,Insight,Honda,760
+598,A8,Audi,711
+599,LR2,Land Rover,709
+600,Montero,Mitsubishi,740
+601,Legacy,Subaru,719
+602,911,Porsche,762
+603,SC,Lexus,778
+604,7 Series,BMW,709
+605,Rabbit,Volkswagen,732
+606,Concorde,Chrysler,727
+607,Mazdaspeed 3,Mazda,751
+608,Sierra 3500HD,GMC,706
+609,Vibe,Pontiac,730
+610,Camry,Toyota,722
+611,Colt,Dodge,780
+612,IS,Lexus,725
+613,Amanti,Kia,759
+614,Accent,Hyundai,778
+615,RX-8,Mazda,715
+616,Lancer Evolution,Mitsubishi,769
+617,Pathfinder,Nissan,736
+618,Supra,Toyota,699
+619,Spirit,Dodge,777
+620,CC,Volkswagen,742
+621,Pathfinder,Nissan,724
+622,Explorer,Ford,739
+623,Tribute,Mazda,743
+624,Supra,Toyota,796
+625,Town Car,Lincoln,711
+626,V50,Volvo,717
+627,626,Mazda,734
+628,Aerostar,Ford,764
+629,Carens,Kia,814
+630,Mustang,Ford,789
+631,Passat,Volkswagen,737
+632,SLK-Class,Mercedes-Benz,715
+633,CL-Class,Mercedes-Benz,737
+634,CR-V,Honda,747
+635,Insight,Honda,766
+636,Sonata,Hyundai,766
+637,Legacy,Subaru,703
+638,Intrepid,Dodge,713
+639,Taurus,Ford,774
+640,Ranger,Ford,726
+641,Bronco,Ford,747
+642,Sequoia,Toyota,729
+643,Tacoma,Toyota,777
+644,Grand Marquis,Mercury,746
+645,Skyhawk,Buick,790
+646,G6,Pontiac,743
+647,Grand Vitara,Suzuki,770
+648,Marquis,Mercury,798
+649,NSX,Acura,795
+650,Expedition EL,Ford,816
+651,Altima,Nissan,679
+652,7 Series,BMW,767
+653,Savana 1500,GMC,711
+654,Terraza,Buick,768
+655,X5 M,BMW,747
+656,98,Oldsmobile,791
+657,Passport,Honda,760
+658,Yaris,Toyota,740
+659,Boxster,Porsche,729
+660,Accent,Hyundai,707
+661,Camaro,Chevrolet,753
+662,Protege,Mazda,747
+663,Sierra 1500,GMC,690
+664,GLI,Volkswagen,776
+665,SL-Class,Mercedes-Benz,735
+666,Eurovan,Volkswagen,738
+667,Avalon,Toyota,758
+668,Grand Cherokee,Jeep,745
+669,Sequoia,Toyota,712
+670,CX-9,Mazda,746
+671,Mountaineer,Mercury,762
+672,Quest,Nissan,722
+673,Cobalt,Chevrolet,781
+674,Clubman,MINI,749
+675,Navigator L,Lincoln,715
+676,Sienna,Toyota,712
+677,iQ,Scion,786
+678,B-Series Plus,Mazda,748
+679,Evora,Lotus,738
+680,MX-5,Mazda,783
+681,Maxima,Nissan,740
+682,Corolla,Toyota,751
+683,QX56,Infiniti,742
+684,Montero,Mitsubishi,722
+685,Thunderbird,Ford,714
+686,57,Maybach,740
+687,5000S,Audi,699
+688,Avenger,Dodge,719
+689,Range Rover,Land Rover,742
+690,Town & Country,Chrysler,717
+691,RX,Lexus,723
+692,HS,Lexus,738
+693,RX,Lexus,770
+694,Cougar,Mercury,754
+695,X5 M,BMW,792
+696,Dynasty,Dodge,765
+697,Legacy,Subaru,721
+698,Freelander,Land Rover,736
+699,7 Series,BMW,748
+700,Chariot,Mitsubishi,734
+701,SX4,Suzuki,765
+702,5 Series,BMW,757
+703,LX,Lexus,757
+704,Sable,Mercury,721
+705,Express 3500,Chevrolet,740
+706,1500 Club Coupe,GMC,757
+707,Outlander,Mitsubishi,792
+708,Truck,Mitsubishi,747
+709,Rodeo,Isuzu,750
+710,Land Cruiser,Toyota,725
+711,Edge,Ford,761
+712,Taurus,Ford,762
+713,Pajero,Mitsubishi,781
+714,Jetta,Volkswagen,783
+715,Town Car,Lincoln,749
+716,Scirocco,Volkswagen,706
+717,Grand Prix,Pontiac,786
+718,Mark VII,Lincoln,766
+719,Blazer,Chevrolet,724
+720,Enclave,Buick,731
+721,Capri,Mercury,745
+722,Celica,Toyota,740
+723,Camry Hybrid,Toyota,733
+724,Fit,Honda,683
+725,LX,Lexus,746
+726,Accent,Hyundai,731
+727,G37,Infiniti,714
+728,Allroad,Audi,732
+729,Mustang,Ford,715
+730,960,Volvo,711
+731,Rodeo,Isuzu,709
+732,Galant,Mitsubishi,762
+733,Ascender,Isuzu,755
+734,Continental Mark VII,Lincoln,726
+735,Mazda6,Mazda,729
+736,Yukon,GMC,761
+737,Sienna,Toyota,746
+738,TL,Acura,743
+739,Navajo,Mazda,731
+740,Grand Voyager,Plymouth,676
+741,Ram 3500,Dodge,761
+742,S10,Chevrolet,736
+743,Fusion,Ford,761
+744,Scirocco,Volkswagen,736
+745,SL-Class,Mercedes-Benz,720
+746,1500,Chevrolet,713
+747,C30,Volvo,741
+748,Ram 1500 Club,Dodge,727
+749,Q5,Audi,785
+750,Cherokee,Jeep,795
+751,Century,Buick,748
+752,Justy,Subaru,738
+753,Escalade,Cadillac,728
+754,Econoline E350,Ford,768
+755,MKX,Lincoln,761
+756,Mustang,Ford,721
+757,Century,Buick,727
+758,ZX2,Ford,748
+759,TrailBlazer,Chevrolet,780
+760,Arnage,Bentley,737
+761,S8,Audi,740
+762,rio,Volkswagen,690
+763,M,BMW,754
+764,Grand Prix,Pontiac,739
+765,S-Class,Mercedes-Benz,734
+766,Rally Wagon 3500,GMC,745
+767,Prizm,Geo,752
+768,CX-9,Mazda,765
+769,Altima,Nissan,703
+770,CTS-V,Cadillac,749
+771,Mustang,Ford,703
+772,Bonneville,Pontiac,790
+773,Impala,Chevrolet,696
+774,2500,Chevrolet,783
+775,S4,Audi,780
+776,FF,Ferrari,718
+777,Avalanche,Chevrolet,747
+778,Sunfire,Pontiac,674
+779,Freelander,Land Rover,702
+780,xA,Scion,789
+781,88,Oldsmobile,677
+782,Diamante,Mitsubishi,770
+783,Grand Caravan,Dodge,813
+784,A4,Audi,757
+785,Prizm,Geo,769
+786,Regal,Buick,760
+787,Lancer,Mitsubishi,750
+788,Touareg,Volkswagen,776
+789,Camry,Toyota,749
+790,Grand Prix,Pontiac,738
+791,V40,Volvo,765
+792,NV1500,Nissan,750
+793,Chariot,Mitsubishi,756
+794,Jimmy,GMC,695
+795,Legacy,Subaru,734
+796,FJ Cruiser,Toyota,712
+797,Swift,Suzuki,725
+798,Dakota,Dodge,766
+799,Caprice,Chevrolet,767
+800,Elan,Lotus,765
+801,Express 3500,Chevrolet,778
+802,Savana 2500,GMC,732
+803,Sable,Mercury,762
+804,430,Maserati,813
+805,Escape,Ford,746
+806,Forte,Kia,706
+807,FJ Cruiser,Toyota,751
+808,Civic,Honda,757
+809,CX-7,Mazda,725
+810,Esteem,Suzuki,759
+811,944,Porsche,800
+812,Yukon XL 1500,GMC,740
+813,CL-Class,Mercedes-Benz,737
+814,Elantra,Hyundai,713
+815,Mazda6,Mazda,739
+816,Ram Van B250,Dodge,693
+817,Spyder,Maserati,759
+818,Sebring,Chrysler,779
+819,Century,Buick,733
+820,Impreza,Subaru,692
+821,Xterra,Nissan,791
+822,SLK-Class,Mercedes-Benz,668
+823,Continental,Lincoln,768
+824,XG350,Hyundai,767
+825,57,Maybach,772
+826,Malibu,Chevrolet,694
+827,Wrangler,Jeep,731
+828,GTO,Mitsubishi,685
+829,MX-6,Mazda,738
+830,Navajo,Mazda,743
+831,Explorer,Ford,736
+832,Miata MX-5,Mazda,771
+833,Previa,Toyota,736
+834,MPV,Mazda,749
+835,Forenza,Suzuki,758
+836,W201,Mercedes-Benz,723
+837,Boxster,Porsche,756
+838,CLK-Class,Mercedes-Benz,746
+839,MX-6,Mazda,745
+840,FJ Cruiser,Toyota,742
+841,Tredia,Mitsubishi,737
+842,Civic,Honda,786
+843,Camry Hybrid,Toyota,730
+844,Murciélago,Lamborghini,773
+845,Outback,Subaru,740
+846,New Beetle,Volkswagen,750
+847,GS,Lexus,752
+848,2500,GMC,711
+849,Park Avenue,Buick,735
+850,Laser,Plymouth,771
+851,SRX,Cadillac,783
+852,Range Rover Sport,Land Rover,701
+853,V70,Volvo,711
+854,Land Cruiser,Toyota,735
+855,Grand Marquis,Mercury,744
+856,Monte Carlo,Chevrolet,736
+857,DB9,Aston Martin,783
+858,5 Series,BMW,729
+859,Ascender,Isuzu,758
+860,S4,Audi,753
+861,GS,Lexus,763
+862,Type 2,Volkswagen,743
+863,X-90,Suzuki,779
+864,Caprice,Chevrolet,707
+865,Monte Carlo,Chevrolet,732
+866,Touareg,Volkswagen,738
+867,Frontier,Nissan,716
+868,Sky,Saturn,750
+869,Touareg,Volkswagen,738
+870,Touareg,Volkswagen,689
+871,Corvette,Chevrolet,716
+872,1500 Club Coupe,GMC,725
+873,B-Series,Mazda,765
+874,Tribeca,Subaru,724
+875,Explorer Sport Trac,Ford,720
+876,Ram 3500,Dodge,750
+877,Space,Isuzu,759
+878,Allante,Cadillac,758
+879,V50,Volvo,774
+880,Eurovan,Volkswagen,726
+881,M Roadster,BMW,740
+882,Bravada,Oldsmobile,717
+883,Traverse,Chevrolet,727
+884,S6,Audi,758
+885,Cabriolet,Volkswagen,757
+886,Element,Honda,743
+887,Lumina,Chevrolet,762
+888,Oasis,Isuzu,706
+889,G37,Infiniti,722
+890,rio,Volkswagen,733
+891,LeSabre,Buick,753
+892,Mustang,Ford,721
+893,Mazda6,Mazda,753
+894,Space,Isuzu,709
+895,Ram 1500,Dodge,733
+896,Continental,Lincoln,680
+897,Mighty Max Macro,Mitsubishi,761
+898,240SX,Nissan,751
+899,Truck,Mitsubishi,767
+900,Town Car,Lincoln,779
+901,HS,Lexus,737
+902,ES,Lexus,708
+903,Catera,Cadillac,703
+904,Tribute,Mazda,732
+905,Accord,Honda,783
+906,Altima,Nissan,733
+907,Diablo,Lamborghini,702
+908,Fleetwood,Cadillac,749
+909,Rainier,Buick,728
+910,Voyager,Chrysler,727
+911,Skyhawk,Buick,773
+912,Cavalier,Chevrolet,708
+913,228,Maserati,730
+914,Forester,Subaru,762
+915,G37,Infiniti,790
+916,Tribute,Mazda,790
+917,M,Infiniti,754
+918,GTO,Mitsubishi,723
+919,Safari,GMC,743
+920,Grand Prix,Pontiac,722
+921,Z3,BMW,763
+922,Murciélago LP640,Lamborghini,764
+923,Entourage,Hyundai,756
+924,Pathfinder,Nissan,751
+925,Boxster,Porsche,753
+926,NSX,Acura,771
+927,L-Series,Saturn,712
+928,X5,BMW,793
+929,Passport,Honda,714
+930,F-Series,Ford,732
+931,C-Class,Mercedes-Benz,737
+932,A3,Audi,783
+933,Monterey,Mercury,758
+934,CX-7,Mazda,795
+935,S-Class,Mercedes-Benz,721
+936,Cherokee,Jeep,744
+937,C-Class,Mercedes-Benz,760
+938,Yukon XL 2500,GMC,702
+939,HHR,Chevrolet,744
+940,Forester,Subaru,705
+941,Ascender,Isuzu,770
+942,Corolla,Toyota,691
+943,Celica,Toyota,708
+944,T100,Toyota,779
+945,G-Series 1500,Chevrolet,733
+946,Grand Marquis,Mercury,784
+947,GTO,Pontiac,762
+948,164,Alfa Romeo,727
+949,Caravan,Dodge,727
+950,Crossfire,Chrysler,724
+951,Corvette,Chevrolet,721
+952,Marquis,Mercury,719
+953,Ram 2500,Dodge,725
+954,LS,Lexus,804
+955,Silverado 2500,Chevrolet,739
+956,944,Porsche,784
+957,Corolla,Toyota,776
+958,Quantum,Volkswagen,779
+959,7 Series,BMW,739
+960,Century,Buick,748
+961,Sienna,Toyota,732
+962,S4,Audi,723
+963,CL-Class,Mercedes-Benz,743
+964,Accent,Hyundai,732
+965,Sentra,Nissan,793
+966,Intrepid,Dodge,725
+967,Town Car,Lincoln,789
+968,Mazda3,Mazda,775
+969,F350,Ford,759
+970,MKS,Lincoln,698
+971,Grand Prix,Pontiac,736
+972,Continental Mark VII,Lincoln,750
+973,Azera,Hyundai,722
+974,Tercel,Toyota,774
+975,Blazer,Chevrolet,703
+976,Ram 1500 Club,Dodge,691
+977,Ipsum,Toyota,806
+978,Soul,Kia,707
+979,S40,Volvo,735
+980,Town Car,Lincoln,715
+981,Envoy,GMC,760
+982,LeSabre,Buick,734
+983,Sable,Mercury,772
+984,960,Volvo,765
+985,Passat,Volkswagen,722
+986,TSX,Acura,782
+987,1500,Ram,708
+988,Cayman,Porsche,773
+989,900,Saab,715
+990,Navigator,Lincoln,795
+991,Corvette,Chevrolet,829
+992,458 Italia,Ferrari,759
+993,RS 6,Audi,775
+994,Explorer,Ford,754
+995,7 Series,BMW,699
+996,B-Series,Mazda,806
+997,Armada,Nissan,769
+998,300ZX,Nissan,710
+999,S-Class,Mercedes-Benz,738
+1000,Tahoe,Chevrolet,751
