@@ -1,0 +1,1 @@
+V tej mapi je so SqlLiteStudiom ustvarjene tabele in podatki uvoženi v njih.  
