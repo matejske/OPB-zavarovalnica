@@ -25,6 +25,11 @@ Zivljenjska <- Zivljenjska[1:299,]
 
 write.csv(Zivljenjska,"F:/Faks/OPB-zavarovalnica/podatki/Zivljenjska.csv", fileEncoding='UTF-8', row.names = FALSE)
 
+#AVTOMOBILI - sprememba vrstnega reda
+Avtomobili <- read_csv("F:/Faks/OPB-zavarovalnica/podatki/Avtomobili.csv")
+Avtomobili <- Avtomobili[c("registrska", "znamka", "model", "vrednost")]
+write.csv(Avtomobili,"F:/Faks/OPB-zavarovalnica/podatki/Avtomobili.csv", fileEncoding='UTF-8', row.names = FALSE)
+
 #AVTOMOBILSKA - odstranimo ostala
 Avtomobilska <- read_csv("F:/Faks/OPB-zavarovalnica/podatki/Avtomobilska_uvoz.csv")
 Avtomobilska_police <- Zavarovanja %>% filter(tip_zavarovanja == 2)
@@ -40,3 +45,4 @@ Nepremicninska <- Nepremicninska %>% filter(polica_id %in% Nepremicninska_police
 Nepremicninska <- Nepremicninska[1:318,]
 
 write.csv(Nepremicninska,"F:/Faks/OPB-zavarovalnica/podatki/Nepremicninska.csv", fileEncoding='UTF-8', row.names = FALSE)
+
