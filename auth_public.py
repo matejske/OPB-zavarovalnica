@@ -1,4 +1,4 @@
-db = 'banka2020_janos'
+db = 'sem2020_matejs'
 host = 'baza.fmf.uni-lj.si'
 user = 'javnost'
 password = 'javnogeslo'
