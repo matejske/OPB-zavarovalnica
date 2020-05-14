@@ -1,0 +1,16 @@
+%rebase('osnova.html', naslov='Vrste avtomobilskih zavarovanj')
+
+  <table cellpadding="0" cellspacing="0" border="1">
+  <tr>
+     <th>Ime vrste avtomobilskega zavarovanja</th>
+  </tr>
+  %for (mozne_vrste_avto) in Mozne_vrste_avto_tb:
+    <tr>
+       <td>{{mozne_vrste_avto}}</td>
+    </tr>
+  %end
+  </table>
+
+  <p>
+    <a href="{{ROOT}}vrste_avto">Na vrh strani</a>
+  </p>

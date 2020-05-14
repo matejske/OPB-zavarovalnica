@@ -1,0 +1,20 @@
+%rebase('osnova.html', naslov='Nepremicninska')
+
+  <table cellpadding="0" cellspacing="0" border="1">
+  <tr>
+     <th>Številka police</th>
+     <th>Vrsta nepremičninskega zavarovanja</th>
+     <th>Naslov nepremičnine</th>
+  </tr>
+  %for (polica_id,vrsta_n, nepr_id) in nepremicninska:
+    <tr>
+       <td>{{polica_id}}</td>
+       <td>{{vrsta_n}}</td>
+       <td>{{nepr_id}}</td>
+    </tr>
+  %end
+  </table>
+
+  <p>
+    <a href="{{ROOT}}nepremicninska">Na vrh strani</a>
+  </p>

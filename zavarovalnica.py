@@ -52,6 +52,16 @@ def nepremicnine():
     cur.execute("SELECT * FROM nepremicnine")
     return rtemplate('nepremicnine.html', nepremicnine=cur)
 
+@get('/nepremicninska')
+def nepremicninska():
+    cur.execute("SELECT * FROM nepremicninska")
+    return rtemplate('nepremicninska.html', nepremicninska=cur)
+
+@get('/vrste_nepr')
+def vrste_avto():
+    cur.execute("SELECT * FROM Mozne_vrste_nepr_tb")
+    return rtemplate('vrste_nepr.html', Mozne_vrste_nepr_tb=cur)
+
 @get('/avtomobili')
 def avtomobili():
     cur.execute("SELECT * FROM avtomobili")
@@ -61,6 +71,21 @@ def avtomobili():
 def avtomobilska():
     cur.execute("SELECT * FROM avtomobilska")
     return rtemplate('avtomobilska.html', avtomobilska=cur)
+
+@get('/vrste_avto')
+def vrste_avto():
+    cur.execute("SELECT * FROM Mozne_vrste_avto_tb")
+    return rtemplate('vrste_avto.html', Mozne_vrste_avto_tb=cur)
+
+@get('/zivljenjska')
+def zivljenjska():
+    cur.execute("SELECT * FROM zivljenska")
+    return rtemplate('zivljenjska.html', zivljenska=cur)
+
+@get('/vrste_zivlj')
+def vrste_zivlj():
+    cur.execute("SELECT * FROM Mozne_vrste_zivlj_tb")
+    return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
 ######################################################################
