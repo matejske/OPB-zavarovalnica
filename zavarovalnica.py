@@ -23,10 +23,25 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 debug(True)
 ######################################################################
 
+def rtemplate(*largs, **kwargs):
+    """
+    Izpis predloge s podajanjem spremenljivke ROOT z osnovnim URL-jem.
+    """
+    return template(ROOT=ROOT, *largs, **kwargs)
 
+@get('/static/<filename:path>')
+def static(filename):
+    return static_file(filename, root='static')
 
+@get('/')
+def index():
+    cur.execute("SELECT * FROM Osebe ORDER BY emso")
+    return rtemplate('osebe.html', osebe=cur)
 
-
+@get('/osebe')
+def osebe():
+    cur.execute("SELECT * FROM Osebe")
+    return rtemplate('osebe.html', osebe=cur)
 
 
 
