@@ -42,7 +42,25 @@ def osebe():
     cur.execute("SELECT * FROM Osebe")
     return rtemplate('osebe.html', osebe=cur)
 
+@get('/zavarovanja')
+def zavarovanja():
+    cur.execute("SELECT * FROM zavarovanja")
+    return rtemplate('zavarovanja.html', zavarovanja=cur)
 
+@get('/nepremicnine')
+def nepremicnine():
+    cur.execute("SELECT * FROM nepremicnine")
+    return rtemplate('nepremicnine.html', nepremicnine=cur)
+
+@get('/avtomobili')
+def avtomobili():
+    cur.execute("SELECT * FROM avtomobili")
+    return rtemplate('avtomobili.html', avtomobili=cur)
+
+@get('/avtomobilska')
+def avtomobilska():
+    cur.execute("SELECT * FROM avtomobilska")
+    return rtemplate('avtomobilska.html', avtomobilska=cur)
 
 
 ######################################################################

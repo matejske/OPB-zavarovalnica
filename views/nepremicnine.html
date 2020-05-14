@@ -1,0 +1,18 @@
+%rebase('osnova.html', naslov='Nepremicnine')
+
+  <table cellpadding="0" cellspacing="0" border="1">
+  <tr>
+     <th>Naslov nepremicnine</th>
+     <th>Vrednost</th>
+  </tr>
+  %for (naslov_nepr, vrednost) in nepremicnine:
+    <tr>
+       <td>{{naslov_nepr}}</td>
+       <td>{{vrednost}}</td>
+    </tr>
+  %end
+  </table>
+
+  <p>
+    <a href="{{ROOT}}nepremicnine">Na vrh strani</a>
+  </p>
