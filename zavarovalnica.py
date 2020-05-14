@@ -35,8 +35,7 @@ def static(filename):
 
 @get('/')
 def index():
-    cur.execute("SELECT * FROM Osebe ORDER BY emso")
-    return rtemplate('osebe.html', osebe=cur)
+    return("Dobrodošli v Naši zavarovalnici")
 
 @get('/osebe')
 def osebe():
