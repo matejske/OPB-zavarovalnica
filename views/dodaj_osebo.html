@@ -1,0 +1,30 @@
+%rebase('osnova.html', naslov='Dodaj osebo')
+
+%if napaka:
+  <p class="opozorilo">{{napaka}}</p>
+%end
+
+<!-- Gumb za dodajanje novih oseb (pri name je _in, da se ve da je input) --> 
+<form action="/dodaj_osebo" method="POST">
+    <p>EMŠO:</p> <input name="emso_in" type="text" />
+    <p>Ime:</p> <input name="ime_in" type="text" />
+    <p>Priimek:</p> <input name="priim_in" type="text" />
+    <p>Naslov:</p> <input name="naslov_in" type="text" />
+    <p>Elektronski naslov:</p> <input name="mail_in" type="text" />
+    <p>Rojstni datum:</p> <input name="rojstni_in" type="text" />
+    <p>Telefonska številka:</p> <input name="telefon_in" type="text" />
+    <p>Zaposleni:</p> <input name="zaposleni_in" type="text" />
+    <p> <input value="Dodaj osebo" type="submit" /> </p> 
+</form>
+
+
+{% comment %} 
+  <form action="{{ROOT}}dodaj_transakcijo" method="POST">
+    <p>EMŠO: <input type="text" name="emso" value="{{emso}}"></p>
+    <p>Račun: <input type="text" name="racun" value="{{racun}}"></p>
+    <p>Opis: <input type="text" name="opis" value="{{opis}}"></p>
+    <p><input type="submit" value="Dodaj"></p>
+  </form> 
+  {% endcomment %}
+
+
