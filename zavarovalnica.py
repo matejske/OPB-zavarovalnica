@@ -1,27 +1,30 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-# uvozimo bottle.py
+# uvozimo bottle.py (bottle je knjiznica funkcij)
 from bottle import *
 
 # uvozimo ustrezne podatke za povezavo
 import auth_public as auth
 
-# uvozimo psycopg2
+# uvozimo psycopg2 (to je za server)
 import psycopg2, psycopg2.extensions, psycopg2.extras
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s šumniki
 
-import os
+import os 
 
 # privzete nastavitve
-SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
-RELOADER = os.environ.get('BOTTLE_RELOADER', True)
+SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080) #na tem portu zaženemo
+RELOADER = os.environ.get('BOTTLE_RELOADER', True) #se bo avtomatsko posabljalo, rabimo le relodat spletno stran v brskalniku
 ROOT = os.environ.get('BOTTLE_ROOT', '/')
 DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 
 # odkomentiraj, če želiš sporočila o napakah
 debug(True)
+
+
 ######################################################################
+
 
 def rtemplate(*largs, **kwargs):
     """
@@ -33,10 +36,13 @@ def rtemplate(*largs, **kwargs):
 def static(filename):
     return static_file(filename, root='static')
 
+# Zacetna stran ======================================
 @get('/')
 def index():
-    return("Dobrodošli v Naši zavarovalnici")
+    return("Dobrodošli v naši zavarovalnici \n Danes vam bomo premije mastno zaračunavali Enej, Tomaž in Matej")
 
+
+# Podstrani za vsako tabelo iz baze ==================
 @get('/osebe')
 def osebe():
     cur.execute("SELECT * FROM Osebe")
@@ -84,7 +90,7 @@ def zivljenjska():
 
 @get('/vrste_zivlj')
 def vrste_zivlj():
-    cur.execute("SELECT * FROM Mozne_vrste_zivlj_tb")
+    cur.execute("SELECT * FROM Mozne_vrste_zivlj_tb") #s SELECT naredimo sistemsko poizvedbo
     return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
@@ -93,8 +99,19 @@ def vrste_zivlj():
 
 # priklopimo se na bazo
 conn = psycopg2.connect(database=auth.db, host=auth.host, user=auth.user, password=auth.password, port=DB_PORT)
+#conn = psycopg2.connect(na katero bazo se priklopimo (auth je una datoteka, z .db pa v njej klicemo na katero bazo gremo), 
+# host=auth.host, user=auth.user, password=auth.password, port=DB_PORT)
+
+
 #conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT) # onemogočimo transakcije
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) #na cur nastavimo objekt kurzorja (obnaša se podobno kot odzivnik v ukazni vrstici)
+    #cur.execute(sql stavek) nam bo potem izvedel nekaj na bazi
+    #cur je globalna spremenljivka
 
 # poženemo strežnik na podanih vratih, npr. http://localhost:8080/
 run(host='localhost', port=SERVER_PORT, reloader=RELOADER)
+#run(localhost, da zaženemo na svojem PC, dolocimo na katerem portfu zaženemo)
+ 
+
+#Izpis sql stavkov v terminal (za debugiranje)
+# conn.set_trace_callback(print) <<<<<<<<<<<<<<<<<<<<<<<<<<< Nevem ali ni to samo za sqlite
