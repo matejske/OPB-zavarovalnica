@@ -23,7 +23,7 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 debug(True)
 
 
-######################################################################
+#########################################################################################
 
 
 def rtemplate(*largs, **kwargs):
@@ -36,13 +36,13 @@ def rtemplate(*largs, **kwargs):
 def static(filename):
     return static_file(filename, root='static')
 
-# Zacetna stran ======================================
+# Zacetna stran ==========================================================================
 @get('/')
 def index():
     return("Dobrodošli v naši zavarovalnici \n Danes vam bomo premije mastno zaračunavali Enej, Tomaž in Matej")
 
 
-# Podstrani za vsako tabelo iz baze ==================
+# Podstrani za vsako tabelo iz baze =======================================================
 @get('/osebe')
 def osebe():
     cur.execute("SELECT * FROM Osebe")
@@ -94,7 +94,30 @@ def vrste_zivlj():
     return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
-######################################################################
+# Dodajanje novega komitenta ============================================================
+@get('/dodaj_osebo')
+def dodaj_osebo():
+    return rtemplate('dodaj_osebo.html', emso='', racun='', opis='', napaka=None)
+
+
+@post('/dodaj_osebo')
+def dodaj_osebo():
+    emso = request.forms.get('emso_in')
+    ime = request.forms.get('ime_in')
+    priimek = request.forms.get('priim_in')
+    naslov = request.forms.get('naslov_in')
+    email = request.forms.get('mail_in')
+    rojstvo = request.forms.get('rojstni_in')
+    telefon = request.forms.get('telefon_in')
+    zaposleni = request.forms.get('zaposleni_in')
+    cur.execute("INSERT INTO osebe (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni)) #te pobere od zgoraj kar dobimo iz request.forms.get
+    redirect('/osebe')
+
+
+
+
+##########################################################################################
 # Glavni program
 
 # priklopimo se na bazo
