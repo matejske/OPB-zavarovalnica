@@ -116,6 +116,25 @@ def dodaj_osebo():
 
 
 
+# @post('/dodaj_transakcijo')
+# def dodaj_transakcijo_post():
+#     znesek = request.forms.znesek
+#     racun = request.forms.racun
+#     opis = request.forms.opis
+#     try:
+#         cur.execute("INSERT INTO transakcija (znesek, racun, opis) VALUES (%s, %s, %s)",
+#                     (znesek, racun, opis))
+#         cur.execute("INSERT INTO transakcija (znesek, racun, opis) VALUES (%s, 100027, %s)",
+#                     (int(znesek) * 0.1, "Provizija za " + opis))
+#         conn.commit()
+#     except Exception as ex:
+#         conn.rollback()
+#         return rtemplate('dodaj_transakcijo.html', znesek=znesek, racun=racun, opis=opis,
+#                         napaka='Zgodila se je napaka: %s' % ex)
+#     redirect(ROOT)
+
+
+
 
 ##########################################################################################
 # Glavni program
