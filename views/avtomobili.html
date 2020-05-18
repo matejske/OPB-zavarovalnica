@@ -1,4 +1,4 @@
-%rebase('osnova.html', naslov='Avtomobili') <!--Naslov je za zavihek-->
+%rebase('osnova.html', naslov='Avtomobili')
 
   <table cellpadding="0" cellspacing="0" border="1">
   <tr> <!-- Prva vrstica tabele -->
@@ -7,8 +7,8 @@
      <th>Model</th>
      <th>Vrednost</th>
   </tr>
-  %for (registrska,znamka,model,vrednost) in avtomobili: <!-- Avtomobili so tu spremenljivka iz zav..py -->
-    <tr> <!-- Za vsako pot zanke naredi 1 vrstico -->
+  %for (registrska,znamka,model,vrednost) in avtomobili: 
+    <tr>
        <td>{{registrska}}</td>
        <td>{{znamka}}</td>
        <td>{{model}}</td>

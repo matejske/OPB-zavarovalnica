@@ -5,26 +5,15 @@
 %end
 
 <!-- Gumb za dodajanje novih oseb (pri name je _in, da se ve da je input) --> 
-<form action="/dodaj_osebo" method="POST">
-    <p>EMŠO:</p> <input name="emso_in" type="text" />
-    <p>Ime:</p> <input name="ime_in" type="text" />
-    <p>Priimek:</p> <input name="priim_in" type="text" />
-    <p>Naslov:</p> <input name="naslov_in" type="text" />
-    <p>Elektronski naslov:</p> <input name="mail_in" type="text" />
-    <p>Rojstni datum:</p> <input name="rojstni_in" type="text" />
-    <p>Telefonska številka:</p> <input name="telefon_in" type="text" />
-    <p>Zaposleni:</p> <input name="zaposleni_in" type="text" />
-    <p> <input value="Dodaj osebo" type="submit" /> </p> 
+<form action="{{ROOT}}dodaj_osebo" method="POST">
+    <p>EMŠO: <input name="emso" type="text" value="{{emso}}"></p>
+    <p>Ime: <input name="ime" type="text" value="{{ime}}"></p>
+    <p>Priimek: <input name="priimek" type="text" value="{{priimek}}"></p>
+    <p>Naslov: <input name="naslov" type="text" value="{{naslov}}"></p>
+    <p>Elektronski naslov: <input name="email" type="text" value="{{email}}"></p>
+    <p>Rojstni datum: <input name="rojstvo" type="text" value="{{rojstvo}}"></p>
+    <p>Telefonska številka: <input name="telefon" type="text" value="{{telefon}}"></p>
+    <p>Zaposleni: <input name="zaposleni" type="text" value="{{zaposleni}}"></p>
+    <p><input value="Dodaj osebo" type="submit" </p> 
 </form>
-
-
-{% comment %} 
-  <form action="{{ROOT}}dodaj_transakcijo" method="POST">
-    <p>EMŠO: <input type="text" name="emso" value="{{emso}}"></p>
-    <p>Račun: <input type="text" name="racun" value="{{racun}}"></p>
-    <p>Opis: <input type="text" name="opis" value="{{opis}}"></p>
-    <p><input type="submit" value="Dodaj"></p>
-  </form> 
-  {% endcomment %}
-
 
