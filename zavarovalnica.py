@@ -95,43 +95,33 @@ def vrste_zivlj():
 
 
 # Dodajanje novega komitenta ============================================================
+# S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
 @get('/dodaj_osebo')
 def dodaj_osebo():
-    return rtemplate('dodaj_osebo.html', emso='', racun='', opis='', napaka=None)
+    return rtemplate('dodaj_osebo.html', emso='', ime='', priimek='', naslov='', email='', 
+                    rojstvo='', telefon='', zaposleni='FALSE',  napaka=None)
 
 
+# Pridobimo podatke iz vnosnih polj
 @post('/dodaj_osebo')
 def dodaj_osebo():
-    emso = request.forms.get('emso_in')
-    ime = request.forms.get('ime_in')
-    priimek = request.forms.get('priim_in')
-    naslov = request.forms.get('naslov_in')
-    email = request.forms.get('mail_in')
-    rojstvo = request.forms.get('rojstni_in')
-    telefon = request.forms.get('telefon_in')
-    zaposleni = request.forms.get('zaposleni_in')
-    cur.execute("INSERT INTO osebe (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
-                (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni)) #te pobere od zgoraj kar dobimo iz request.forms.get
-    redirect('/osebe')
-
-
-
-# @post('/dodaj_transakcijo')
-# def dodaj_transakcijo_post():
-#     znesek = request.forms.znesek
-#     racun = request.forms.racun
-#     opis = request.forms.opis
-#     try:
-#         cur.execute("INSERT INTO transakcija (znesek, racun, opis) VALUES (%s, %s, %s)",
-#                     (znesek, racun, opis))
-#         cur.execute("INSERT INTO transakcija (znesek, racun, opis) VALUES (%s, 100027, %s)",
-#                     (int(znesek) * 0.1, "Provizija za " + opis))
-#         conn.commit()
-#     except Exception as ex:
-#         conn.rollback()
-#         return rtemplate('dodaj_transakcijo.html', znesek=znesek, racun=racun, opis=opis,
-#                         napaka='Zgodila se je napaka: %s' % ex)
-#     redirect(ROOT)
+    emso = request.forms.emso #ta emso se nanasa na name="emso" v znački input
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+    zaposleni = request.forms.zaposleni
+    try:
+        cur.execute("INSERT INTO osebe (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                    (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni))
+        conn.commit
+    except Exception as ex:
+        conn.rollback()
+        return rtemplate('dodaj_osebo.html', emso=emso, ime=ime, priimek=priimek, naslov=naslov, email=email, 
+                        rojstvo=rojstvo, telefon=telefon, zaposleni=zaposleni, napaka='Zgodila se je napaka: %s' % ex)
+    redirect('{{ROOT}osebe')
 
 
 
