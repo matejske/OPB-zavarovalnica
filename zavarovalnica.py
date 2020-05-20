@@ -5,7 +5,7 @@
 from bottle import *
 
 # uvozimo ustrezne podatke za povezavo
-import auth_public as auth
+import auth_enej as auth
 
 # uvozimo psycopg2 (to je za server)
 import psycopg2, psycopg2.extensions, psycopg2.extras
@@ -121,7 +121,7 @@ def dodaj_osebo():
         conn.rollback()
         return rtemplate('dodaj_osebo.html', emso=emso, ime=ime, priimek=priimek, naslov=naslov, email=email, 
                         rojstvo=rojstvo, telefon=telefon, zaposleni=zaposleni, napaka='Zgodila se je napaka: %s' % ex)
-    redirect('{{ROOT}osebe')
+    redirect(ROOT) # nevem zakaj "{{ROOT}}osebe" ne deluje
 
 
 
