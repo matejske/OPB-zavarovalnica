@@ -38,8 +38,12 @@ def static(filename):
 
 # Zacetna stran ==========================================================================
 @get('/')
-def index():
-    return("Dobrodošli v naši zavarovalnici \n Danes vam bomo premije mastno zaračunavali Enej, Tomaž in Matej")
+def zacetna_stran():
+    return rtemplate('zacetna_stran.html')
+
+@post('/')
+def zacetna_stran():
+    return rtemplate('zacetna_stran.html')
 
 
 # Podstrani za vsako tabelo iz baze =======================================================
@@ -112,15 +116,15 @@ def dodaj_osebo():
     email = request.forms.email
     rojstvo = request.forms.rojstvo
     telefon = request.forms.telefon
-    zaposleni = request.forms.zaposleni
+    #zaposleni = request.forms.zaposleni
     try:
-        cur.execute("INSERT INTO osebe (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
-                    (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni))
-        conn.commit
+        cur.execute("INSERT INTO osebe (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE)", 
+                    (emso,ime,priimek,naslov,email,rojstvo,telefon))
+        conn.commit()
     except Exception as ex:
         conn.rollback()
         return rtemplate('dodaj_osebo.html', emso=emso, ime=ime, priimek=priimek, naslov=naslov, email=email, 
-                        rojstvo=rojstvo, telefon=telefon, zaposleni=zaposleni, napaka='Zgodila se je napaka: %s' % ex)
+                        rojstvo=rojstvo, telefon=telefon, napaka='Zgodila se je napaka: %s' % ex)
     redirect("%sosebe" %ROOT) 
 
 
