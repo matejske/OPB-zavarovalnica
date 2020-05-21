@@ -23,10 +23,7 @@ def zavarovanja():
      return rtemplate('zavarovanja.html', zavarovanja=cur) #<--- v template ....html damo 
 # objekt cur (to je tisto, kar smo zgoraj dobili iz poizvedbe) pod imenom zavarovanja, 
 # objekt zavarovanja pa b potem uporabila html predloga
-
-
-
- - 
+ 
 
 
 #####################################################################
@@ -48,3 +45,10 @@ HTML PLINKIC ZA V VIEWS:
         <title> naslov v tabu </title>
     </head>
 </html>
+
+
+
+###############
+za post in get moraš gledat kot uporabnik spletne strani,
+s post nekaj napišem v polja in postnem to na strežnik,
+z get pa kao nekaj dobim iz strežnika
