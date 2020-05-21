@@ -121,7 +121,7 @@ def dodaj_osebo():
         conn.rollback()
         return rtemplate('dodaj_osebo.html', emso=emso, ime=ime, priimek=priimek, naslov=naslov, email=email, 
                         rojstvo=rojstvo, telefon=telefon, zaposleni=zaposleni, napaka='Zgodila se je napaka: %s' % ex)
-    redirect(ROOT) # nevem zakaj "{{ROOT}}osebe" ne deluje
+    redirect("%sosebe" %ROOT) 
 
 
 
