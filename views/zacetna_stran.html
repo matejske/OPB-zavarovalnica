@@ -1,14 +1,69 @@
-%rebase('osnova.html', naslov='Zavarovalnica Mastna premija')
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-<form method="get" action="{{ROOT}}dodaj_osebo">
-    <button type="submit">Registriraj se</button>
-</form>
+.naslovna_slika {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://mkgroup-me.com/wp-content/uploads/2019/01/Business-Conetmplation.jpg');
+  height: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
 
-Ponujamo vam naslednja avtomobilska zavarovanja:
-<!-- Tabela -->
-<table cellpadding="0" cellspacing="0" border="1">
-    <tr>
-       <th>Vrsta</th>
-       <th>Povprečna premija</th>
-    </tr>
-</table>
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.hero-text button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+
+.hero-text button:hover {
+  background-color: #555;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<div class="naslovna_slika">
+  <div class="hero-text">
+    <h1 style="font-size:60px">Zavarovalnica <br> Mastna premija</h1>
+    <p>Danes vam bomo premije mastno računali Enej, Tomaž in Matej</p>
+
+    <!--Gumbi so tu spodaj-->
+    <form method="get" action="{{ROOT}}prijava_agent">
+        <button type="submit">Vstop za zavarovalnega agenta</button>
+    </form>
+
+    <form method="get" action="{{ROOT}}prijava_zavarovanec">
+    <button type="submit">Prijava zavarovanca</button>
+    </form>
+
+    <form method="get" action="{{ROOT}}dodaj_osebo">
+        <button type="submit">Registracija novega zavarovanca</button>
+    </form>
+
+  </div>
+</div>
+
+</body>

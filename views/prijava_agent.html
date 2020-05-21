@@ -1,0 +1,14 @@
+%rebase('osnova.html', naslov='Prijava za zavarovalnega agenta')
+
+%if napaka:
+  <p class="opozorilo">{{napaka}}</p>
+%end
+
+Za vstop v spletno zavarovalnico prosim vnesite svoj EMŠO in geslo.
+<!-- Vnosna polja za prijavo --> 
+<form action="{{ROOT}}prijava_agent" method="POST">
+    <p>EMŠO: <input name="emso" type="text" value="{{emso}}"></p>
+    <p>Geslo: <input name="geslo" type="text" value="{{geslo}}"></p>
+    <p><input value="Prijava" type="submit"> </p> 
+</form>
+

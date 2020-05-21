@@ -98,6 +98,29 @@ def vrste_zivlj():
     return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
+# Prijava za agenta =============================================================================
+@get('/prijava_agent')
+def prijava_agent():
+    return rtemplate('prijava_agent.html', emso='', geslo='', napaka=None)
+
+@post('/prijava_agent')
+def prijava_agent():
+    #emso = request.forms.emso
+    #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
+    return rtemplate('prijava_agent.html', napaka=None)
+
+
+# Prijava za že registriranega zavarovanca =======================================================
+@get('/prijava_zavarovanec')
+def prijava_zavarovanec():
+    return rtemplate('prijava_zavarovanec.html', emso='', geslo='', napaka=None)
+
+@post('/prijava_zavarovanec')
+def prijava_zavarovanec():
+    #emso = request.forms.emso
+    #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
+    return rtemplate('prijava_zavarovanec.html', napaka=None)
+
 # Dodajanje novega komitenta ============================================================
 # S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
 @get('/dodaj_osebo')
@@ -127,7 +150,14 @@ def dodaj_osebo():
                         rojstvo=rojstvo, telefon=telefon, napaka='Zgodila se je napaka: %s' % ex)
     redirect("%sosebe" %ROOT) 
 
+# Sklenitev zavarovanja =============================================================================
+@get('/sklenitev_zavarovanja')
+def sklenitev_zavarovanja():
+    return rtemplate('sklenitev_zavarovanja.html')
 
+@post('/sklenitev_zavarovanja')
+def sklenitev_zavarovanja():
+    return rtemplate('sklenitev_zavarovanja.html')
 
 
 ##########################################################################################

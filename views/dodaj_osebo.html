@@ -1,10 +1,11 @@
-%rebase('osnova.html', naslov='Dodaj osebo')
+%rebase('osnova.html', naslov='Registracija novega uporabnika')
 
 %if napaka:
   <p class="opozorilo">{{napaka}}</p>
 %end
 
-<!-- Gumb za dodajanje novih oseb (pri name je _in, da se ve da je input) --> 
+Za registracijo prosim izpolnite spodnja polja.
+<!-- Polja za dodajanje novih oseb  --> 
 <form action="{{ROOT}}dodaj_osebo" method="POST">
     <p>EMŠO: <input name="emso" type="text" value="{{emso}}"></p>
     <p>Ime: <input name="ime" type="text" value="{{ime}}"></p>
@@ -13,7 +14,7 @@
     <p>Elektronski naslov: <input name="email" type="text" value="{{email}}"></p>
     <p>Rojstni datum: <input name="rojstvo" type="date" value="{{rojstvo}}"></p>
     <p>Telefonska številka: <input name="telefon" type="text" value="{{telefon}}"></p>
-    <!-- <p>Zaposlen: <input name="zaposleni" type="checkbox" value="{{zaposleni}}"></p> -->
     <p><input value="Dodaj osebo" type="submit"> </p> 
 </form>
 
+Po uspešni prijavi se lahko prijavite v sistem <a href="{{ROOT}}prijava_zavarovanec">tukaj</a>.
