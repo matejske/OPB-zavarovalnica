@@ -7,6 +7,9 @@ from bottle import *
 # uvozimo ustrezne podatke za povezavo
 import auth_enej as auth
 
+#uvozimo paket za delo z datumi
+from datetime import date
+
 # uvozimo psycopg2 (to je za server)
 import psycopg2, psycopg2.extensions, psycopg2.extras
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE) # se znebimo problemov s šumniki
@@ -121,12 +124,16 @@ def prijava_zavarovanec():
     #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
     return rtemplate('prijava_zavarovanec.html', napaka=None)
 
+# Stran za prijavljenega zavarovanca =======================================================
+@get('/zavarovanec')
+def zavarovanec():
+    return rtemplate('zavarovanec.html', napaka=None)
+
 # Dodajanje novega komitenta ============================================================
 # S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
 @get('/dodaj_osebo')
 def dodaj_osebo():
-    return rtemplate('dodaj_osebo.html', emso='', ime='', priimek='', naslov='', email='', 
-                    rojstvo='', telefon='', zaposleni='FALSE',  napaka=None)
+    return rtemplate('dodaj_osebo.html', emso='', ime='', priimek='', naslov='', email='', rojstvo='', telefon='', zaposleni='FALSE',  napaka=None)
 
 
 # Pridobimo podatke iz vnosnih polj
@@ -151,6 +158,7 @@ def dodaj_osebo():
     redirect("%sosebe" %ROOT) 
 
 # Sklenitev zavarovanja =============================================================================
+
 @get('/sklenitev_zavarovanja')
 def sklenitev_zavarovanja():
     return rtemplate('sklenitev_zavarovanja.html')
@@ -158,6 +166,32 @@ def sklenitev_zavarovanja():
 @post('/sklenitev_zavarovanja')
 def sklenitev_zavarovanja():
     return rtemplate('sklenitev_zavarovanja.html')
+
+# Sklenitev avtomobilskih zavarovanj ============================================================
+# S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
+@get('/sklenitev_avtomobilsko')
+def sklenitev_avtomobilsko():
+    return rtemplate('sklenitev_avtomobilsko.html', stevilka_police='', emso='', registrska='', znamka='', model='', vrednost='', vrsta_avto='',  napaka=None)
+
+
+# Pridobimo podatke iz vnosnih polj
+@post('/sklenitev_avtomobilsko')
+def sklenitev_avtomobilsko():
+    stevilka_police = request.forms.stevilka_police #IDEALNO BI BLO, DA SE TEGA NEKAKO ZNEBIMO IN DA SAMO GENERIRA
+    emso = request.forms.emso
+    registrska = request.forms.registrska
+    znamka = request.forms.znamka
+    model = request.forms.model
+    vrednost = request.forms.vrednost
+    vrsta_avto = request.forms.vrsta_avto
+    try:
+        cur.execute("INSERT INTO avtomobili (registrska,znamka,model,vrednost) VALUES (%d, %s, %s, %d); INSERT INTO zavarovanja (stevilka_police, komitent_id, datum_police, premija, tip_zavarovanja) VALUES (%d, %s, %s, %d, %d); INSERT INTO avtomobilska (polica_id, vrsta, avto_id) VALUES (%d,%s,%d);",  (registrska, znamka, model, vrednost, stevilka_police, emso, date.today(), vrednost * 0.05, 2, stevilka_police, vrsta_avto, registrska)) #avtomobilska zavarovanja majo tip 2
+        conn.commit()
+    except Exception as ex:
+        conn.rollback()
+        return rtemplate('sklenitev_avtomobilsko.html', stevilka_police=stevilka_police, emso=emso, registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, vrsta_avto=vrsta_avto,napaka='Zgodila se je napaka: %s' % ex)
+    redirect("%savtomobilska" %ROOT) 
+
 
 
 ##########################################################################################
