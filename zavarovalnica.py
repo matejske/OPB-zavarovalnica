@@ -129,6 +129,11 @@ def prijava_zavarovanec():
 def zavarovanec():
     return rtemplate('zavarovanec.html', napaka=None)
 
+@get('/zavarovanec/<komitent_id>')
+def posameznikova_zavarovanja(komitent_id):
+    cur.execute("SELECT * FROM zavarovanja WHERE komitent_id LIKE '%s' ORDER BY datum_police DESC" %komitent_id)
+    return rtemplate('zavarovanja_posameznik.html', komitent_id=komitent_id, zavarovanja_posameznik=cur)
+
 # Dodajanje novega komitenta ============================================================
 # S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
 @get('/dodaj_osebo')
@@ -189,7 +194,7 @@ def sklenitev_avtomobilsko():
         conn.commit()
     except Exception as ex:
         conn.rollback()
-        return rtemplate('sklenitev_avtomobilsko.html', stevilka_police=stevilka_police, emso=emso, registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, vrsta_avto=vrsta_avto,napaka='Zgodila se je napaka: %s' % ex)
+        return rtemplate('sklenitev_avtomobilsko.html', stevilka_police=stevilka_police, emso=emso, registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, vrsta_avto=vrsta_avto, napaka='Zgodila se je napaka: %s' % ex)
     redirect("%savtomobilska" %ROOT) 
 
 
