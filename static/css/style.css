@@ -2359,6 +2359,5 @@ section {
 # PRIVATNE, INDIVIDUALNO DODANE
 --------------------------------------------------------------*/
 .prijava_center {
-  padding: 50px 0;
-  text-align: center;
+  justify-content: center;
 }

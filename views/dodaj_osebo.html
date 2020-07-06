@@ -4,18 +4,49 @@
   <p class="opozorilo">{{napaka}}</p>
 %end
 
+<!-- ======= Začetna vrstica ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Registracija novega zavarovanca</h2>
+    </div>
+  </div>
+</section><!-- End Začetna vrstica -->
 
-Za registracijo prosim izpolnite spodnja polja.
-<!-- Polja za dodajanje novih oseb  --> 
-<form action="{{ROOT}}dodaj_osebo" method="POST">
-    <p>EMŠO: <input name="emso" type="text" value="{{emso}}"></p>
-    <p>Ime: <input name="ime" type="text" value="{{ime}}"></p>
-    <p>Priimek: <input name="priimek" type="text" value="{{priimek}}"></p>
-    <p>Naslov: <input name="naslov" type="text" value="{{naslov}}"></p>
-    <p>Elektronski naslov: <input name="email" type="text" value="{{email}}"></p>
-    <p>Rojstni datum: <input name="rojstvo" type="date" value="{{rojstvo}}"></p>
-    <p>Telefonska številka: <input name="telefon" type="text" value="{{telefon}}"></p>
-    <p><input value="Dodaj osebo" type="submit"> </p> 
-</form>
 
-Po uspešni prijavi se lahko prijavite v sistem <a href="{{ROOT}}prijava_zavarovanec">tukaj</a>.
+<!-- ======= Polja za vnos podatkov ======= -->
+<section class="about" data-aos="fade-up">
+  <div class="container">
+    <div  align="center">
+      <h5>Za registracijo izpolnite spodnja polja</h5>
+      <form action="{{ROOT}}dodaj_osebo" class="php-email-form prijava_center" method='POST' style="width: 48%">
+        <div class="form-group">
+          <input name="emso" type="text" value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input name="ime" type="text" value="{{ime}}" class="form-control" placeholder="Ime" data-rule="required"/>
+        </div>
+        <div class="form-group">
+          <input name="priimek" type="text" value="{{priimek}}" class="form-control" placeholder="Priimek"  data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input <input name="naslov" type="text" value="{{naslov}}" class="form-control" placeholder="Naslov" data-rule="minlen:4" data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input name="email" type="text" value="{{email}}" class="form-control" placeholder="Elektronski naslov" data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input name="rojstvo" type="date" value="{{rojstvo}}" class="form-control" placeholder="Rojstni datum" data-rule="minlen:4" data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input name="telefon" type="text" value="{{telefon}}" class="form-control" placeholder="Telefonska številka" data-rule="minlen:9" data-rule="required" />
+        </div>
+
+        <div class="text-center">
+          <input value='Registriraj se' type='submit' /> <br> <br>
+          <a href="{{ROOT}}prijava_zavarovanec">PO USPEŠNI REGISTRACIJI, SE PRIJAVITE</a>
+        </div>
+      </form>
+    </div>  
+  </div>
+</section>
