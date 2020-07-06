@@ -4,14 +4,44 @@
   <p class="opozorilo">{{napaka}}</p>
 %end
 
-Za vstop v spletno zavarovalnico prosim vnesite svoj EMŠO in geslo.
-<!-- Vnosna polja za prijavo --> 
-<form action="{{ROOT}}prijava_zavarovanec" method="POST">
-    <p>EMŠO: <input name="emso" type="text" value="{{emso}}"></p>
-    <p>Geslo: <input name="geslo" type="text" value="{{geslo}}"></p>
-    <p><input value="Prijava" type="submit"> </p> 
-</form>
+<!-- ======= Začetna vrstica ======= -->
+<section class="breadcrumbs">
+  <div class="container">
 
-<p>
-  <a href="{{ROOT}}zavarovanec">Začasna povezava: preskočimo prijavo</a>
-</p>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Vstop v spletno poslovalnico za zavarovance</h2>
+    </div>
+
+  </div>
+</section><!-- End Začetna vrstica -->
+
+<!-- ======= Slika in prijavna polja ======= -->
+<section class="about" data-aos="fade-up">
+  <div class="container">
+    <div class="row">
+      <!-- ======= Slika ======= -->
+      <div class="col-lg-6">
+        <img src="{{ROOT}}static/img/recent-posts-4.jpg" class="img-fluid" alt="">
+      </div>
+      <!-- ======= Prijavna polja ======= -->
+      <div class="col-lg-6" align="center">
+        <h5>Za vstop v spletno zavarovalnico vnesite EMŠO in geslo</h5>
+        <form action='{{ROOT}}prijava_agent/' class="php-email-form prijava_center" method='POST' style="width: 50%">
+          <div class="form-group">
+            <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
+          </div>
+          <div class="form-group">
+            <input name='geslo' type='password' value="{{geslo}}" class="form-control" placeholder="GESLO" data-rule="minlen:4" data-rule="required"/>
+          </div>
+          <div class="text-center">
+            <input value='Prijava' type='submit' /> <br> <br>
+            <a href="{{ROOT}}prijava_zavarovanec">PRESKOČI PRIJAVO</a>
+          </div>
+        </form>
+      </div>  
+
+    </div>
+  </div>
+</section><!-- End Slika in prijavna polja -->
+
+
