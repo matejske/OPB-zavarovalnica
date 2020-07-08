@@ -1,16 +1,4 @@
-%rebase('osnova.html', naslov='Osebe')
-
-<!-- Linki na ostale strani, da hitreje za debugat --> 
-<a href="{{ROOT}}dodaj_osebo"> Dodaj novo osebo </a> <br> 
-<a href="{{ROOT}}avtomobili"> avtomobili </a> <br>
-<a href="{{ROOT}}avtomobilska">  avtomobilska </a> <br>
-<a href="{{ROOT}}nepremicnine"> nepremicnine </a> <br>
-<a href="{{ROOT}}nepremicninska"> nepremicninska </a> <br>
-<a href="{{ROOT}}vrste_avto"> vrste_avto </a> <br>
-<a href="{{ROOT}}vrste_nepr"> vrste_nepr</a> <br>
-<a href="{{ROOT}}vrste_zivlj"> vrste_zivlj </a> <br>
-<a href="{{ROOT}}zavarovanja"> zavarovanja </a> <br>
-<a href="{{ROOT}}zivljenjska"> zivljenska </a> <br>
+%rebase('agent_osnova.html', naslov='Osebe')
 
 <!-- Tabela -->
   <table cellpadding="0" cellspacing="0" border="1">
@@ -24,7 +12,7 @@
      <th>Telefonska številka</th>
      <th>Zaposleni</th>
   </tr>
-  %for (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) in osebe:
+  %for (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni, geslo) in osebe:
     <tr>
        <td>{{emso}}</td>
        <td>{{ime}}</td>

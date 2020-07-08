@@ -140,6 +140,10 @@ def prijava_agent():
     #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
     return rtemplate('prijava_agent.html', napaka=None)
 
+# Stran za agenta ======================================================================================
+@get('/agent')
+def agent():
+    return rtemplate('agent.html', napaka=None)
 
 # Prijava za že registriranega zavarovanca =======================================================
 @get('/prijava_zavarovanec')
