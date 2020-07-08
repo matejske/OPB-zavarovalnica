@@ -1,9 +1,8 @@
 %rebase('osnova.html', naslov='Registracija novega uporabnika')
 
 %if napaka:
-  <div class="alert alert-warning">{{napaka}}</div>
+    <div class="alert alert-warning">{{napaka}}</div>
 %end
-
 <!-- ======= Začetna vrstica ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -17,9 +16,9 @@
 <!-- ======= Polja za vnos podatkov ======= -->
 <section class="about" data-aos="fade-up">
   <div class="container">
-    <div  align="center">
+    <div >
       <h5>Za registracijo izpolnite spodnja polja</h5>
-      <form action="{{ROOT}}dodaj_osebo" class="php-email-form prijava_center" method='POST' style="width: 48%">
+      <form action="{{ROOT}}registracija" class="php-email-form prijava_center" method='post' style="width: 48%">
         <div class="form-group">
           <input name="emso" type="text" value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
         </div>
@@ -30,7 +29,7 @@
           <input name="priimek" type="text" value="{{priimek}}" class="form-control" placeholder="Priimek"  data-rule="required" />
         </div>
         <div class="form-group">
-          <input <input name="naslov" type="text" value="{{naslov}}" class="form-control" placeholder="Naslov" data-rule="minlen:4" data-rule="required" />
+          <input name="naslov" type="text" value="{{naslov}}" class="form-control" placeholder="Naslov" data-rule="minlen:4" data-rule="required" />
         </div>
         <div class="form-group">
           <input name="email" type="text" value="{{email}}" class="form-control" placeholder="Elektronski naslov" data-rule="required" />
@@ -39,23 +38,20 @@
           <input name="rojstvo" type="date" value="{{rojstvo}}" class="form-control" placeholder="Rojstni datum" data-rule="minlen:4" data-rule="required" />
         </div>
         <div class="form-group">
-          <input name="telefon" type="text" value="{{telefon}}" class="form-control" placeholder="Telefonska številka" data-rule="minlen:9" data-rule="required" />
+          <input name="telefon" type="text" value="{{telefon}}" class="form-control" placeholder="Telefonska številka" data-rule="minlen:3" data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Geslo" name="geslo1" required>
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Potrdi geslo" name="geslo2" required>
         </div>
         
-        <!--
-        <input type="password" class="form-control" placeholder="Geslo" name="geslo1" required>
-        <input type="password" class="form-control" placeholder="Potrdi geslo" name="geslo2" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Registriraj se</button>
-        <div>
-            <a href="/prijava_zavarovanec/">Prijava</a>
-        </div>
-        -->
 
-        <div class="text-center">
-          <input value='Registriraj se' type='submit' /> <br> <br>
+        <div class="text-center"> 
+          <input value='Registriraj se' type='submit' /><br> <br>
           <a href="{{ROOT}}prijava_zavarovanec">PO USPEŠNI REGISTRACIJI, SE PRIJAVITE</a>
         </div>
-        
       </form>
     </div>  
   </div>

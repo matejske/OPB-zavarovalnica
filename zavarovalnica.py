@@ -3,6 +3,8 @@
 
 # uvozimo bottle.py (bottle je knjiznica funkcij)
 from bottle import *
+import hashlib # računanje MD5 kriptografski hash za gesla
+import inflect
 
 # uvozimo ustrezne podatke za povezavo
 import auth_enej as auth
@@ -25,6 +27,8 @@ DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
 # odkomentiraj, če želiš sporočila o napakah
 debug(True)
 
+# Skrivnost za kodiranje cookijev
+secret = "fa1094107c907cw982982c42"
 
 #########################################################################################
 
@@ -229,6 +233,94 @@ def sklenitev_avtomobilsko():
         return rtemplate('sklenitev_avtomobilsko.html', stevilka_police=stevilka_police, emso=emso, registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, vrsta_avto=vrsta_avto, napaka='Zgodila se je napaka: %s' % ex)
     redirect("%savtomobilska" %ROOT) 
 
+# Pomožne funkcije
+
+def password_md5(s):
+    """Vrni MD5 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
+       kodirana s to funkcijo."""
+    if not s:
+        # Nočemo imeti praznih nizov za gesla!
+        return
+    h = hashlib.md5()
+    h.update(s.encode('utf-8'))
+    return h.hexdigest()
+
+# Funkcija, ki v cookie spravi sporocilo
+def set_sporocilo(tip, vsebina):
+    response.set_cookie('message', (tip, vsebina), path='/', secret=secret)
+
+# Funkcija, ki iz cookija dobi sporočilo, če je
+def get_sporocilo():
+    sporocilo = request.get_cookie('message', default=None, secret=secret)
+    response.delete_cookie('message', path="/")
+    return sporocilo
+
+# registracija ===============================================================
+@get("/registracija")
+def register_get():
+    """Prikaži formo za registracijo."""
+    return rtemplate('registracija.html', 
+                        emso='', 
+                        ime='', 
+                        priimek='', 
+                        naslov='', 
+                        email='', 
+                        rojstvo='', 
+                        telefon='', 
+                        zaposleni='FALSE', 
+                        napaka=None)
+
+
+@post("/registracija")
+def register_post():
+    """Registriraj novega uporabnika."""
+    emso = request.forms.emso #ta emso se nanasa na name="emso" v znački input
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+
+    geslo1 = request.forms.geslo1
+    geslo2 = request.forms.geslo2
+
+
+    # Ali uporabnik že obstaja?
+    cur.execute("SELECT 1 FROM osebe WHERE emso='%s'" %emso)
+    if cur.fetchone():
+        # Uporabnik že obstaja
+        return rtemplate("registracija.html",
+                        emso=emso, 
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE',
+                        napaka='Oseba s tem EMŠOM je že registrirana.')
+    elif not geslo1 == geslo2:
+        # Gesli se ne ujemata
+        return rtemplate("registracija.html",
+                        emso=emso, 
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE',
+                        napaka='Gesli se ne ujemata.')
+    else:
+        # Vse je v redu, vstavi novega uporabnika v bazo
+        geslo = password_md5(geslo1)
+        cur.execute("INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)",
+                    (emso, ime, priimek, naslov, email, rojstvo, telefon, geslo))
+        # Daj uporabniku cookie
+        conn.commit()
+        response.set_cookie('emso', emso, path='/', secret=secret)
+        redirect('/')
 
 
 ##########################################################################################
