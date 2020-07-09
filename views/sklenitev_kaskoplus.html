@@ -4,13 +4,30 @@
   <p class="opozorilo">{{napaka}}</p>
 %end
 
-Za sklenitev avtomobilskega zavarovanja prosim izpolnite spodnja polja.
-Vaša premija bo 5% vrednosti avtomobila.
-<!-- Polja za dodajanje novih oseb  --> 
-<form action="{{ROOT}}sklenitev_kaskoplus" method="POST">
-    <p>Registrska tablica: <input name="registrska" type="number" value="{{registrska}}"></p>
-    <p>Znamka avtomobila: <input name="znamka" type="text" value="{{znamka}}"></p>
-    <p>Model avtomobila: <input name="model" type="text" value="{{model}}"></p>
-    <p>Vrednost avtomobila: <input name="vrednost" type="float" value="{{vrednost}}"></p>
-    <p><input value="Skleni zavarovanje" type="submit"> </p> 
-</form>
+
+<!-- Polja za dodajanje novih kasko plus zavarovanj  --> 
+<section class="about" data-aos="fade-up">
+  <div class="container" align="center" >
+    <div >
+      <h5>Za sklenitev avtomobilskega zavarovanja prosim izpolnite spodnja polja.
+          Vaša premija bo 5% vrednosti avtomobila.</h5>
+      <form action="{{ROOT}}sklenitev_kaskoplus" class="php-email-form prijava_center" method='post' style="width: 48%">
+        <div class="form-group">
+          <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska tablica" data-rule="minlen:3" data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input name="znamka" type="text" value="{{znamka}}" class="form-control" placeholder="Znamka avtomobila" data-rule="required"/>
+        </div>
+        <div class="form-group">
+          <input name="model" type="text" value="{{model}}" class="form-control" placeholder="Model avtomobila"  data-rule="required" />
+        </div>
+        <div class="form-group">
+          <input name="vrednost" type="float" value="{{vrednost}}" class="form-control" placeholder="Vrednost avtomobila" data-rule="minlen:3" data-rule="required" />
+        </div>
+        <div class="text-center"> 
+          <input value='Skleni zavarovanje!' type='submit' /><br> <br>
+        </div>
+      </form>
+    </div>  
+  </div>
+</section>
