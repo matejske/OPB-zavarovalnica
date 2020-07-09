@@ -12,3 +12,5 @@ __pycache__
 auth.py
 auth.R
 Thumbs.db
+/auth_enej.py
+/auth_matej.py

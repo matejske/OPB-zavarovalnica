@@ -7,7 +7,7 @@ import hashlib # računanje MD5 kriptografski hash za gesla
 import inflect
 
 # uvozimo ustrezne podatke za povezavo
-import auth_enej as auth
+import auth_matej as auth
 
 #uvozimo paket za delo z datumi
 from datetime import date
@@ -80,7 +80,6 @@ def predstavitev_zavarovanj():
     return rtemplate('predstavitev_zavarovanj.html')
 
 
-
 # Podstrani za vsako tabelo iz baze =======================================================
 @get('/osebe')
 def osebe():
@@ -133,7 +132,8 @@ def vrste_zivlj():
     return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
-# Prijava za agenta =============================================================================
+# Prijava in odjava za agenta =============================================================================
+"""
 @get('/prijava_agent')
 def prijava_agent():
     return rtemplate('prijava_agent.html', emso='', geslo='', napaka=None)
@@ -143,9 +143,60 @@ def prijava_agent():
     #emso = request.forms.emso
     #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
     return rtemplate('prijava_agent.html', napaka=None)
+"""
+
+@get("/prijava_agent")
+def login_agent_get():
+    """Serviraj formo za prijavo."""
+    return rtemplate("prijava_agent.html",
+                           napaka=None,
+                           geslo='',
+                           emso='')
+
+@post("/prijava_agent")
+def login_agent_post():
+    """Obdelaj izpolnjeno formo za prijavo"""
+    # emso, ki ga je agent vpisal v formo
+    emso = request.forms.emso
+    # Izračunamo MD5 hash gesla, ki ga bomo spravili
+    hash_gesla = password_md5(request.forms.geslo)
+    # Preverimo, ali se je uporabnik pravilno prijavil
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s AND geslo=%s", (emso, hash_gesla))
+
+    # # Zaradi probavanja!!!
+    # cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s",
+    #           [uporabnik])
+
+    if cur.fetchone() is None:
+        # emso in hash_gesla se ne ujemata
+        return rtemplate("prijava_agent.html",
+                               napaka="Nepravilna prijava",
+                               geslo='',
+                               emso=emso)
+    else:
+        # Vse je v redu, nastavimo cookie in preusmerimo na stran za agente
+        print("Prisel sem do else stavka in nastavljam cookie.")
+        response.set_cookie('emso', emso, path='/', secret=secret)
+        redirect('{0}agent'.format(ROOT))
+
+# zaposlen agent:
+# print(password_md5('geslo'))
+# password_md5('geslo') = 'ae404a1ecbcdc8e96ae4457790025f50' ..... to je v bazi. Njegovo geslo je 'geslo'
+# Smo dali rocno v bazo
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
+
+@get("/odjava")
+def logout():
+    """Pobriši cookie in preusmeri na login."""
+    response.delete_cookie('emso', path='/')
+    redirect('{0}prijava_agent'.format(ROOT))
 
 # Stran za agenta ======================================================================================
 @get('/agent')
+def agent():
+    return rtemplate('agent.html', napaka=None)
+
+@post('/agent')
 def agent():
     return rtemplate('agent.html', napaka=None)
 
@@ -200,37 +251,43 @@ def dodaj_osebo():
 
 # Sklenitev zavarovanja =============================================================================
 
-@get('/sklenitev_zavarovanja')
-def sklenitev_zavarovanja():
-    return rtemplate('sklenitev_zavarovanja.html')
+# @get('/sklenitev_zavarovanja')
+# def sklenitev_zavarovanja():
+#     return rtemplate('sklenitev_zavarovanja.html')
 
-@post('/sklenitev_zavarovanja')
-def sklenitev_zavarovanja():
-    return rtemplate('sklenitev_zavarovanja.html')
+# @post('/sklenitev_zavarovanja')
+# def sklenitev_zavarovanja():
+#     return rtemplate('sklenitev_zavarovanja.html')
 
 # Sklenitev avtomobilskih zavarovanj ============================================================
 # S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
-@get('/sklenitev_avtomobilsko')
-def sklenitev_avtomobilsko():
-    return rtemplate('sklenitev_avtomobilsko.html', stevilka_police='', emso='', registrska='', znamka='', model='', vrednost='', vrsta_avto='',  napaka=None)
+@get('/sklenitev_kaskoplus')
+def sklenitev_kaskoplus():
+    return rtemplate('sklenitev_kaskoplus.html', registrska='', znamka='', model='', vrednost='', vrsta_avto='',  napaka=None)
 
 
 # Pridobimo podatke iz vnosnih polj
-@post('/sklenitev_avtomobilsko')
-def sklenitev_avtomobilsko():
-    stevilka_police = request.forms.stevilka_police #IDEALNO BI BLO, DA SE TEGA NEKAKO ZNEBIMO IN DA SAMO GENERIRA
-    emso = request.forms.emso
+@post('/sklenitev_kaskoplus')
+def sklenitev_kaskoplus():
     registrska = request.forms.registrska
     znamka = request.forms.znamka
     model = request.forms.model
     vrednost = request.forms.vrednost
-    vrsta_avto = request.forms.vrsta_avto
     try:
-        cur.execute("INSERT INTO avtomobili (registrska,znamka,model,vrednost) VALUES (%d, %s, %s, %d); INSERT INTO zavarovanja (stevilka_police, komitent_id, datum_police, premija, tip_zavarovanja) VALUES (%d, %s, %s, %d, %d); INSERT INTO avtomobilska (polica_id, vrsta, avto_id) VALUES (%d,%s,%d);",  (registrska, znamka, model, vrednost, stevilka_police, emso, date.today(), vrednost * 0.05, 2, stevilka_police, vrsta_avto, registrska)) #avtomobilska zavarovanja majo tip 2
+        #print("Poskusil bom vstaviti v tabele")
+        cur.execute("INSERT INTO avtomobili (registrska,znamka,model,vrednost) VALUES (%s, %s, %s, %s)", (registrska, znamka, model, vrednost)) 
+        #print("Dodal sem v tabelo avtomobili") 
+        cur.execute("INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja) VALUES (%s, %s, %s, %s)", ('875-23-989', date.today(), float(vrednost) * 0.05, 2)) #avtomobilska zavarovanja majo tip 2"
+        #print("Dodal sem v tabelo zavarovanja") 
+        cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+        stevilka_police = cur.fetchone()[0]
+        cur.execute("INSERT INTO avtomobilska (polica_id, vrsta, avto_id) VALUES (%s, %s, %s)", (stevilka_police, 'kasko +', registrska))
+        #print("Dodal sem v tabelo avtomobilska") 
+
         conn.commit()
     except Exception as ex:
         conn.rollback()
-        return rtemplate('sklenitev_avtomobilsko.html', stevilka_police=stevilka_police, emso=emso, registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, vrsta_avto=vrsta_avto, napaka='Zgodila se je napaka: %s' % ex)
+        return rtemplate('sklenitev_kaskoplus.html', registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, napaka='Zgodila se je napaka: %s' % ex)
     redirect("%savtomobilska" %ROOT) 
 
 # Pomožne funkcije
@@ -322,6 +379,45 @@ def register_post():
         response.set_cookie('emso', emso, path='/', secret=secret)
         redirect('/')
 
+# Piskotki in stran za agente =============================
+# Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
+def get_agent(auto_login = True):
+    """Poglej cookie in ugotovi, kdo je prijavljeni agent,
+       vrni njegov emso, ime in priimek. Če ni prijavljen, presumeri
+       na stran za prijavo agenta ali vrni None (advisno od auto_login).
+    """
+    # Dobimo emso iz piškotka
+    agent_emso = request.get_cookie('emso', secret=secret)
+    # Preverimo, ali ta agent obstaja
+    if agent_emso is not None:
+        cur.execute("SELECT emso, ime, priimek FROM osebe WHERE emso=%s" %agent_emso)
+        r = cur.fetchone()
+        if r is not None:
+            # agent obstaja, vrnemo njegove podatke
+            return r
+    # Če pridemo do sem, agent ni prijavljen, naredimo redirect
+    if auto_login:
+        redirect("%sprijava_agent" %ROOT)
+    else:
+        return None
+
+"""
+@get("/agent")
+def stran_za_agente():
+    # Glavna stran za agente.
+    # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
+    # nima cookija)
+    (emso, ime, priimek) = get_agent()
+    # Morebitno sporočilo za uporabnika
+    sporocilo = get_sporocilo()
+    # Vrnemo predlogo za glavno stran
+
+    return rtemplate("agent.html", napaka=None,
+                            emso=emso
+                            ime=ime,
+                            priimek=priimek,
+                            sporocilo=sporocilo)
+"""
 
 ##########################################################################################
 # Glavni program
