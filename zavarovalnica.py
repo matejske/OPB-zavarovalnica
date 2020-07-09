@@ -133,6 +133,7 @@ def vrste_zivlj():
 
 
 # Prijava za agenta =============================================================================
+"""
 @get('/prijava_agent')
 def prijava_agent():
     return rtemplate('prijava_agent.html', emso='', geslo='', napaka=None)
@@ -142,6 +143,48 @@ def prijava_agent():
     #emso = request.forms.emso
     #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
     return rtemplate('prijava_agent.html', napaka=None)
+"""
+
+@get("/prijava_agent")
+def login_agent_get():
+    """Serviraj formo za prijavo."""
+    return rtemplate("prijava_agent.html",
+                           napaka=None,
+                           geslo='',
+                           emso='')
+
+@post("/prijava_agent")
+def login_agent_post():
+    """Obdelaj izpolnjeno formo za prijavo"""
+    # emso, ki ga je agent vpisal v formo
+    emso = request.forms.emso
+    # Izračunamo MD5 hash gesla, ki ga bomo spravili
+    hash_gesla = password_md5(request.forms.geslo)
+    # Preverimo, ali se je uporabnik pravilno prijavil
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s AND geslo=%s", (emso, hash_gesla))
+
+    # # Zaradi probavanja!!!
+    # cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s",
+    #           [uporabnik])
+
+    if cur.fetchone() is None:
+        # emso in hash_gesla se ne ujemata
+        return rtemplate("prijava_agent.html",
+                               napaka="Nepravilna prijava",
+                               geslo='',
+                               emso=emso)
+    else:
+        # Vse je v redu, nastavimo cookie in preusmerimo na stran za agente
+        print("Prisel sem do else stavka in nastavljam cookie.")
+        response.set_cookie('emso', emso, path='/', secret=secret)
+        redirect('{0}agent'.format(ROOT))
+
+# zaposlen agent:
+# print(password_md5('geslo'))
+# password_md5('geslo') = 'ae404a1ecbcdc8e96ae4457790025f50' ..... to je v bazi. Njegovo geslo je 'geslo'
+# Smo dali rocno v bazo
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
+
 
 # Stran za agenta ======================================================================================
 @get('/agent')
