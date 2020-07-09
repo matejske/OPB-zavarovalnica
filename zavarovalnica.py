@@ -132,7 +132,7 @@ def vrste_zivlj():
     return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
-# Prijava za agenta =============================================================================
+# Prijava in odjava za agenta =============================================================================
 """
 @get('/prijava_agent')
 def prijava_agent():
@@ -185,6 +185,11 @@ def login_agent_post():
 # Smo dali rocno v bazo
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
 
+@get("/odjava")
+def logout():
+    """Pobriši cookie in preusmeri na login."""
+    response.delete_cookie('emso', path='/')
+    redirect('{0}prijava_agent'.format(ROOT))
 
 # Stran za agenta ======================================================================================
 @get('/agent')
