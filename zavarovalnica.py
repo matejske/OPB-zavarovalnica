@@ -269,6 +269,7 @@ def sklenitev_kaskoplus():
 # Pridobimo podatke iz vnosnih polj
 @post('/sklenitev_kaskoplus')
 def sklenitev_kaskoplus():
+    # doda ga v bazo a ne redirecta na koncu
     registrska = request.forms.registrska
     znamka = request.forms.znamka
     model = request.forms.model
