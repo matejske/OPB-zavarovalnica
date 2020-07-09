@@ -274,7 +274,7 @@ def sklenitev_kaskoplus():
     model = request.forms.model
     vrednost = request.forms.vrednost
     try:
-        cur.execute("INSERT INTO avtomobili (registrska,znamka,model,vrednost) VALUES (%d, %s, %s, %d); INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja) VALUES (%s, %s, %d, %d); DECLARE @stevilka_police INT; SET @stevilka_police = (SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1); INSERT INTO avtomobilska (polica_id, vrsta, avto_id) VALUES (@stevilke_police,%s,%d);",  (registrska, znamka, model, vrednost, '875-23-989', date.today(), vrednost * 0.05, 2, 'kasko +', registrska)) #avtomobilska zavarovanja majo tip 2
+        cur.execute("INSERT INTO avtomobili (registrska,znamka,model,vrednost) VALUES (%d, %s, %s, %f); INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja) VALUES (%s, %s, %f, %d); DECLARE @stevilka_police INT; SET @stevilka_police = (SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1); INSERT INTO avtomobilska (polica_id, vrsta, avto_id) VALUES (@stevilke_police,%s,%d);",  (int(registrska), znamka, model, float(vrednost), '875-23-989', date.today(), float(vrednost) * 0.05, 2, 'kasko +', int(registrska))) #avtomobilska zavarovanja majo tip 2
         conn.commit()
     except Exception as ex:
         conn.rollback()
