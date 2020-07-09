@@ -71,18 +71,65 @@
     </div>
   </header><!-- End Header -->
     
-  
+ 
   <main id="main">
+    <section class="breadcrumbs bg-secondary">
+      <div class="container">
+    
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="text-light">{{naslov}}</h2>
+        </div>
+    
+      </div>
+    </section>
+
     {{!base}}
   </main> 
 
 
   <!-- ======= Footer ======= -->
-  <footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500" class="fixed-bottom bg-dark">
+  <footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500" class="bg-dark">
 
     <div class="footer-top bg-dark border-dark">
       <div class="container bg-dark border-dark">
-      
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Uporabne povezave</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="{{ROOT}}">Domov</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{{ROOT}}zaposleni">O nas</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{{ROOT}}predstavitev_zavarovanj">Paketi zavarovanj</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Spletna poslovalnica</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="{{ROOT}}prijava_agent">Vstop za zaposlene</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{{ROOT}}prijava_zavarovanec">Vstop za zavarovance</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{{ROOT}}registracija">Registracija novega komitenta</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h4>Kontakt</h4>
+            <p>
+              Jadranska ulica 21 <br>
+              1000 Ljubljana<br>
+              Slovenija <br><br>
+              <strong>Telefon:</strong> +386 1 458 3755<br>
+              <strong>E-pošta:</strong> info@etm.si<br>
+            </p>
+
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-info">
+            <h3>O zavarovalnici ETM</h3>
+            <p>Zavarovalnica ETM je bila ustanovljena leta 2020 v okviru projekta pri predmetu Osnove podatkovnih baz pod mentorstvom doc. dr. Alena Orbanića in asist. dr. Janoša Vidalija.</p>
+          </div>
+
+        </div>
       </div>
     </div>
 
