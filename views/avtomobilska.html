@@ -1,20 +1,29 @@
 %rebase('agent_osnova.html', naslov='Avtomobilska')
 
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr>
-     <th>Številka police</th>
-     <th>Vrsta avtomobilskega zavarovanja</th>
-     <th>Registrska številka avtomobila</th>
-  </tr>
-  %for (polica_id,vrsta,avto_id) in avtomobilska:
-    <tr>
-       <td>{{polica_id}}</td>
-       <td>{{vrsta}}</td>
-       <td>{{avto_id}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Številka police</th>
+          <th>Vrsta avtomobilskega zavarovanja</th>
+          <th>Registrska številka avtomobila</th>
+        </tr>
+      </thead>
 
-  <p>
-    <a href="{{ROOT}}avtomobilska">Na vrh strani</a>
-  </p>
+      %for (polica_id,vrsta,avto_id) in avtomobilska:
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{polica_id}}</td>
+          <td>{{vrsta}}</td>
+          <td>{{avto_id}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+  </div>
+</section>
+
+<p>
+  <a href="{{ROOT}}avtomobilska">Na vrh strani</a>
+</p>

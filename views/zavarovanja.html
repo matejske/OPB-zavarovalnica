@@ -1,23 +1,32 @@
 %rebase('agent_osnova.html', naslov='Zavarovanja')
 
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr>
-     <th>Številka police</th>
-     <th>EMŠO komitenta</th>
-     <th>Datum sklenitve</th>
-     <th>Premija</th>
-     <th>Tip zavarovanja</th>
-  </tr>
-  %for (stevilka_police,komitent_id,datum_police,premija,tip_zavarovanja) in zavarovanja:
-    <tr>
-       <td>{{stevilka_police}}</td>
-       <td>{{komitent_id}}</td>
-       <td>{{datum_police}}</td>
-       <td>{{premija}}</td>
-       <td>{{tip_zavarovanja}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Številka police</th>
+          <th>EMŠO komitenta</th>
+          <th>Datum sklenitve</th>
+          <th>Premija</th>
+          <th>Tip zavarovanja</th>
+        </tr>
+      </thead>
+
+      %for (stevilka_police,komitent_id,datum_police,premija,tip_zavarovanja) in zavarovanja:
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{stevilka_police}}</td>
+          <td>{{komitent_id}}</td>
+          <td>{{datum_police}}</td>
+          <td>{{premija}}</td>
+          <td>{{tip_zavarovanja}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+  </div>
+</section>
 
   <p>
     <a href="{{ROOT}}zavarovanja">Na vrh strani</a>

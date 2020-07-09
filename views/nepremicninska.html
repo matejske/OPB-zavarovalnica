@@ -1,19 +1,28 @@
 %rebase('agent_osnova.html', naslov='Nepremicninska')
 
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr>
-     <th>Številka police</th>
-     <th>Vrsta nepremičninskega zavarovanja</th>
-     <th>Naslov nepremičnine</th>
-  </tr>
-  %for (polica_id,vrsta_n, nepr_id) in nepremicninska:
-    <tr>
-       <td>{{polica_id}}</td>
-       <td>{{vrsta_n}}</td>
-       <td>{{nepr_id}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Številka police</th>
+          <th>Vrsta nepremičninskega zavarovanja</th>
+          <th>Naslov nepremičnine</th>
+        </tr>
+      </thead>
+
+      %for (polica_id,vrsta_n, nepr_id) in nepremicninska:
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{polica_id}}</td>
+          <td>{{vrsta_n}}</td>
+          <td>{{nepr_id}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+  </div>
+</section>
 
   <p>
     <a href="{{ROOT}}nepremicninska">Na vrh strani</a>

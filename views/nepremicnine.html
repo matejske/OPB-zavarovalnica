@@ -1,17 +1,27 @@
 %rebase('agent_osnova.html', naslov='Nepremicnine')
 
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr>
-     <th>Naslov nepremicnine</th>
-     <th>Vrednost</th>
-  </tr>
-  %for (naslov_nepr, vrednost) in nepremicnine:
-    <tr>
-       <td>{{naslov_nepr}}</td>
-       <td>{{vrednost}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Naslov nepremicnine</th>
+          <th>Vrednost</th>
+        </tr>
+      </thead>
+
+      %for (naslov_nepr, vrednost) in nepremicnine:
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{naslov_nepr}}</td>
+          <td>{{vrednost}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+  </div>
+</section>
+
 
   <p>
     <a href="{{ROOT}}nepremicnine">Na vrh strani</a>

@@ -1,17 +1,27 @@
 %rebase('agent_osnova.html', naslov='Življenjska zavarovanja')
 
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr>
-     <th>Številka police</th>
-     <th>Vrsta življenjskega zavarovanja</th>
-  </tr>
-  %for (polica_id,vrsta_zivlj) in zivljenska:
-    <tr>
-       <td>{{polica_id}}</td>
-       <td>{{vrsta_zivlj}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Številka police</th>
+          <th>Vrsta življenjskega zavarovanja</th>
+        </tr>
+      </thead>
+
+      %for (polica_id,vrsta_zivlj) in zivljenska:
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{polica_id}}</td>
+          <td>{{vrsta_zivlj}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+  </div>
+</section>
+
 
   <p>
     <a href="{{ROOT}}zivljenjska">Na vrh strani</a>

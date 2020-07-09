@@ -1,21 +1,30 @@
 %rebase('agent_osnova.html', naslov='Avtomobili')
 
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr> <!-- Prva vrstica tabele -->
-     <th>Registrska številka</th>
-     <th>Znamka</th>
-     <th>Model</th>
-     <th>Vrednost</th>
-  </tr>
-  %for (registrska,znamka,model,vrednost) in avtomobili: 
-    <tr>
-       <td>{{registrska}}</td>
-       <td>{{znamka}}</td>
-       <td>{{model}}</td>
-       <td>{{vrednost}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Registrska številka</th>
+          <th>Znamka</th>
+          <th>Model</th>
+          <th>Vrednost</th>
+        </tr>
+      </thead>
+
+      %for (registrska,znamka,model,vrednost) in avtomobili: 
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{registrska}}</td>
+          <td>{{znamka}}</td>
+          <td>{{model}}</td>
+          <td>{{vrednost}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+  </div>
+</section>
 
   <p>
     <a href="{{ROOT}}avtomobili">Na vrh strani</a>
