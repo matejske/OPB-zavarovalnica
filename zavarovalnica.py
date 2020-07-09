@@ -322,6 +322,45 @@ def register_post():
         response.set_cookie('emso', emso, path='/', secret=secret)
         redirect('/')
 
+# Piskotki in stran za agente =============================
+# Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
+def get_agent(auto_login = True):
+    """Poglej cookie in ugotovi, kdo je prijavljeni agent,
+       vrni njegov emso, ime in priimek. Če ni prijavljen, presumeri
+       na stran za prijavo agenta ali vrni None (advisno od auto_login).
+    """
+    # Dobimo emso iz piškotka
+    agent_emso = request.get_cookie('emso', secret=secret)
+    # Preverimo, ali ta agent obstaja
+    if agent_emso is not None:
+        cur.execute("SELECT emso, ime, priimek FROM osebe WHERE emso=%s" %agent_emso)
+        r = cur.fetchone()
+        if r is not None:
+            # agent obstaja, vrnemo njegove podatke
+            return r
+    # Če pridemo do sem, agent ni prijavljen, naredimo redirect
+    if auto_login:
+        redirect("%sprijava_agent" %ROOT)
+    else:
+        return None
+
+"""
+@get("/agent")
+def stran_za_agente():
+    # Glavna stran za agente.
+    # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
+    # nima cookija)
+    (emso, ime, priimek) = get_agent()
+    # Morebitno sporočilo za uporabnika
+    sporocilo = get_sporocilo()
+    # Vrnemo predlogo za glavno stran
+
+    return rtemplate("agent.html", napaka=None,
+                            emso=emso
+                            ime=ime,
+                            priimek=priimek,
+                            sporocilo=sporocilo)
+"""
 
 ##########################################################################################
 # Glavni program
