@@ -2361,3 +2361,19 @@ section {
 .prijava_center {
   justify-content: center;
 }
+
+.obroba {
+  padding: 3px;
+}
+
+.glava_tabele {
+  font-weight: bold;
+  background-color: darkkhaki;
+  color: white;
+  text-align: center;
+}
+
+.jedro_tabele{
+  text-align: center;
+}
+

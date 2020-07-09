@@ -1,30 +1,42 @@
 %rebase('agent_osnova.html', naslov='Osebe')
 
+
 <!-- Tabela -->
-  <table cellpadding="0" cellspacing="0" border="1">
-  <tr>
-     <th>Emšo</th>
-     <th>Ime</th>
-     <th>Priimek</th>
-     <th>Naslov</th>
-     <th>e-pošta</th>
-     <th>Rojstni datum</th>
-     <th>Telefonska številka</th>
-     <th>Zaposleni</th>
-  </tr>
-  %for (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni, geslo) in osebe:
-    <tr>
-       <td>{{emso}}</td>
-       <td>{{ime}}</td>
-       <td>{{priimek}}</td>
-       <td>{{naslov}}</td>
-       <td>{{email}}</td>
-       <td>{{rojstvo}}</td>
-       <td>{{telefon}}</td>
-       <td>{{zaposleni}}</td>
-    </tr>
-  %end
-  </table>
+<section class="about aos-init" data-aos="fade-up">
+  <div class="container">
+      <table class="table table-hover" width="100%">
+      <thead class="glava_tabele">
+        <tr>
+          <th>Emšo</th>
+          <th>Ime</th>
+          <th>Priimek</th>
+          <th>Naslov</th>
+          <th>e-pošta</th>
+          <th>Rojstni datum</th>
+          <th>Telefonska številka</th>
+          <th>Zaposleni</th>
+        </tr>
+      </thead>
+
+      %for (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni, geslo) in osebe:
+      <tbody class= "jedro_tabele">
+        <tr>
+          <td>{{emso}}</td>
+          <td>{{ime}}</td>
+          <td>{{priimek}}</td>
+          <td>{{naslov}}</td>
+          <td>{{email}}</td>
+          <td>{{rojstvo}}</td>
+          <td>{{telefon}}</td>
+          <td>{{zaposleni}}</td>
+        </tr>
+      </tbody>
+      %end
+      </table>
+
+  </div>
+</section>
+
 
   <p>
     <a href="{{ROOT}}osebe">Na vrh strani</a>
