@@ -364,7 +364,7 @@ def register_post():
 
 
     # Ali uporabnik že obstaja?
-    cur.execute("SELECT 1 FROM osebe WHERE emso='%s'" %emso)
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso,))
     if cur.fetchone():
         # Uporabnik že obstaja
         return rtemplate("registracija.html",
@@ -391,11 +391,11 @@ def register_post():
                         napaka='Gesli se ne ujemata.')
     else:
         # Vse je v redu, vstavi novega uporabnika v bazo
-        geslo = password_md5(geslo1)
+        hash_gesla = password_md5(geslo1)
         cur.execute("""
             INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)
-            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, geslo))
+            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, hash_gesla))
         # Daj uporabniku cookie
         conn.commit()
         response.set_cookie('emso', emso, path='/', secret=secret)
