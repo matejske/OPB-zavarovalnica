@@ -263,7 +263,13 @@ def dodaj_osebo():
 # S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
 @get('/sklenitev_kaskoplus')
 def sklenitev_kaskoplus():
-    return rtemplate('sklenitev_kaskoplus.html', registrska='', znamka='', model='', vrednost='', vrsta_avto='',  napaka=None)
+    return rtemplate('sklenitev_kaskoplus.html', 
+                    registrska='', 
+                    znamka='', 
+                    model='', 
+                    vrednost='', 
+                    vrsta_avto='',  
+                    napaka=None)
 
 
 # Pridobimo podatke iz vnosnih polj
@@ -275,22 +281,35 @@ def sklenitev_kaskoplus():
     model = request.forms.model
     vrednost = request.forms.vrednost
     try:
-        #print("Poskusil bom vstaviti v tabele")
-        cur.execute("INSERT INTO avtomobili (registrska,znamka,model,vrednost) VALUES (%s, %s, %s, %s)", (registrska, znamka, model, vrednost)) 
-        #print("Dodal sem v tabelo avtomobili") 
-        cur.execute("INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja) VALUES (%s, %s, %s, %s)", ('875-23-989', date.today(), float(vrednost) * 0.05, 2)) #avtomobilska zavarovanja majo tip 2"
-        #print("Dodal sem v tabelo zavarovanja") 
-        cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
-        stevilka_police = cur.fetchone()[0]
-        cur.execute("INSERT INTO avtomobilska (polica_id, vrsta, avto_id) VALUES (%s, %s, %s)", (stevilka_police, 'kasko +', registrska))
-        #print("Dodal sem v tabelo avtomobilska") 
+        cur.execute("""
+            INSERT INTO avtomobili (registrska, znamka, model, vrednost) 
+            VALUES (%s, %s, %s, %s)
+        """, (registrska, znamka, model, vrednost)) 
+        cur.execute("""
+            INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+            VALUES (%s, %s, %s, %s)
+            RETURNING stevilka_police
+        """, ('875-23-989', date.today(), float(vrednost) * 0.05, 2))
+        stevilka_police, = cur.fetchone()
+        #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+        #stevilka_police = cur.fetchone()[0]
+        cur.execute("""
+            INSERT INTO avtomobilska (polica_id, vrsta, avto_id) 
+            VALUES (%s, %s, %s)
+            """, (stevilka_police, 'kasko +', registrska))
+        conn.commit() 
 
-        conn.commit()
     except Exception as ex:
         conn.rollback()
-        return rtemplate('sklenitev_kaskoplus.html', registrska=registrska, znamka=znamka, model=model, vrednost=vrednost, napaka='Zgodila se je napaka: %s' % ex)
-    redirect("%savtomobilska" %ROOT) 
-
+        return rtemplate('sklenitev_kaskoplus.html', 
+                        registrska=registrska, 
+                        znamka=znamka, 
+                        model=model, 
+                        vrednost=vrednost, 
+                        napaka='Zgodila se je napaka: {}'.format(ex)) 
+    print("Naredil bom redirect.")
+    redirect("{}avtomobilska".format(ROOT))
+    
 # Pomožne funkcije
 
 def password_md5(s):
@@ -373,12 +392,14 @@ def register_post():
     else:
         # Vse je v redu, vstavi novega uporabnika v bazo
         geslo = password_md5(geslo1)
-        cur.execute("INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)",
-                    (emso, ime, priimek, naslov, email, rojstvo, telefon, geslo))
+        cur.execute("""
+            INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)
+            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, geslo))
         # Daj uporabniku cookie
         conn.commit()
         response.set_cookie('emso', emso, path='/', secret=secret)
-        redirect('/')
+        redirect("{}prijava_zavarovanec".format(ROOT))
 
 # Piskotki in stran za agente =============================
 # Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
