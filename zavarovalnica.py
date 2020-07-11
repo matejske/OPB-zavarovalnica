@@ -351,7 +351,7 @@ def register_post():
 
 # Piskotki in stran za agente =============================
 # Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
-def get_agent():
+def get_agent(auto_login=True):
     """Poglej cookie in ugotovi, kdo je prijavljeni agent,
        vrni njegov emso, ime in priimek. Če ni prijavljen, presumeri
        na stran za prijavo agenta ali vrni None.
@@ -365,12 +365,19 @@ def get_agent():
             """, (agent_emso,))
             # RETURNING zaposlen .. da bi nekako izvedeli ali je sploh
         agent = cur.fetchone()
+
         if agent is not None:
             # agent obstaja, vrnemo njegove podatke
             return agent
     # Če pridemo do sem, agent ni prijavljen, naredimo redirect
-    elif agent_emso is None:
+    redirect("{}prijava_agent".format(ROOT))
+    """
+    if auto_login:
+        print('redirectam')
         redirect("{}prijava_agent".format(ROOT))
+    else:
+        return None
+    """
 
 @get("/agent")
 def stran_za_agente():
@@ -378,10 +385,9 @@ def stran_za_agente():
     # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
     # nima cookija)
     (emso, ime, priimek) = get_agent()
-    print(emso, ime, priimek)
-    # Morebitno sporočilo za uporabnika
-    # sporocilo = get_sporocilo()
-    # Vrnemo predlogo za glavno stran
+    #print(emso, ime, priimek)
+
+    # Vrnemo predlogo za stran za agente
 
     return rtemplate("agent.html", napaka=None,
                             emso=emso,
@@ -417,6 +423,23 @@ def login_agent_post():
                             napaka="Nepravilna prijava.",
                             geslo='',
                             emso=emso)
+
+    # Torej emso obstaja. Geslo in emso se ujemata
+    # Pogledamo se ali je res zaposlen
+    cur.execute("""
+            SELECT zaposleni FROM osebe WHERE emso=%s
+            """, (emso,))
+    zaposlen = cur.fetchone()
+    # print(zaposlen, bool(zaposlen)) 'vrne': [True], True, ce je res zaposlen in
+    # [False], True, tudi ce sploh ni zaposlen -> moramo dobiti element iz seznama
+    # print(zaposlen, zaposlen[0])
+
+    if not zaposlen[0]:
+        # emso sploh ni emso agenta
+        return rtemplate("prijava_agent.html",
+                            napaka="Vstop samo za zaposlene. Izberite prijavo za zavarovance",
+                            geslo='',
+                            emso=emso)
     else:
         # Vse je v redu, nastavimo cookie, ki potece cez 2 minuti in preusmerimo na stran za agente
         cookie_expires = time.mktime((datetime.now() + timedelta(minutes=2)).timetuple())
@@ -425,7 +448,7 @@ def login_agent_post():
 
 @get("/odjava")
 def logout():
-    """Pobriši cookie in preusmeri na login."""
+    """Pobriši cookie in preusmeri na prijavo."""
     response.delete_cookie('emso', path='/')
     redirect('{0}prijava_agent'.format(ROOT))
 
