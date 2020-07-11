@@ -73,7 +73,9 @@ def glavna_stran():
 def glavna_stran():
     return rtemplate('glavna_stran.html')
 
-# Vse za agente =========================================================================
+#######################################################################################################################
+################################ Prijava, odjava in še kaj o agentih #################################################
+#######################################################################################################################
 # Ustanovitelji:
 # Tomas: Emso: 0000, Geslo: tomas
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('0000', 'Tomas', 'Rode', 'Komenda', 'tomas.rode@etm.si', '1998-05-07', '1111', TRUE, '4b506c2968184be185f6282f5dcac238')
@@ -99,7 +101,7 @@ def get_agent(auto_login=True):
             SELECT emso, ime, priimek FROM osebe WHERE emso=%s
             """, (agent_emso,))
         agent = cur.fetchone()
-
+        # print(agent, agent[0]) vrne ['1111', 'Enej', 'Kovač'] 1111
         if agent is not None:
             # agent obstaja, vrnemo njegove podatke
             return agent
@@ -112,6 +114,7 @@ def get_agent(auto_login=True):
     else:
         return None
     """
+#def podatki_avta(registrska):
 
 @get("/agent/<emso_agenta>")
 def stran_agenta(emso_agenta):
@@ -194,6 +197,11 @@ def odajava(emso_agenta):
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
 # Obstaja pa tudi nezaposlen z geslom. Ime in priimek: Super Garfield. EMSO: 0000000, Geslo: lazanja
 
+
+#######################################################################################################################
+######## Dodajanje oseb, nepremičnin in avtomobilov v podatkovno bazo na strani za agente #############################
+#######################################################################################################################
+
 # Dodajanje novega komitenta na strani za agente ======================================================================
 # Agent ga lahko doda brez potrebe po geslu. Komitent ne rabi racuna za spletno poslovalnico.
 @get("/agent/<emso_agenta>/dodaj_komitenta")
@@ -229,6 +237,7 @@ def dodaj_komitenta_post(emso_agenta):
     # Ali komitent že obstaja?
     cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_komitenta,))
     if cur.fetchone():
+        (emso_ag, ime_ag, priimek_ag) = get_agent()
         # komitent že obstaja
         return rtemplate("dodaj_komitenta.html",
                         emso_komitenta=emso_komitenta, 
@@ -239,6 +248,9 @@ def dodaj_komitenta_post(emso_agenta):
                         rojstvo=rojstvo, 
                         telefon=telefon, 
                         zaposleni='FALSE',
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
                         napaka='Oseba s tem EMŠOM je že registrirana.')
     else:
         # Vse je v redu, vstavi novega uporabnika v bazo
@@ -251,34 +263,114 @@ def dodaj_komitenta_post(emso_agenta):
         conn.commit()
         redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
 
+# Dodajanje nove nepremičnine na strani za agente =====================================================================
+@get("/agent/<emso_agenta>/dodaj_nepremicnino")
+def dodaj_nepremicnino_get(emso_agenta):
+    """Prikaži formo za dodajanje nove nepremičnine."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    return rtemplate('dodaj_nepremicnino.html', 
+                        naslov='', 
+                        vrednost='',
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+
+@post("/agent/<emso_agenta>/dodaj_nepremicnino")
+def dodaj_nepremicnino_post(emso_agenta):
+    """Dodaj novo nepremičnino."""
+    naslov = request.forms.naslov 
+    vrednost = request.forms.vrednost
+
+    # Ali komitent že obstaja?
+    cur.execute("SELECT 1 FROM nepremicnine WHERE naslov_nepr=%s", (naslov,))
+    if cur.fetchone():
+        (emso_ag, ime_ag, priimek_ag) = get_agent()
+        # nepremicnina na tem naslovu že obstaja
+        return rtemplate("dodaj_nepremicnino.html",
+                        naslov=naslov, 
+                        vrednost=vrednost,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Nepremičnina na tem naslovu je že v bazi.')
+    else:
+        # Vse je v redu, vstavi novo nepremicnino v bazo
+        cur.execute("""
+            INSERT INTO nepremicnine (naslov_nepr, vrednost) 
+            VALUES (%s, %s)
+            """, (naslov, vrednost))
+
+        # Dodaj v tabelo in preusmeri na domačo stran agenta
+        conn.commit()
+        redirect("{0}agent/{1}/nepremicnine".format(ROOT, emso_agenta))
+
+
+# Dodajanje novega avtomobila na strani za agente =====================================================================
+@get("/agent/<emso_agenta>/dodaj_avtomobil")
+def dodaj_avtomobil_get(emso_agenta):
+    """Prikaži formo za dodajanje novega avtomobila."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    return rtemplate('dodaj_avtomobil.html', 
+                        registrska='', 
+                        znamka='',
+                        model='',
+                        vrednost='',
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+
+@post("/agent/<emso_agenta>/dodaj_avtomobil")
+def dodaj_avtomobil_post(emso_agenta):
+    """Dodaj nov avtomobil."""
+    registrska = request.forms.registrska 
+    znamka = request.forms.znamka
+    model = request.forms.model 
+    vrednost = request.forms.vrednost
+
+    # Ali komitent že obstaja?
+    cur.execute("SELECT 1 FROM avtomobili WHERE registrska=%s", (registrska,))
+    if cur.fetchone():
+        (emso_ag, ime_ag, priimek_ag) = get_agent()
+        # nepremicnina na tem naslovu že obstaja
+        return rtemplate("dodaj_avtomobil.html",
+                        registrska=registrska, 
+                        znamka=znamka,
+                        model=model,
+                        vrednost=vrednost,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Avtomobil s to registrsko je že v bazi.')
+    else:
+        # Vse je v redu, vstavi novo nepremicnino v bazo
+        cur.execute("""
+            INSERT INTO avtomobili (registrska, znamka, model, vrednost) 
+            VALUES (%s, %s, %s, %s)
+            """, (registrska, znamka, model, vrednost))
+
+        # Dodaj v tabelo in preusmeri na domačo stran agenta
+        conn.commit()
+        redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
+
+
+
+#######################################################################################################################
+################################# Sklenitev novih zavarovanj na strani za agente ######################################
+#######################################################################################################################
+
+
 # Sklenitev novih zavarovanj preko agenta =============================================================================
+## ŠE NI DOKONČANO
 @get('/agent/<emso_agenta>/skleni_avtomobilsko')
-def skleni_avtomobilsko(emso_agenta):
+def skleni_avtomobilsko_get(emso_agenta):
     """ Prikaži formo za dodajanje novega avtomobilskega zavarovanja """
-    # Podatki komitenta
-    emso_komitenta = request.forms.emso_komitenta #ta emso se nanasa na name="emso" v znački input
-    ime = request.forms.ime
-    priimek = request.forms.priimek
-    naslov = request.forms.naslov
-    email = request.forms.email
-    rojstvo = request.forms.rojstvo
-    telefon = request.forms.telefon
-
-    # vrsta zavarovanja in registrska
-    vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
-    registrska = request.forms.registrska
-    premija = request.forms.premija
-
     (emso_ag, ime_ag, priimek_ag) = get_agent()
     return rtemplate('agent_avtomobilsko.html', 
-                        emso_komitenta='', 
-                        ime='', 
-                        priimek='', 
-                        naslov='', 
-                        email='', 
-                        rojstvo='', 
-                        telefon='', 
-                        zaposleni='FALSE', 
+                        emso_komitenta='',  
                         vrsta_avtomobilskega='',
                         registrska='',
                         premija=premija,
@@ -289,6 +381,53 @@ def skleni_avtomobilsko(emso_agenta):
 
 
 @post('/agent/<emso_agenta>/skleni_avtomobilsko')
+def skleni_avtomobilsko_post(emso_agenta):
+# Podatki komitenta
+    emso_komitenta = request.forms.emso_komitenta #ta emso se nanasa na name="emso" v znački input
+
+    # vrsta zavarovanja in registrska
+    vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
+    registrska = request.forms.registrska
+    premija = request.forms.premija
+
+    try:
+        cur.execute("""
+            INSERT INTO avtomobili (registrska, znamka, model, vrednost) 
+            VALUES (%s, %s, %s, %s)
+        """, (registrska, znamka, model, vrednost)) 
+        cur.execute("""
+            INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+            VALUES (%s, %s, %s, %s)
+            RETURNING stevilka_police
+        """, ('875-23-989', date.today(), float(vrednost) * 0.05, 2))
+        stevilka_police, = cur.fetchone()
+        #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+        #stevilka_police = cur.fetchone()[0]
+        cur.execute("""
+            INSERT INTO avtomobilska (polica_id, vrsta, avto_id) 
+            VALUES (%s, %s, %s)
+            """, (stevilka_police, 'kasko +', registrska))
+        conn.commit() 
+
+    except Exception as ex:
+        conn.rollback()
+        return rtemplate('sklenitev_kaskoplus.html', 
+                        registrska=registrska, 
+                        znamka=znamka, 
+                        model=model, 
+                        vrednost=vrednost, 
+                        napaka='Zgodila se je napaka: {}'.format(ex)) 
+    redirect('{}avtomobilska'.format(ROOT))
+
+
+
+
+
+
+
+
+
+
 
 # Podstrani za vsako tabelo iz baze, ki jih lahko vidi le agent =======================================================
 @get('/agent/<emso_agenta>/osebe')
@@ -459,7 +598,7 @@ def register_post():
         # Daj uporabniku cookie
         conn.commit()
         response.set_cookie('emso', emso, path='/', secret=secret)
-        redirect("{}prijava_zavarovanec".format(ROOT))
+        redirect("{0}prijava_zavarovanec".format(ROOT))
 
 
 
@@ -585,7 +724,6 @@ def sklenitev_kaskoplus():
 # Pridobimo podatke iz vnosnih polj
 @post('/sklenitev_kaskoplus')
 def sklenitev_kaskoplus():
-    # doda ga v bazo a ne redirecta na koncu
     registrska = request.forms.registrska
     znamka = request.forms.znamka
     model = request.forms.model
