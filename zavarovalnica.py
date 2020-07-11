@@ -362,18 +362,16 @@ def dodaj_avtomobil_post(emso_agenta):
 ################################# Sklenitev novih zavarovanj na strani za agente ######################################
 #######################################################################################################################
 
-
 # Sklenitev novih zavarovanj preko agenta =============================================================================
-## ŠE NI DOKONČANO
 @get('/agent/<emso_agenta>/skleni_avtomobilsko')
-def skleni_avtomobilsko_get(emso_agenta):
+def agent_skleni_avtomobilsko_get(emso_agenta):
     """ Prikaži formo za dodajanje novega avtomobilskega zavarovanja """
     (emso_ag, ime_ag, priimek_ag) = get_agent()
-    return rtemplate('agent_avtomobilsko.html', 
+    return rtemplate('agent_skleni_avtomobilsko.html', 
                         emso_komitenta='',  
                         vrsta_avtomobilskega='',
                         registrska='',
-                        premija=premija,
+                        premija='',
                         emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
                         ime_agenta=ime_ag,
                         priimek_agenta=priimek_ag,
@@ -381,43 +379,59 @@ def skleni_avtomobilsko_get(emso_agenta):
 
 
 @post('/agent/<emso_agenta>/skleni_avtomobilsko')
-def skleni_avtomobilsko_post(emso_agenta):
-# Podatki komitenta
-    emso_komitenta = request.forms.emso_komitenta #ta emso se nanasa na name="emso" v znački input
-
-    # vrsta zavarovanja in registrska
+def agent_skleni_avtomobilsko_post(emso_agenta):
+    emso_komitenta = request.forms.emso_komitenta
     vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
     registrska = request.forms.registrska
     premija = request.forms.premija
 
-    try:
-        cur.execute("""
-            INSERT INTO avtomobili (registrska, znamka, model, vrednost) 
-            VALUES (%s, %s, %s, %s)
-        """, (registrska, znamka, model, vrednost)) 
+    # Ali je komitent s tem emsom sploh v bazi?
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_komitenta,))
+    if cur.fetchone() is None:
+        (emso_ag, ime_ag, priimek_ag) = get_agent()
+        # nepremicnina na tem naslovu že obstaja
+        return rtemplate("agent_skleni_avtomobilsko.html",
+                        emso_komitenta='',
+                        vrsta_avtomobilskega=vrsta_avtomobilskega,
+                        registrska=registrska,
+                        premija=premija, 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Oseba s tem Emšom še ni v bazi.')
+
+    # Ali je avtomobil s to registrsko sploh v bazi?
+    cur.execute("SELECT 1 FROM avtomobili WHERE registrska=%s", (registrska,))
+    if cur.fetchone() is None:
+        (emso_ag, ime_ag, priimek_ag) = get_agent()
+        # nepremicnina na tem naslovu že obstaja
+        return rtemplate("agent_skleni_avtomobilsko.html",
+                        emso_komitenta=emso_komitenta,
+                        vrsta_avtomobilskega=vrsta_avtomobilskega,
+                        registrska='',
+                        premija=premija, 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Avtomobila s to registrsko številko še ni v bazi.')
+
+    # Sicer pa vstavimo v bazo novo polico
+    else:
         cur.execute("""
             INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
             VALUES (%s, %s, %s, %s)
             RETURNING stevilka_police
-        """, ('875-23-989', date.today(), float(vrednost) * 0.05, 2))
+        """, (emso_komitenta, date.today(), premija, 2))
         stevilka_police, = cur.fetchone()
         #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
         #stevilka_police = cur.fetchone()[0]
         cur.execute("""
             INSERT INTO avtomobilska (polica_id, vrsta, avto_id) 
             VALUES (%s, %s, %s)
-            """, (stevilka_police, 'kasko +', registrska))
+            """, (stevilka_police, vrsta_avtomobilskega, registrska))
         conn.commit() 
-
-    except Exception as ex:
-        conn.rollback()
-        return rtemplate('sklenitev_kaskoplus.html', 
-                        registrska=registrska, 
-                        znamka=znamka, 
-                        model=model, 
-                        vrednost=vrednost, 
-                        napaka='Zgodila se je napaka: {}'.format(ex)) 
-    redirect('{}avtomobilska'.format(ROOT))
+        redirect('{0}agent/{1}/avtomobilska'.format(ROOT, emso_agenta))
+    
 
 
 

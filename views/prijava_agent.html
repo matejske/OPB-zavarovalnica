@@ -28,15 +28,22 @@
         <h5>Za vstop v spletno zavarovalnico vnesite EMŠO in geslo</h5>
         <form action='{{ROOT}}prijava_agent' method='POST' style="width: 50%">
           <div class="form-group">
-            <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
+            <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="Emšo" data-rule="minlen:4" data-rule="required" />
           </div>
           <div class="form-group">
             <input name='geslo' type='password' value="{{geslo}}" class="form-control" placeholder="Geslo" data-rule="minlen:4" data-rule="required"/>
           </div>
           <div class="text-center">
-            <input value='Prijava' type='submit' /> <br> <br>
-            <a >EMŠO: 000000</a> <br> 
+          <div class="form-group">
+            <input value='Prijava' type='submit' /> 
+          </div>
+            
+            <!-- Za vpis v spletno poslovalnico za agente
+            <br> <br>
+            <a >Emšo: 000000</a> <br> 
             <a >Geslo: geslo</a>
+            -->
+            
           </div>
         </form>
       </div>  
