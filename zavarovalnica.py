@@ -65,6 +65,17 @@ def glavna_stran():
     return rtemplate('glavna_stran.html')
 
 # Vse za agente =========================================================================
+# Ustanovitelji:
+# Tomas: Emso: 0000, Geslo: tomas
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('0000', 'Tomas', 'Rode', 'Komenda', 'tomas.rode@etm.si', '1998-05-07', '1111', TRUE, '4b506c2968184be185f6282f5dcac238')
+# Enej: Emso: 1111, Geslo: enej
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('1111', 'Enej', 'Kovač', 'Bovec', 'enej.kovac@etm.si', '1998-04-02', '1111', TRUE, '05505631a907be702377d263926cab20')
+# Matej: Emso: 2222, Geslo: matej
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('2222', 'Matej', 'Škerlep', 'Črnuče', 'matej.skerlpe@etm.si', '1998-01-01', '1111', TRUE, '485c859f2df22f1147ba3798b4485d48')
+
+
+
+# =======================================================================================
 def get_agent(auto_login=True):
     # Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
     """Poglej cookie in ugotovi, kdo je prijavljeni agent,
