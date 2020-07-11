@@ -113,22 +113,6 @@ def get_agent(auto_login=True):
         return None
     """
 
-@get("/agent")
-def stran_za_agente():
-    # Glavna stran za agente.
-    # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
-    # nima cookija)
-    (emso, ime, priimek) = get_agent()
-    #print(emso, ime, priimek)
-
-    # Vrnemo predlogo za stran za agente
-
-    return rtemplate("agent.html", napaka=None,
-                            emso=emso,
-                            ime=ime,
-                            priimek=priimek) #,
-                            # sporocilo=sporocilo)
-
 @get("/agent/<emso_agenta>")
 def stran_agenta(emso_agenta):
     # Glavna stran za agente.
@@ -192,7 +176,7 @@ def login_agent_post():
                             emso=emso)
     else:
         # Vse je v redu, nastavimo cookie, ki potece cez 2 minuti in preusmerimo na stran za agente
-        cookie_expires = time.mktime((datetime.now() + timedelta(seconds=30)).timetuple())
+        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=3)).timetuple())
         response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
         redirect('{0}agent/{1}'.format(ROOT, emso))
 
@@ -208,15 +192,16 @@ def odajava(emso_agenta):
 # password_md5('geslo') = 'ae404a1ecbcdc8e96ae4457790025f50' ..... to je v bazi. Njegovo geslo je 'geslo'
 # Smo dali rocno v bazo
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
-# Obstaja pa tudi nezaposlen z geslom: Super Garfield. EMSO: 0000000, Geslo: lazanja
+# Obstaja pa tudi nezaposlen z geslom. Ime in priimek: Super Garfield. EMSO: 0000000, Geslo: lazanja
 
-
-# Registracija zavarovanca (Agenta je potrebno registrirati rocno v bazi. Ne mores kar na spletni strani??)
-@get("/registracija")
-def register_get():
-    """Prikaži formo za registracijo."""
-    return rtemplate('registracija.html', 
-                        emso='', 
+# Dodajanje novega konitenta na strani za agente ======================================================================
+# Agent ga lahko doda brez potrebe po geslu. Komitent ne rabi racuna za spletno poslovalnico.
+@get("/agent/<emso_agenta>/dodaj_komitenta")
+def dodaj_komitenta_get(emso_agenta):
+    """Prikaži formo za dodajanje novega komitenta."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    return rtemplate('dodaj_komitenta.html', 
+                        emso_komitenta='', 
                         ime='', 
                         priimek='', 
                         naslov='', 
@@ -224,13 +209,16 @@ def register_get():
                         rojstvo='', 
                         telefon='', 
                         zaposleni='FALSE', 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
                         napaka=None)
 
 
-@post("/registracija")
-def register_post():
-    """Registriraj novega uporabnika."""
-    emso = request.forms.emso #ta emso se nanasa na name="emso" v znački input
+@post("/agent/<emso_agenta>/dodaj_komitenta")
+def dodaj_komitenta_post(emso_agenta):
+    """Dodaj novega komitenta."""
+    emso_komitenta = request.forms.emso_komitenta #ta emso se nanasa na name="emso" v znački input
     ime = request.forms.ime
     priimek = request.forms.priimek
     naslov = request.forms.naslov
@@ -238,16 +226,12 @@ def register_post():
     rojstvo = request.forms.rojstvo
     telefon = request.forms.telefon
 
-    geslo1 = request.forms.geslo1
-    geslo2 = request.forms.geslo2
-
-
-    # Ali uporabnik že obstaja?
-    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso,))
+    # Ali komitent že obstaja?
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_komitenta,))
     if cur.fetchone():
-        # Uporabnik že obstaja
-        return rtemplate("registracija.html",
-                        emso=emso, 
+        # komitent že obstaja
+        return rtemplate("dodaj_komitenta.html",
+                        emso_komitenta=emso_komitenta, 
                         ime=ime, 
                         priimek=priimek, 
                         naslov=naslov, 
@@ -256,75 +240,16 @@ def register_post():
                         telefon=telefon, 
                         zaposleni='FALSE',
                         napaka='Oseba s tem EMŠOM je že registrirana.')
-    elif not geslo1 == geslo2:
-        # Gesli se ne ujemata
-        return rtemplate("registracija.html",
-                        emso=emso, 
-                        ime=ime, 
-                        priimek=priimek, 
-                        naslov=naslov, 
-                        email=email, 
-                        rojstvo=rojstvo, 
-                        telefon=telefon, 
-                        zaposleni='FALSE',
-                        napaka='Gesli se ne ujemata.')
     else:
         # Vse je v redu, vstavi novega uporabnika v bazo
-        hash_gesla = password_md5(geslo1)
         cur.execute("""
-            INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)
-            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, hash_gesla))
-        # Daj uporabniku cookie
+            INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE)
+            """, (emso_komitenta, ime, priimek, naslov, email, rojstvo, telefon))
+
+        # Dodaj v tabelo in preusmeri na domačo stran agenta
         conn.commit()
-        response.set_cookie('emso', emso, path='/', secret=secret)
-        redirect("{}prijava_zavarovanec".format(ROOT))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Stran o zaposlenih ==========================================================================
-@get('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
-
-@post('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
-
-# Kontaktna stran ==========================================================================
-@get('/kontakt')
-def kontakt():
-    return rtemplate('kontakt.html')
-
-@post('/kontakt')
-def kontakt():
-    return rtemplate('kontakt.html')
-
-# Predstavitev zavarovanj ==========================================================================
-@get('/predstavitev_zavarovanj')
-def predstavitev_zavarovanj():
-    return rtemplate('predstavitev_zavarovanj.html')
-
-@post('/predstavitev_zavarovanj')
-def predstavitev_zavarovanj():
-    return rtemplate('predstavitev_zavarovanj.html')
-
+        redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
 
 # Podstrani za vsako tabelo iz baze, ki jih lahko vidi le agent =======================================================
 @get('/agent/<emso_agenta>/osebe')
@@ -428,6 +353,119 @@ def vrste_zivlj(emso_agenta):
                         priimek_agenta=priimek)
 
 
+# Registracija zavarovanca (Agenta je potrebno registrirati rocno v bazi. Ne mores kar na spletni strani??)
+@get("/registracija")
+def register_get():
+    """Prikaži formo za registracijo."""
+    return rtemplate('registracija.html', 
+                        emso='', 
+                        ime='', 
+                        priimek='', 
+                        naslov='', 
+                        email='', 
+                        rojstvo='', 
+                        telefon='', 
+                        zaposleni='FALSE', 
+                        napaka=None)
+
+
+@post("/registracija")
+def register_post():
+    """Registriraj novega uporabnika."""
+    emso = request.forms.emso #ta emso se nanasa na name="emso" v znački input
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+
+    geslo1 = request.forms.geslo1
+    geslo2 = request.forms.geslo2
+
+
+    # Ali je oseba s tem EMŠOM že registrirana?
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso,))
+    if cur.fetchone():
+        # oseba je že registrirana
+        return rtemplate("registracija.html",
+                        emso=emso, 
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE',
+                        napaka='Oseba s tem EMŠOM je že registrirana.')
+    elif not geslo1 == geslo2:
+        # Gesli se ne ujemata
+        return rtemplate("registracija.html",
+                        emso=emso, 
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE',
+                        napaka='Gesli se ne ujemata.')
+    else:
+        # Vse je v redu, vstavi novega uporabnika v bazo
+        hash_gesla = password_md5(geslo1)
+        cur.execute("""
+            INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)
+            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, hash_gesla))
+        # Daj uporabniku cookie
+        conn.commit()
+        response.set_cookie('emso', emso, path='/', secret=secret)
+        redirect("{}prijava_zavarovanec".format(ROOT))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Stran o zaposlenih ==========================================================================
+@get('/zaposleni')
+def zaposleni():
+    return rtemplate('zaposleni.html')
+
+@post('/zaposleni')
+def zaposleni():
+    return rtemplate('zaposleni.html')
+
+# Kontaktna stran ==========================================================================
+@get('/kontakt')
+def kontakt():
+    return rtemplate('kontakt.html')
+
+@post('/kontakt')
+def kontakt():
+    return rtemplate('kontakt.html')
+
+# Predstavitev zavarovanj ==========================================================================
+@get('/predstavitev_zavarovanj')
+def predstavitev_zavarovanj():
+    return rtemplate('predstavitev_zavarovanj.html')
+
+@post('/predstavitev_zavarovanj')
+def predstavitev_zavarovanj():
+    return rtemplate('predstavitev_zavarovanj.html')
 
 # Prijava za že registriranega zavarovanca =======================================================
 @get('/prijava_zavarovanec')

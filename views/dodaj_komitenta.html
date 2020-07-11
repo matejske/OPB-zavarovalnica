@@ -1,4 +1,4 @@
-%rebase('osnova.html', naslov='Registracija novega uporabnika')
+%rebase('agent_osnova.html', naslov='Dodajanje komitenta')
 
 %if napaka:
     <div class="alert alert-warning">{{napaka}}</div>
@@ -7,7 +7,7 @@
 <section class="breadcrumbs">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-      <h2>Registracija novega zavarovanca</h2>
+      <h2>Dodajanje novega zavarovanca</h2>
     </div>
   </div>
 </section><!-- End Začetna vrstica -->
@@ -17,10 +17,10 @@
 <section class="about" data-aos="fade-up">
   <div class="container" align='center'>
     <div >
-      <h5>Še nimate računa? Za registracijo izpolnite spodnja polja.</h5>
-      <form action="{{ROOT}}registracija" method='post' style="width: 48%">
+      <h5>Za dodajanje novega komitenta izpolnite spodnja polja</h5>
+      <form action="{{ROOT}}agent/{{emso}}/dodaj_komitenta" method='post' style="width: 48%">
         <div class="form-group">
-          <input name="emso" type="text" value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
+          <input name="emso_komitenta" type="text" value="{{emso_komitenta}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
         </div>
         <div class="form-group">
           <input name="ime" type="text" value="{{ime}}" class="form-control" placeholder="Ime" data-rule="required"/>
@@ -39,17 +39,10 @@
         </div>
         <div class="form-group">
           <input name="telefon" type="text" value="{{telefon}}" class="form-control" placeholder="Telefonska številka" data-rule="minlen:3" data-rule="required" />
-        </div>
-        <div class="form-group">
-          <input type="password" class="form-control" placeholder="Geslo" name="geslo1" required>
-        </div>
-        <div class="form-group">
-          <input type="password" class="form-control" placeholder="Potrdi geslo" name="geslo2" required>
-        </div>
-        
+        </div>       
 
         <div class="text-center"> 
-          <input value='Registriraj se' type='submit' />
+          <input value='Dodaj komitenta' type='submit' /><br> <br>
         </div>
       </form>
     </div>  
