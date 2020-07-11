@@ -1,7 +1,7 @@
 %rebase('osnova.html', naslov='Prijava za zavarovanca')
 
 %if napaka:
-  <p class="opozorilo">{{napaka}}</p>
+    <div class="alert alert-warning">{{napaka}}</div>
 %end
 
 <!-- ======= Začetna vrstica ======= -->
@@ -26,7 +26,7 @@
       <!-- ======= Prijavna polja ======= -->
       <div class="col-lg-6" align="center">
         <h5>Za vstop v spletno zavarovalnico vnesite EMŠO in geslo</h5>
-        <form action='{{ROOT}}prijava_agent/' class="php-email-form prijava_center" method='POST' style="width: 50%">
+        <form action='{{ROOT}}prijava_zavarovanec'  method='POST' style="width: 50%">
           <div class="form-group">
             <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
           </div>
@@ -35,7 +35,10 @@
           </div>
           <div class="text-center">
             <input value='Prijava' type='submit' /> <br> <br>
-            <a href="{{ROOT}}">PRESKOČI PRIJAVO</a>
+            <a href="{{ROOT}}registracija">Registracija</a>
+            <!-- 
+              <a href="{{ROOT}}">PRESKOČI PRIJAVO</a>
+            -->
           </div>
         </form>
       </div>  

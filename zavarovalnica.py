@@ -170,12 +170,11 @@ def login_agent_post():
     if cur.fetchone() is None:
         # emso in hash_gesla se ne ujemata
         return rtemplate("prijava_agent.html",
-                               napaka="Nepravilna prijava",
-                               geslo='',
-                               emso=emso)
+                            napaka="Geslo ni pravilno.",
+                            geslo='',
+                            emso=emso)
     else:
         # Vse je v redu, nastavimo cookie in preusmerimo na stran za agente
-        print("Prisel sem do else stavka in nastavljam cookie.")
         response.set_cookie('emso', emso, path='/', secret=secret)
         redirect('{0}agent'.format(ROOT))
 
@@ -221,6 +220,9 @@ def posameznikova_zavarovanja(komitent_id):
     cur.execute("SELECT * FROM zavarovanja WHERE komitent_id LIKE '%s' ORDER BY datum_police DESC" %komitent_id)
     return rtemplate('zavarovanja_posameznik.html', komitent_id=komitent_id, zavarovanja_posameznik=cur)
 
+"""
+Glej pod registracijo 
+
 # Dodajanje novega komitenta ============================================================
 # S tem get zahtevkom napišemo naj bo že vnešeno v polju (spremenljivka pa je value pri znački input)
 @get('/dodaj_osebo')
@@ -248,6 +250,7 @@ def dodaj_osebo():
         return rtemplate('dodaj_osebo.html', emso=emso, ime=ime, priimek=priimek, naslov=naslov, email=email, 
                         rojstvo=rojstvo, telefon=telefon, napaka='Zgodila se je napaka: %s' % ex)
     redirect("%sosebe" %ROOT) 
+"""
 
 # Sklenitev zavarovanja =============================================================================
 
@@ -307,8 +310,7 @@ def sklenitev_kaskoplus():
                         model=model, 
                         vrednost=vrednost, 
                         napaka='Zgodila se je napaka: {}'.format(ex)) 
-    print("Naredil bom redirect.")
-    redirect("{}avtomobilska".format(ROOT))
+    redirect('{}avtomobilska'.format(ROOT))
     
 # Pomožne funkcije
 
@@ -412,18 +414,20 @@ def get_agent(auto_login = True):
     agent_emso = request.get_cookie('emso', secret=secret)
     # Preverimo, ali ta agent obstaja
     if agent_emso is not None:
-        cur.execute("SELECT emso, ime, priimek FROM osebe WHERE emso=%s" %agent_emso)
-        r = cur.fetchone()
-        if r is not None:
+        cur.execute("""
+            SELECT emso, ime, priimek FROM osebe WHERE emso=%s
+            """, (agent_emso,))
+        a = cur.fetchone()
+        if a is not None:
             # agent obstaja, vrnemo njegove podatke
-            return r
+            return a
     # Če pridemo do sem, agent ni prijavljen, naredimo redirect
     if auto_login:
-        redirect("%sprijava_agent" %ROOT)
+        redirect("%sprijava_agent", (ROOT,))
     else:
         return None
 
-"""
+
 @get("/agent")
 def stran_za_agente():
     # Glavna stran za agente.
@@ -431,15 +435,15 @@ def stran_za_agente():
     # nima cookija)
     (emso, ime, priimek) = get_agent()
     # Morebitno sporočilo za uporabnika
-    sporocilo = get_sporocilo()
+    # sporocilo = get_sporocilo()
     # Vrnemo predlogo za glavno stran
 
     return rtemplate("agent.html", napaka=None,
-                            emso=emso
+                            emso=emso,
                             ime=ime,
-                            priimek=priimek,
-                            sporocilo=sporocilo)
-"""
+                            priimek=priimek) #,
+                            # sporocilo=sporocilo)
+
 
 ##########################################################################################
 # Glavni program
