@@ -42,25 +42,25 @@
 
       <nav class="nav-menu float-right d-none d-lg-block">
         <ul>
-          <li><a href="{{ROOT}}agent">Domov</a></li>
+          <li><a href="{{ROOT}}agent/{{emso}}">Domov</a></li>
           <li><a href="{{ROOT}}registracija">Registracija novega komitenta </a></li>
           <li class="drop-down"><a href="#">Podatkovna baza</a>
             <ul>
-              <li><a href="{{ROOT}}osebe">Osebe</a></li>
-              <li><a href="{{ROOT}}zavarovanja">Zavarovalne police</a></li>
-              <li><a href="{{ROOT}}avtomobili">Avtomobili</a></li>
-              <li><a href="{{ROOT}}avtomobilska">Avtomobilska zavarovanja</a></li>
-              <li><a href="{{ROOT}}nepremicnine">Nepremičnine</a></li>
-              <li><a href="{{ROOT}}nepremicninska">Nepremičninska zavarovanja</a></li>
-              <li><a href="{{ROOT}}zivljenjska">Življenjska zavarovanja</a></li>
-              <li><a href="{{ROOT}}vrste_avto">Vrste avtomobilskih zavarovanj</a></li>
-              <li><a href="{{ROOT}}vrste_nepr">Vrste nepremičninskih zavarovanj</a></li>
-              <li><a href="{{ROOT}}vrste_zivlj">Vrste življenjskih zavarovanj</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/osebe">Osebe</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/zavarovanja">Zavarovalne police</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/avtomobili">Avtomobili</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/avtomobilska">Avtomobilska zavarovanja</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/nepremicnine">Nepremičnine</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/nepremicninska">Nepremičninska zavarovanja</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/zivljenjska">Življenjska zavarovanja</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/vrste_avto">Vrste avtomobilskih zavarovanj</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/vrste_nepr">Vrste nepremičninskih zavarovanj</a></li>
+              <li><a href="{{ROOT}}agent/{{emso}}/vrste_zivlj">Vrste življenjskih zavarovanj</a></li>
             </ul>
           </li>
-          % uporabnik = ime + ' ' + priimek
+          % uporabnik = ime_agenta + ' ' + priimek_agenta
           <li><a >{{uporabnik}}</a></li>
-          <li><a href="{{ROOT}}odjava_agent">Odjava</a></li>
+          <li><a href="{{ROOT}}odjava_agent/{{emso}}">Odjava</a></li>
         </ul>
       </nav><!-- .nav-menu -->
 
