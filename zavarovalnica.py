@@ -104,7 +104,7 @@ def get_agent(auto_login=True):
             # agent obstaja, vrnemo njegove podatke
             return agent
     # Če pridemo do sem, agent ni prijavljen, naredimo redirect
-    redirect("{}prijava_agent".format(ROOT))
+    redirect("{0}prijava_agent".format(ROOT))
     """
     if auto_login:
         print('redirectam')
@@ -194,7 +194,7 @@ def odajava(emso_agenta):
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
 # Obstaja pa tudi nezaposlen z geslom. Ime in priimek: Super Garfield. EMSO: 0000000, Geslo: lazanja
 
-# Dodajanje novega konitenta na strani za agente ======================================================================
+# Dodajanje novega komitenta na strani za agente ======================================================================
 # Agent ga lahko doda brez potrebe po geslu. Komitent ne rabi racuna za spletno poslovalnico.
 @get("/agent/<emso_agenta>/dodaj_komitenta")
 def dodaj_komitenta_get(emso_agenta):
@@ -250,6 +250,45 @@ def dodaj_komitenta_post(emso_agenta):
         # Dodaj v tabelo in preusmeri na domačo stran agenta
         conn.commit()
         redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
+
+# Sklenitev novih zavarovanj preko agenta =============================================================================
+@get('/agent/<emso_agenta>/skleni_avtomobilsko')
+def skleni_avtomobilsko(emso_agenta):
+    """ Prikaži formo za dodajanje novega avtomobilskega zavarovanja """
+    # Podatki komitenta
+    emso_komitenta = request.forms.emso_komitenta #ta emso se nanasa na name="emso" v znački input
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+
+    # vrsta zavarovanja in registrska
+    vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
+    registrska = request.forms.registrska
+    premija = request.forms.premija
+
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    return rtemplate('agent_avtomobilsko.html', 
+                        emso_komitenta='', 
+                        ime='', 
+                        priimek='', 
+                        naslov='', 
+                        email='', 
+                        rojstvo='', 
+                        telefon='', 
+                        zaposleni='FALSE', 
+                        vrsta_avtomobilskega='',
+                        registrska='',
+                        premija=premija,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+
+@post('/agent/<emso_agenta>/skleni_avtomobilsko')
 
 # Podstrani za vsako tabelo iz baze, ki jih lahko vidi le agent =======================================================
 @get('/agent/<emso_agenta>/osebe')
