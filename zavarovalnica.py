@@ -43,6 +43,18 @@ def rtemplate(*largs, **kwargs):
 def static(filename):
     return static_file(filename, root='static')
 
+# Pomozne funkcije ======================================================================
+def password_md5(s):
+    """Vrni MD5 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
+       kodirana s to funkcijo."""
+    if not s:
+        # Nočemo imeti praznih nizov za gesla!
+        return
+    h = hashlib.md5()
+    h.update(s.encode('utf-8'))
+    return h.hexdigest()
+
+
 # Glavna stran ==========================================================================
 @get('/')
 def glavna_stran():
@@ -51,6 +63,204 @@ def glavna_stran():
 @post('/')
 def glavna_stran():
     return rtemplate('glavna_stran.html')
+
+# Vse za agente =========================================================================
+def get_agent(auto_login=True):
+    # Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
+    """Poglej cookie in ugotovi, kdo je prijavljeni agent,
+       vrni njegov emso, ime in priimek. Če ni prijavljen, presumeri
+       na stran za prijavo agenta ali vrni None.
+    """
+    # Dobimo emso iz piškotka
+    agent_emso = request.get_cookie('emso', secret=secret)
+    # Preverimo, ali ta agent obstaja
+    if agent_emso is not None:
+        cur.execute("""
+            SELECT emso, ime, priimek FROM osebe WHERE emso=%s
+            """, (agent_emso,))
+        agent = cur.fetchone()
+
+        if agent is not None:
+            # agent obstaja, vrnemo njegove podatke
+            return agent
+    # Če pridemo do sem, agent ni prijavljen, naredimo redirect
+    redirect("{}prijava_agent".format(ROOT))
+    """
+    if auto_login:
+        print('redirectam')
+        redirect("{}prijava_agent".format(ROOT))
+    else:
+        return None
+    """
+
+@get("/agent")
+def stran_za_agente():
+    # Glavna stran za agente.
+    # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
+    # nima cookija)
+    (emso, ime, priimek) = get_agent()
+    #print(emso, ime, priimek)
+
+    # Vrnemo predlogo za stran za agente
+
+    return rtemplate("agent.html", napaka=None,
+                            emso=emso,
+                            ime=ime,
+                            priimek=priimek) #,
+                            # sporocilo=sporocilo)
+
+@get("/prijava_agent")
+def login_agent_get():
+    """Serviraj formo za prijavo."""
+    return rtemplate("prijava_agent.html",
+                           napaka=None,
+                           geslo='',
+                           emso='')
+
+@post("/prijava_agent")
+def login_agent_post():
+    """Obdelaj izpolnjeno formo za prijavo"""
+    # emso, ki ga je agent vpisal v formo
+    emso = request.forms.emso
+    # Izračunamo MD5 hash gesla, ki ga bomo spravili
+    hash_gesla = password_md5(request.forms.geslo)
+    # Preverimo, ali se je uporabnik pravilno prijavil
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s AND geslo=%s", (emso, hash_gesla))
+
+    # # Zaradi probavanja!!!
+    # cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s",
+    #           [uporabnik])
+
+    if cur.fetchone() is None:
+        # emso in hash_gesla se ne ujemata. Ali pa ta emso sploh ne obstaja.
+        return rtemplate("prijava_agent.html",
+                            napaka="Nepravilna prijava.",
+                            geslo='',
+                            emso=emso)
+
+    # Torej emso obstaja. Geslo in emso se ujemata
+    # Pogledamo se ali je res zaposlen
+    cur.execute("""
+            SELECT zaposleni FROM osebe WHERE emso=%s
+            """, (emso,))
+    zaposlen = cur.fetchone()
+    # print(zaposlen, bool(zaposlen)) 'vrne': [True], True, ce je res zaposlen in
+    # [False], True, tudi ce sploh ni zaposlen -> moramo dobiti element iz seznama
+    # print(zaposlen, zaposlen[0])
+
+    if not zaposlen[0]:
+        # emso sploh ni emso agenta
+        return rtemplate("prijava_agent.html",
+                            napaka="Vstop samo za zaposlene. Izberite prijavo za zavarovance",
+                            geslo='',
+                            emso=emso)
+    else:
+        # Vse je v redu, nastavimo cookie, ki potece cez 2 minuti in preusmerimo na stran za agente
+        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=2)).timetuple())
+        response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
+        redirect('{0}agent'.format(ROOT))
+
+@get("/odjava_agenta")
+def logout():
+    """Pobriši cookie in preusmeri na prijavo."""
+    response.delete_cookie('emso', path='/')
+    redirect('{0}prijava_agent'.format(ROOT))
+
+
+# zaposlen agent:
+# print(password_md5('geslo'))
+# password_md5('geslo') = 'ae404a1ecbcdc8e96ae4457790025f50' ..... to je v bazi. Njegovo geslo je 'geslo'
+# Smo dali rocno v bazo
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
+# Obstaja pa tudi nezaposlen z geslom: Super Garfield. EMSO: 0000000, Geslo: lazanja
+
+
+# Registracija zavarovanca (Agenta je potrebno registrirati rocno v bazi. Ne mores kar na spletni strani??)
+@get("/registracija")
+def register_get():
+    """Prikaži formo za registracijo."""
+    return rtemplate('registracija.html', 
+                        emso='', 
+                        ime='', 
+                        priimek='', 
+                        naslov='', 
+                        email='', 
+                        rojstvo='', 
+                        telefon='', 
+                        zaposleni='FALSE', 
+                        napaka=None)
+
+
+@post("/registracija")
+def register_post():
+    """Registriraj novega uporabnika."""
+    emso = request.forms.emso #ta emso se nanasa na name="emso" v znački input
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+
+    geslo1 = request.forms.geslo1
+    geslo2 = request.forms.geslo2
+
+
+    # Ali uporabnik že obstaja?
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso,))
+    if cur.fetchone():
+        # Uporabnik že obstaja
+        return rtemplate("registracija.html",
+                        emso=emso, 
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE',
+                        napaka='Oseba s tem EMŠOM je že registrirana.')
+    elif not geslo1 == geslo2:
+        # Gesli se ne ujemata
+        return rtemplate("registracija.html",
+                        emso=emso, 
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE',
+                        napaka='Gesli se ne ujemata.')
+    else:
+        # Vse je v redu, vstavi novega uporabnika v bazo
+        hash_gesla = password_md5(geslo1)
+        cur.execute("""
+            INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)
+            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, hash_gesla))
+        # Daj uporabniku cookie
+        conn.commit()
+        response.set_cookie('emso', emso, path='/', secret=secret)
+        redirect("{}prijava_zavarovanec".format(ROOT))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Stran o zaposlenih ==========================================================================
 @get('/zaposleni')
@@ -132,18 +342,6 @@ def vrste_zivlj():
     return rtemplate('vrste_zivlj.html', Mozne_vrste_zivlj_tb=cur)
 
 
-# Prijava in odjava za agenta =============================================================================
-"""
-@get('/prijava_agent')
-def prijava_agent():
-    return rtemplate('prijava_agent.html', emso='', geslo='', napaka=None)
-
-@post('/prijava_agent')
-def prijava_agent():
-    #emso = request.forms.emso
-    #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
-    return rtemplate('prijava_agent.html', napaka=None)
-"""
 
 # Prijava za že registriranega zavarovanca =======================================================
 @get('/prijava_zavarovanec')
@@ -257,219 +455,6 @@ def sklenitev_kaskoplus():
                         vrednost=vrednost, 
                         napaka='Zgodila se je napaka: {}'.format(ex)) 
     redirect('{}avtomobilska'.format(ROOT))
-    
-# Pomožne funkcije
-
-def password_md5(s):
-    """Vrni MD5 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
-       kodirana s to funkcijo."""
-    if not s:
-        # Nočemo imeti praznih nizov za gesla!
-        return
-    h = hashlib.md5()
-    h.update(s.encode('utf-8'))
-    return h.hexdigest()
-
-# Funkcija, ki v cookie spravi sporocilo
-def set_sporocilo(tip, vsebina):
-    response.set_cookie('message', (tip, vsebina), path='/', secret=secret)
-
-# Funkcija, ki iz cookija dobi sporočilo, če je
-def get_sporocilo():
-    sporocilo = request.get_cookie('message', default=None, secret=secret)
-    response.delete_cookie('message', path="/")
-    return sporocilo
-
-# registracija ===============================================================
-@get("/registracija")
-def register_get():
-    """Prikaži formo za registracijo."""
-    return rtemplate('registracija.html', 
-                        emso='', 
-                        ime='', 
-                        priimek='', 
-                        naslov='', 
-                        email='', 
-                        rojstvo='', 
-                        telefon='', 
-                        zaposleni='FALSE', 
-                        napaka=None)
-
-
-@post("/registracija")
-def register_post():
-    """Registriraj novega uporabnika."""
-    emso = request.forms.emso #ta emso se nanasa na name="emso" v znački input
-    ime = request.forms.ime
-    priimek = request.forms.priimek
-    naslov = request.forms.naslov
-    email = request.forms.email
-    rojstvo = request.forms.rojstvo
-    telefon = request.forms.telefon
-
-    geslo1 = request.forms.geslo1
-    geslo2 = request.forms.geslo2
-
-
-    # Ali uporabnik že obstaja?
-    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso,))
-    if cur.fetchone():
-        # Uporabnik že obstaja
-        return rtemplate("registracija.html",
-                        emso=emso, 
-                        ime=ime, 
-                        priimek=priimek, 
-                        naslov=naslov, 
-                        email=email, 
-                        rojstvo=rojstvo, 
-                        telefon=telefon, 
-                        zaposleni='FALSE',
-                        napaka='Oseba s tem EMŠOM je že registrirana.')
-    elif not geslo1 == geslo2:
-        # Gesli se ne ujemata
-        return rtemplate("registracija.html",
-                        emso=emso, 
-                        ime=ime, 
-                        priimek=priimek, 
-                        naslov=naslov, 
-                        email=email, 
-                        rojstvo=rojstvo, 
-                        telefon=telefon, 
-                        zaposleni='FALSE',
-                        napaka='Gesli se ne ujemata.')
-    else:
-        # Vse je v redu, vstavi novega uporabnika v bazo
-        hash_gesla = password_md5(geslo1)
-        cur.execute("""
-            INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, FALSE, %s)
-            """, (emso, ime, priimek, naslov, email, rojstvo, telefon, hash_gesla))
-        # Daj uporabniku cookie
-        conn.commit()
-        response.set_cookie('emso', emso, path='/', secret=secret)
-        redirect("{}prijava_zavarovanec".format(ROOT))
-
-# Piskotki in stran za agente =============================
-# Cilj: Na strani za agente moras biti prijavljen, sicer te redirecta na prijavo za agente
-def get_agent(auto_login=True):
-    """Poglej cookie in ugotovi, kdo je prijavljeni agent,
-       vrni njegov emso, ime in priimek. Če ni prijavljen, presumeri
-       na stran za prijavo agenta ali vrni None.
-    """
-    # Dobimo emso iz piškotka
-    agent_emso = request.get_cookie('emso', secret=secret)
-    # Preverimo, ali ta agent obstaja
-    if agent_emso is not None:
-        cur.execute("""
-            SELECT emso, ime, priimek FROM osebe WHERE emso=%s
-            """, (agent_emso,))
-            # RETURNING zaposlen .. da bi nekako izvedeli ali je sploh
-        agent = cur.fetchone()
-
-        if agent is not None:
-            # agent obstaja, vrnemo njegove podatke
-            return agent
-    # Če pridemo do sem, agent ni prijavljen, naredimo redirect
-    redirect("{}prijava_agent".format(ROOT))
-    """
-    if auto_login:
-        print('redirectam')
-        redirect("{}prijava_agent".format(ROOT))
-    else:
-        return None
-    """
-
-@get("/agent")
-def stran_za_agente():
-    # Glavna stran za agente.
-    # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
-    # nima cookija)
-    (emso, ime, priimek) = get_agent()
-    #print(emso, ime, priimek)
-
-    # Vrnemo predlogo za stran za agente
-
-    return rtemplate("agent.html", napaka=None,
-                            emso=emso,
-                            ime=ime,
-                            priimek=priimek) #,
-                            # sporocilo=sporocilo)
-
-@get("/prijava_agent")
-def login_agent_get():
-    """Serviraj formo za prijavo."""
-    return rtemplate("prijava_agent.html",
-                           napaka=None,
-                           geslo='',
-                           emso='')
-
-@post("/prijava_agent")
-def login_agent_post():
-    """Obdelaj izpolnjeno formo za prijavo"""
-    # emso, ki ga je agent vpisal v formo
-    emso = request.forms.emso
-    # Izračunamo MD5 hash gesla, ki ga bomo spravili
-    hash_gesla = password_md5(request.forms.geslo)
-    # Preverimo, ali se je uporabnik pravilno prijavil
-    cur.execute("SELECT 1 FROM osebe WHERE emso=%s AND geslo=%s", (emso, hash_gesla))
-
-    # # Zaradi probavanja!!!
-    # cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s",
-    #           [uporabnik])
-
-    if cur.fetchone() is None:
-        # emso in hash_gesla se ne ujemata. Ali pa ta emso sploh ne obstaja.
-        return rtemplate("prijava_agent.html",
-                            napaka="Nepravilna prijava.",
-                            geslo='',
-                            emso=emso)
-
-    # Torej emso obstaja. Geslo in emso se ujemata
-    # Pogledamo se ali je res zaposlen
-    cur.execute("""
-            SELECT zaposleni FROM osebe WHERE emso=%s
-            """, (emso,))
-    zaposlen = cur.fetchone()
-    # print(zaposlen, bool(zaposlen)) 'vrne': [True], True, ce je res zaposlen in
-    # [False], True, tudi ce sploh ni zaposlen -> moramo dobiti element iz seznama
-    # print(zaposlen, zaposlen[0])
-
-    if not zaposlen[0]:
-        # emso sploh ni emso agenta
-        return rtemplate("prijava_agent.html",
-                            napaka="Vstop samo za zaposlene. Izberite prijavo za zavarovance",
-                            geslo='',
-                            emso=emso)
-    else:
-        # Vse je v redu, nastavimo cookie, ki potece cez 2 minuti in preusmerimo na stran za agente
-        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=2)).timetuple())
-        response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
-        redirect('{0}agent'.format(ROOT))
-
-@get("/odjava")
-def logout():
-    """Pobriši cookie in preusmeri na prijavo."""
-    response.delete_cookie('emso', path='/')
-    redirect('{0}prijava_agent'.format(ROOT))
-
-# Stran za agenta ======================================================================================
-"""
-@get('/agent')
-def agent():
-    return rtemplate('agent.html', napaka=None)
-
-@post('/agent')
-def agent():
-    return rtemplate('agent.html', napaka=None)
-"""
-
-# zaposlen agent:
-# print(password_md5('geslo'))
-# password_md5('geslo') = 'ae404a1ecbcdc8e96ae4457790025f50' ..... to je v bazi. Njegovo geslo je 'geslo'
-# Smo dali rocno v bazo
-# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
-
-
 
 ##########################################################################################
 # Glavni program
