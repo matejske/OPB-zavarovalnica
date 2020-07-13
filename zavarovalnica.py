@@ -990,6 +990,37 @@ def moja_zivljenjska(emso_zavarovanca):
                         ime_zavarovanca=ime,
                         priimek_zavarovanca=priimek)
 
+@get('/zavarovanec/<emso_zavarovanca>/moja_nepremicninska')
+def moja_nepremicninska(emso_zavarovanca):
+    (emso, ime, priimek) = get_zavarovanec()
+    cur.execute("""
+    SELECT stevilka_police, datum_police, vrsta_n, nepr_id, premija 
+    FROM nepremicninska 
+    LEFT JOIN zavarovanja 
+    ON (nepremicninska.polica_id = zavarovanja.stevilka_police) 
+    WHERE komitent_id=%s
+    """, (emso,))
+    return rtemplate('moja_nepremicninska.html', napaka=None,
+                        moja_nepremicninska=cur,
+                        emso=emso,
+                        ime_zavarovanca=ime,
+                        priimek_zavarovanca=priimek)
+
+@get('/zavarovanec/<emso_zavarovanca>/moja_avtomobilska')
+def moja_avtomobilska(emso_zavarovanca):
+    (emso, ime, priimek) = get_zavarovanec()
+    cur.execute("""
+    SELECT stevilka_police, datum_police, vrsta, avto_id, premija 
+    FROM avtomobilska 
+    LEFT JOIN zavarovanja 
+    ON (avtomobilska.polica_id = zavarovanja.stevilka_police) 
+    WHERE komitent_id=%s
+    """, (emso,))
+    return rtemplate('moja_avtomobilska.html', napaka=None,
+                        moja_avtomobilska=cur,
+                        emso=emso,
+                        ime_zavarovanca=ime,
+                        priimek_zavarovanca=priimek)
 
 ###########################################################################################################
 ###########################################################################################################

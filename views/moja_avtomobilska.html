@@ -1,4 +1,4 @@
-%rebase('zavarovanec_osnova.html', naslov='Vaša nepremičninska zavarovanja')
+%rebase('zavarovanec_osnova.html', naslov='Vaša avtomobilska zavarovanja')
 
 <section class="about aos-init" data-aos="fade-up">
   <div class="container">
@@ -7,19 +7,19 @@
         <tr>
           <th>Številka police</th>
           <th>Datum police</th>
-          <th>Vrsta nepremičninskega zavarovanja</th>
-          <th>Naslov nepremičnine</th>
+          <th>Vrsta avtomobilskega zavarovanja</th>
+          <th>Registrska številka avtomobila</th>
           <th>Plačana premija</th>
         </tr>
       </thead>
 
-      %for (stevilka_police, datum_police, vrsta_n, nepr_id, premija) in moja_nepremicninska:
+      %for (stevilka_police, datum_police, vrsta, avto_id, premija) in moja_avtomobilska:
       <tbody class= "jedro_tabele">
         <tr>
           <td>{{stevilka_police}}</td>
           <td>{{datum_police}}</td>
-          <td>{{vrsta_n}}</td>
-          <td>{{nepr_id}}</td>
+          <td>{{vrsta}}</td>
+          <td>{{avto_id}}</td>
           <td>{{premija}}</td>
         </tr>
       </tbody>
