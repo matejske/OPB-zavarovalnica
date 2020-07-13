@@ -136,7 +136,6 @@ def get_agent(auto_login=True):
     else:
         return None
     """
-#def podatki_avta(registrska):
 
 @get("/agent/<emso_agenta>")
 def stran_agenta(emso_agenta):
@@ -928,8 +927,8 @@ def stran_zavarovanca(emso_zavarovanca):
 
     return rtemplate("zavarovanec.html", napaka=None,
                             emso=emso,
-                            ime_zavarovanec=ime,
-                            priimek_zavarovanec=priimek) #,
+                            ime_zavarovanca=ime,
+                            priimek_zavarovanca=priimek) #,
                             # sporocilo=sporocilo)
 
 @get("/prijava_zavarovanec")
@@ -974,7 +973,22 @@ def odjava_zavarovanec(emso_zavarovanca):
     response.delete_cookie('emso', path='/')
     redirect('{0}prijava_zavarovanec'.format(ROOT))
 
-
+############### Zavarovanja komitenta #####################################################################
+@get('/zavarovanec/<emso_zavarovanca>/moja_zivljenjska')
+def moja_zivljenjska(emso_zavarovanca):
+    (emso, ime, priimek) = get_zavarovanec()
+    cur.execute("""
+    SELECT stevilka_police, datum_police, vrsta_zivlj, premija 
+    FROM zivljenska 
+    LEFT JOIN zavarovanja 
+    ON (zivljenska.polica_id = zavarovanja.stevilka_police) 
+    WHERE komitent_id=%s
+    """, (emso,))
+    return rtemplate('moja_zivljenjska.html', napaka=None,
+                        moja_zivljenjska=cur,
+                        emso=emso,
+                        ime_zavarovanca=ime,
+                        priimek_zavarovanca=priimek)
 
 
 ###########################################################################################################
