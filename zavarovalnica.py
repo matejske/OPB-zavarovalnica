@@ -1022,6 +1022,15 @@ def moja_avtomobilska(emso_zavarovanca):
                         ime_zavarovanca=ime,
                         priimek_zavarovanca=priimek)
 
+################### Sklenitev zavarovanja - komitent #################################################
+@get('/zavarovanec/<emso_zavarovanca>/skleni_zavarovanje')
+def skleni_zavarovanje(emso_zavarovanca):
+    (emso, ime, priimek) = get_zavarovanec()
+    return rtemplate('skleni_zavarovanje.html',
+                        emso=emso,
+                        ime_zavarovanca=ime,
+                        priimek_zavarovanca=priimek)
+
 ###########################################################################################################
 ###########################################################################################################
 
@@ -1056,7 +1065,6 @@ def predstavitev_zavarovanj():
 
 
 
-"""
 # Stran o zaposlenih ==========================================================================
 @get('/zaposleni')
 def zaposleni():
@@ -1066,7 +1074,6 @@ def zaposleni():
 def zaposleni():
     return rtemplate('zaposleni.html')
 
-"""
 
 # Sklenitev zavarovanja =============================================================================
 
