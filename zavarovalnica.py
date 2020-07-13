@@ -54,6 +54,7 @@ def password_md5(s):
     h.update(s.encode('utf-8'))
     return h.hexdigest()
 
+
 def ime_osebe(emso):
     """ Vrne ime in priimek osebe z EMSOM: emso"""
     cur.execute("""
@@ -62,6 +63,7 @@ def ime_osebe(emso):
     oseba = cur.fetchone()
     print(oseba)
     return(oseba)
+
 
 def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
     # vrsta je 'kasko', 'kasko +' ali 'avtomobilska asistenca'
@@ -85,8 +87,15 @@ def glavna_stran():
     return rtemplate('glavna_stran.html')
 
 #######################################################################################################################
-################################ Prijava, odjava in še kaj o agentih #################################################
 #######################################################################################################################
+#######################################################################################################################
+#####################################################   Agenti  #######################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+
+
 # Ustanovitelji:
 # Tomas: Emso: 0000, Geslo: tomas
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('0000', 'Tomas', 'Rode', 'Komenda', 'tomas.rode@etm.si', '1998-05-07', '1111', TRUE, '4b506c2968184be185f6282f5dcac238')
@@ -95,6 +104,8 @@ def glavna_stran():
 # Matej: Emso: 2222, Geslo: matej
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('2222', 'Matej', 'Škerlep', 'Črnuče', 'matej.skerlpe@etm.si', '1998-01-01', '1111', TRUE, '485c859f2df22f1147ba3798b4485d48')
 
+
+################################ Prijava, odjava in še kaj o agentih ##################################################
 
 
 # =======================================================================================
@@ -195,7 +206,7 @@ def login_agent_post():
         redirect('{0}agent/{1}'.format(ROOT, emso))
 
 @get("/odjava_agent/<emso_agenta>")
-def odajava(emso_agenta):
+def odjava(emso_agenta):
     """Pobriši cookie in preusmeri na prijavo."""
     response.delete_cookie('emso', path='/')
     redirect('{0}prijava_agent'.format(ROOT))
@@ -209,9 +220,8 @@ def odajava(emso_agenta):
 # Obstaja pa tudi nezaposlen z geslom. Ime in priimek: Super Garfield. EMSO: 0000000, Geslo: lazanja
 
 
-#######################################################################################################################
 ######## Dodajanje oseb, nepremičnin in avtomobilov v podatkovno bazo na strani za agente #############################
-#######################################################################################################################
+
 
 # Dodajanje novega komitenta na strani za agente ======================================================================
 # Agent ga lahko doda brez potrebe po geslu. Komitent ne rabi racuna za spletno poslovalnico.
@@ -368,10 +378,8 @@ def dodaj_avtomobil_post(emso_agenta):
         redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
 
 
-
-#######################################################################################################################
 ################################# Sklenitev novih zavarovanj na strani za agente ######################################
-#######################################################################################################################
+
 
 # Sklenitev avtomobilskih zavarovanj preko agenta =============================================================================
 @get('/agent/<emso_agenta>/skleni_avtomobilsko')
@@ -681,11 +689,8 @@ def agent_skleni_zivljenjsko_post(emso_agenta):
 
     redirect('{0}agent/{1}/zivljenjska'.format(ROOT, emso_agenta))
 
-#######################################################################################################################
-#######################################################################################################################
-#######################################################################################################################
 
-
+#########################################    Podatkovna baza za agente    #############################################
 
 
 # Podstrani za vsako tabelo iz baze, ki jih lahko vidi le agent =======================================================
@@ -790,7 +795,17 @@ def vrste_zivlj(emso_agenta):
                         priimek_agenta=priimek)
 
 
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+################################################   Zavarovanci    #####################################################
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+
 # Registracija zavarovanca (Agenta je potrebno registrirati rocno v bazi.)
+
 @get("/registracija")
 def register_get():
     """Prikaži formo za registracijo."""
@@ -859,6 +874,107 @@ def register_post():
         response.set_cookie('emso', emso, path='/', secret=secret)
         redirect("{0}prijava_zavarovanec".format(ROOT))
 
+# Primeri zavarovancev:
+# Tomas: Emso: 000, Geslo: tomas
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000', 'Tomas', 'Rode', 'Komenda', 'tomas.rode@etm.si', '1998-05-07', '1111', FALSE, '4b506c2968184be185f6282f5dcac238')
+# Enej: Emso: 111, Geslo: enej
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('111', 'Enej', 'Kovač', 'Bovec', 'enej.kovac@etm.si', '1998-04-02', '1111', FALSE, '05505631a907be702377d263926cab20')
+# Matej: Emso: 222, Geslo: matej
+# INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('222', 'Matej', 'Škerlep', 'Črnuče', 'matej.skerlpe@etm.si', '1998-01-01', '1111', FALSE, '485c859f2df22f1147ba3798b4485d48')
+
+
+################################ Prijava, odjava in še kaj o zavarovancih ##################################################
+
+
+# =======================================================================================
+def get_zavarovanec(auto_login=True):
+    # Cilj: Na strani za zavarovance moras biti prijavljen, sicer te redirecta na prijavo za zavarovance
+    """Poglej cookie in ugotovi, kdo je prijavljeni zavarovanec,
+       vrni njegov emso, ime in priimek. Če ni prijavljen, presumeri
+       na stran za prijavo zavarovanca ali vrni None.
+    """
+    # Dobimo emso iz piškotka
+    emso = request.get_cookie('emso', secret=secret)
+    # Preverimo, ali ta zavarovanec obstaja
+    if emso is not None:
+        cur.execute("""
+            SELECT emso, ime, priimek FROM osebe WHERE emso=%s
+            """, (emso,))
+        zavarovanec = cur.fetchone()
+        # print(zavarovanec, zavarovanec[0]) vrne ['111', 'Enej', 'Kovač'] 111
+        if zavarovanec is not None:
+            # zavarovanec obstaja, vrnemo njegove podatke
+            return zavarovanec
+    # Če pridemo do sem, zavarovanec ni prijavljen, naredimo redirect
+    redirect("{0}prijava_zavarovanec".format(ROOT))
+    """
+    if auto_login:
+        print('redirectam')
+        redirect("{}prijava_zavarovanec".format(ROOT))
+    else:
+        return None
+    """
+#def podatki_avta(registrska):
+
+@get("/zavarovanec/<emso_zavarovanca>")
+def stran_zavarovanca(emso_zavarovanca):
+    # Glavna stran za zavarovance.
+    # Iz cookieja dobimo emso (ali ga preusmerimo na login, če
+    # nima cookija)
+    (emso, ime, priimek) = get_zavarovanec()
+    #print(emso, ime, priimek)
+
+    # Vrnemo predlogo za stran za zavarovance
+
+    return rtemplate("zavarovanec.html", napaka=None,
+                            emso=emso,
+                            ime_zavarovanec=ime,
+                            priimek_zavarovanec=priimek) #,
+                            # sporocilo=sporocilo)
+
+@get("/prijava_zavarovanec")
+def login_zavarovanec_get():
+    """Serviraj formo za prijavo."""
+    return rtemplate("prijava_zavarovanec.html",
+                           napaka=None,
+                           geslo='',
+                           emso='')
+
+@post("/prijava_zavarovanec")
+def login_zavarovanec_post():
+    """Obdelaj izpolnjeno formo za prijavo"""
+    # emso, ki ga je zavarovanec vpisal v formo
+    emso = request.forms.emso
+    # Izračunamo MD5 hash gesla, ki ga bomo spravili
+    hash_gesla = password_md5(request.forms.geslo)
+    # Preverimo, ali se je uporabnik pravilno prijavil
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s AND geslo=%s", (emso, hash_gesla))
+
+    # # Zaradi probavanja!!!
+    # cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s",
+    #           [uporabnik])
+
+    if cur.fetchone() is None:
+        # emso in hash_gesla se ne ujemata. Ali pa ta emso sploh ne obstaja.
+        return rtemplate("prijava_zavarovanec.html",
+                            napaka="Nepravilna prijava.",
+                            geslo='',
+                            emso=emso)
+
+    # Emso obstaja. Geslo in emso se ujemata.
+    else:
+        # Vse je v redu, nastavimo cookie, ki potece cez ... časa in preusmerimo na stran za zavarovance
+        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=3)).timetuple())
+        response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
+        redirect('{0}zavarovanec/{1}'.format(ROOT, emso))
+
+@get("/odjava_zavarovanec/<emso_zavarovanca>")
+def odjava_zavarovanec(emso_zavarovanca):
+    """Pobriši cookie in preusmeri na prijavo."""
+    response.delete_cookie('emso', path='/')
+    redirect('{0}prijava_zavarovanec'.format(ROOT))
+
+
 
 
 ###########################################################################################################
@@ -867,25 +983,6 @@ def register_post():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-# Stran o zaposlenih ==========================================================================
-@get('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
-
-@post('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
 
 # Kontaktna stran ==========================================================================
 @get('/kontakt')
@@ -905,27 +1002,26 @@ def predstavitev_zavarovanj():
 def predstavitev_zavarovanj():
     return rtemplate('predstavitev_zavarovanj.html')
 
-# Prijava za že registriranega zavarovanca =======================================================
-@get('/prijava_zavarovanec')
-def prijava_zavarovanec():
-    return rtemplate('prijava_zavarovanec.html', emso='', geslo='', napaka=None)
 
-@post('/prijava_zavarovanec')
-def prijava_zavarovanec():
-    #emso = request.forms.emso
-    #geslo = request.forms.geslo ###Tu nevem čisto kako bomo s tem geslom zaenkrat, da bi nam začasno delovalo brez cookijev
-    return rtemplate('prijava_zavarovanec.html', napaka=None)
 
-# Stran za prijavljenega zavarovanca =======================================================
-@get('/zavarovanec')
-def zavarovanec():
-    return rtemplate('zavarovanec.html', napaka=None)
 
-@get('/zavarovanec/<komitent_id>')
-def posameznikova_zavarovanja(komitent_id):
-    cur.execute("SELECT * FROM zavarovanja WHERE komitent_id LIKE '%s' ORDER BY datum_police DESC" %komitent_id)
-    return rtemplate('zavarovanja_posameznik.html', komitent_id=komitent_id, zavarovanja_posameznik=cur)
 
+
+
+
+
+
+"""
+# Stran o zaposlenih ==========================================================================
+@get('/zaposleni')
+def zaposleni():
+    return rtemplate('zaposleni.html')
+
+@post('/zaposleni')
+def zaposleni():
+    return rtemplate('zaposleni.html')
+
+"""
 
 # Sklenitev zavarovanja =============================================================================
 

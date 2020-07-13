@@ -1,13 +1,3 @@
-%rebase('osnova.html', naslov='Pogled zavarovanca')
+%rebase('zavarovanec_osnova.html', naslov='Za zavarovance')
 
-%if napaka:
-  <p class="opozorilo">{{napaka}}</p>
-%end
-
-<form method="get" action="{{ROOT}}sklenitev_zavarovanja">
-    <button type="submit">Sklenitev novega zavarovanja</button>
-</form>
-
-<form method="get" action="{{ROOT}}pregled_zavarovanj">
-    <button type="submit">Pregled sklenjenih zavarovalnih pogodb</button>
-</form>
+<div>To je domača stran za zavarovance</div>
