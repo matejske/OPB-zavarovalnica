@@ -63,6 +63,17 @@ def ime_osebe(emso):
     print(oseba)
     return(oseba)
 
+def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
+    # vrsta je 'kasko', 'kasko +' ali 'avtomobilska asistenca'
+    # za 'kasko' damo 5% vrednosti vozila,
+    # za 'kasko +' 8%,
+    # za 'avtomobilsko asistenco' pa 100€.
+    if vrsta == 'kasko':
+        return(0.05 * vrednost_vozila)
+    elif vrsta == 'kasko +':
+        return(0.08 * vrednost_vozila)
+    elif vrsta == 'avtomobilska asistenca':
+        return(100)
 
 # Glavna stran ==========================================================================
 @get('/')
@@ -437,6 +448,7 @@ def agent_skleni_avtomobilsko_post(emso_agenta):
             conn.rollback()
             return rtemplate('agent_skleni_avtomobilsko.html', 
                             emso_komitenta=emso_komitenta,
+                            vrsta_avtomobilskega=vrsta_avtomobilskega,
                             registrska=registrska, 
                             znamka=znamka, 
                             model=model, 
@@ -473,6 +485,7 @@ def agent_skleni_avtomobilsko_post(emso_agenta):
         conn.rollback()
         return rtemplate('agent_skleni_avtomobilsko.html', 
                         emso_komitenta=emso_komitenta,
+                        vrsta_avtomobilskega=vrsta_avtomobilskega,
                         registrska=registrska, 
                         znamka=znamka, 
                         model=model, 
@@ -486,7 +499,119 @@ def agent_skleni_avtomobilsko_post(emso_agenta):
     redirect('{0}agent/{1}/avtomobilska'.format(ROOT, emso_agenta))
     
 # Sklenitev nepremicninskih zavarovanj preko agenta ===================================================================
+@get('/agent/<emso_agenta>/skleni_nepremicninsko')
+def agent_skleni_nepremicninsko_get(emso_agenta):
+    """ Prikaži formo za dodajanje novega nepremicninskega zavarovanja """
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    return rtemplate('agent_skleni_nepremicninsko.html', 
+                        emso_komitenta='',
+                        vrsta_nepremicninskega='',
+                        naslov_nepr='',
+                        vrednost='',
+                        premija='', 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka=None)
 
+
+@post('/agent/<emso_agenta>/skleni_nepremicninsko')
+def agent_skleni_nepremicninsko_post(emso_agenta):
+    emso_komitenta = request.forms.emso_komitenta
+    vrsta_nepremicninskega = request.forms.vrsta_nepremicninskega
+    naslov_nepr = request.forms.naslov_nepr
+    vrednost = request.forms.vrednost
+    premija = request.forms.premija
+
+    # Dobimo podatke agenta, ki sklepa zavarovanje
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    # Ali je komitent s tem emsom sploh v bazi?
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_komitenta,))
+    if cur.fetchone() is None:
+        # Ni ga še v bazi.
+        
+        return rtemplate("agent_skleni_avtomobilsko.html",
+                        emso_komitenta='',
+                        vrsta_nepremicninskega=vrsta_nepremicninskega,
+                        naslov_nepr=naslov_nepr,
+                        vrednost=vrednost,
+                        premija=premija, 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Oseba s tem Emšom še ni v bazi.')
+
+    # Ali je naslov nepremičnine že že v bazi?
+    cur.execute("SELECT 1 FROM nepremicnine WHERE naslov_nepr=%s", (naslov_nepr,))
+    if cur.fetchone() is not None:
+        # Nepremičnina je že v bazi. Vstavimo le zavarovalno polico in ne naslova
+        try:
+            # Odstraniti je bilo treba UNIQE constraint v tabeli nepremicnine na stolpcu nepr_id,
+            # da ima lahko ista nepremičnina več zavarovanj
+            cur.execute("""
+                INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+                VALUES (%s, %s, %s, %s)
+                RETURNING stevilka_police
+            """, (emso_komitenta, date.today(), premija, 3)) # 3 je za nepremičninsko
+            stevilka_police, = cur.fetchone()
+            #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+            #stevilka_police = cur.fetchone()[0]
+            cur.execute("""
+                INSERT INTO nepremicninska (polica_id, nepr_id, vrsta_n) 
+                VALUES (%s, %s, %s)
+                """, (stevilka_police, naslov_nepr, vrsta_nepremicninskega))
+            conn.commit() 
+
+        except Exception as ex:
+            conn.rollback()
+            return rtemplate('agent_skleni_nepremicninsko.html', 
+                            emso_komitenta=emso_komitenta,
+                            vrsta_nepremicninskega=vrsta_nepremicninskega,
+                            naslov_nepr=naslov_nepr, 
+                            vrednost=vrednost, 
+                            premija=premija, 
+                            emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                            ime_agenta=ime_ag,
+                            priimek_agenta=priimek_ag, 
+                            napaka='Zgodila se je napaka: {}'.format(ex)) 
+
+        redirect('{0}agent/{1}/nepremicninska'.format(ROOT, emso_agenta))
+
+    # Sicer pa vstavimo v bazo novo polico in še nepremičnino
+    try:
+        cur.execute("""
+            INSERT INTO nepremicnine (naslov_nepr, vrednost) 
+            VALUES (%s, %s)
+        """, (naslov_nepr, vrednost)) 
+        cur.execute("""
+                INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+                VALUES (%s, %s, %s, %s)
+                RETURNING stevilka_police
+            """, (emso_komitenta, date.today(), premija, 3)) # 3 je za nepremičninsko
+        stevilka_police, = cur.fetchone()
+        #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+        #stevilka_police = cur.fetchone()[0]
+        cur.execute("""
+            INSERT INTO nepremicninska (polica_id, nepr_id, vrsta_n) 
+            VALUES (%s, %s, %s)
+            """, (stevilka_police, naslov_nepr, vrsta_nepremicninskega))
+        conn.commit() 
+
+    except Exception as ex:
+        conn.rollback()
+        return rtemplate('agent_skleni_nepremicninsko.html', 
+                        emso_komitenta=emso_komitenta,
+                        vrsta_nepremicninskega=vrsta_nepremicninskega,
+                        naslov_nepr=naslov_nepr, 
+                        vrednost=vrednost, 
+                        premija=premija, 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Zgodila se je napaka: {0}'.format(ex)) 
+
+    redirect('{0}agent/{1}/nepremicninska'.format(ROOT, emso_agenta))
 
 # Sklenitev zivljenskih zavarovanj preko agenta =======================================================================
 
