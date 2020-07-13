@@ -1,4 +1,4 @@
-%rebase('agent_osnova.html', naslov='Dodajanje novega nepremičninskega zavarovanja')
+%rebase('agent_osnova.html', naslov='Dodajanje novega življenjskega zavarovanja')
 
 %if napaka:
     <div class="alert alert-warning">{{napaka}}</div>
@@ -7,7 +7,7 @@
 <section class="breadcrumbs">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-      <h2>Novo nepremičninsko zavarovanje</h2>
+      <h2>Novo življenjsko zavarovanje</h2>
     </div>
   </div>
 </section><!-- End Začetna vrstica -->
@@ -18,23 +18,18 @@
   <div class="container" align='center'>
     <div >
       <h5>Izpolnite spodnja polja:</h5>
-      <form action="{{ROOT}}agent/{{emso}}/skleni_nepremicninsko" method='post' style="width: 48%">
+      <form action="{{ROOT}}agent/{{emso}}/skleni_zivljenjsko" method='post' style="width: 48%">
         <div class="form-group">
           <input name="emso_komitenta" type="text" value="{{emso_komitenta}}" class="form-control" placeholder="Emšo komitenta" data-rule="minlen:4" data-rule="required" />
         </div>     
         <div class="form-group">
-            <select id="vrsta_nepremicninskega" name="vrsta_nepremicninskega" class="form-control" placeholder="Vrsta nepremičninskega zavarovanja" data-rule="required">
-              <option value="" disabled selected>Izberi vrsto nepremičninskega zavarovanja:</option>
-              <option value="pozar">Požar</option>
-              <option value="potres">Potres</option>
-              <option value="poplava">Poplava</option>
+            <select id="vrsta_zivljenjskega" name="vrsta_zivljenjskega" class="form-control" placeholder="Vrsta življenjskega zavarovanja" data-rule="required">
+              <option value="" disabled selected>Izberi vrsto življenjskega zavarovanja:</option>
+              <option value="pokojninsko">Pokojninsko</option>
+              <option value="invalidsko">Invalidsko</option>
+              <option value="za primer brezposelnosti">Za primer brezposelnosti</option>
+              <option value="za primer smrti">Za primer smrti</option>
             </select>
-        </div>
-        <div class="form-group">
-            <input name="naslov_nepr" type="text" value="{{naslov_nepr}}" class="form-control" placeholder="Naslov nepremičnine" data-rule="minlen:4" data-rule="required" />
-        </div>
-        <div class="form-group">
-          <input name="vrednost" type="float" value="{{vrednost}}" class="form-control" placeholder="Vrednost nepremičnine" data-rule="minlen:3" data-rule="required" />
         </div>
         <div class="form-group">
             <input name="premija" type="float" value="{{premija}}" class="form-control" placeholder="Premija" data-rule="minlen:3" data-rule="required" />

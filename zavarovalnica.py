@@ -614,9 +614,76 @@ def agent_skleni_nepremicninsko_post(emso_agenta):
     redirect('{0}agent/{1}/nepremicninska'.format(ROOT, emso_agenta))
 
 # Sklenitev zivljenskih zavarovanj preko agenta =======================================================================
+@get('/agent/<emso_agenta>/skleni_zivljenjsko')
+def agent_skleni_zivljenjsko_get(emso_agenta):
+    """ Prikaži formo za dodajanje novega življenjskega zavarovanja """
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    return rtemplate('agent_skleni_zivljenjsko.html', 
+                        emso_komitenta='',
+                        vrsta_zivljenjskega='',
+                        premija='', 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka=None)
 
 
+@post('/agent/<emso_agenta>/skleni_zivljenjsko')
+def agent_skleni_zivljenjsko_post(emso_agenta):
+    emso_komitenta = request.forms.emso_komitenta
+    vrsta_zivljenjskega = request.forms.vrsta_zivljenjskega
+    premija = request.forms.premija
 
+    # Dobimo podatke agenta, ki sklepa zavarovanje
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    # Ali je komitent s tem emsom sploh v bazi?
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_komitenta,))
+    if cur.fetchone() is None:
+        # Ni ga še v bazi.
+        
+        return rtemplate("agent_skleni_zivljenjsko.html",
+                        emso_komitenta='',
+                        vrsta_zivljenjskega=vrsta_zivljenjskega,
+                        premija=premija, 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Oseba s tem Emšom še ni v bazi.')
+
+    # Vstavimo v bazo novo polico 
+    try:
+        cur.execute("""
+            INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+            VALUES (%s, %s, %s, %s)
+            RETURNING stevilka_police
+        """, (emso_komitenta, date.today(), premija, 1)) # 1 je za življenjsko
+        stevilka_police, = cur.fetchone()
+        #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+        #stevilka_police = cur.fetchone()[0]
+        # tabela zivljenska ... slovnicno je zivljenjska
+        cur.execute("""
+            INSERT INTO zivljenska (polica_id, vrsta_zivlj) 
+            VALUES (%s, %s)
+            """, (stevilka_police, vrsta_zivljenjskega))
+        conn.commit() 
+
+    except Exception as ex:
+        conn.rollback()
+        return rtemplate('agent_skleni_zivljenjsko.html', 
+                        emso_komitenta=emso_komitenta,
+                        vrsta_zivljenjskega=vrsta_zivljenjskega, 
+                        premija=premija, 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag, 
+                        napaka='Zgodila se je napaka: {0}'.format(ex)) 
+
+    redirect('{0}agent/{1}/zivljenjska'.format(ROOT, emso_agenta))
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
 
 
 
