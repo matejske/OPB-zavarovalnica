@@ -96,6 +96,9 @@ def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
 # Glavna stran ==========================================================================
 @get('/')
 def glavna_stran():
+    """Pobriši cookie."""
+    response.delete_cookie('emso', path='/')
+
     return rtemplate('glavna_stran.html')
 
 @post('/')
@@ -234,6 +237,29 @@ def odjava(emso_agenta):
 # INSERT INTO osebe (emso, ime, priimek, naslov, email, rojstvo, telefon, zaposleni, geslo) VALUES ('000000', 'zaposlen', 'agent', 'ETM1', 'zaposlen.agent@etm.si', '1998-01-01', '000000', TRUE, 'ae404a1ecbcdc8e96ae4457790025f50')
 # Obstaja pa tudi nezaposlen z geslom. Ime in priimek: Super Garfield. EMSO: 0000000, Geslo: lazanja
 
+############################## Osebni podatki - agent ###############################################
+@get('/agent/<emso_agenta>/osebni_podatki')
+def osebni_podatki_agent(emso_agenta):
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    cur.execute("""
+    SELECT ime, priimek, naslov, email, rojstvo, telefon
+    FROM osebe 
+    WHERE emso=%s
+    """, (emso_agenta,))
+    (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
+
+    return rtemplate('agent_osebni_podatki.html',
+                    ime=ime,
+                    priimek=priimek,
+                    naslov=naslov,
+                    email=email,
+                    rojstvo=rojstvo,
+                    telefon=telefon,
+                    emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                    ime_agenta=ime_ag,
+                    priimek_agenta=priimek_ag, 
+                    napaka=None)
 
 ######## Dodajanje oseb, nepremičnin in avtomobilov v podatkovno bazo na strani za agente #############################
 
@@ -979,7 +1005,7 @@ def login_zavarovanec_post():
     # Emso obstaja. Geslo in emso se ujemata.
     else:
         # Vse je v redu, nastavimo cookie, ki potece cez ... časa in preusmerimo na stran za zavarovance
-        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=3)).timetuple())
+        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=1)).timetuple())
         response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
         redirect('{0}zavarovanec/{1}'.format(ROOT, emso))
 
@@ -1237,6 +1263,29 @@ def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
 
         redirect('{0}zavarovanec/{1}/moja_avtomobilska'.format(ROOT, emso_zavarovanca))
 
+############################## Osebni podatki - zavarovanec ###############################################
+@get('/zavarovanec/<emso_zavarovanca>/osebni_podatki')
+def osebni_podatki_zavarovanec(emso_zavarovanca):
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+
+    cur.execute("""
+    SELECT ime, priimek, naslov, email, rojstvo, telefon
+    FROM osebe 
+    WHERE emso=%s
+    """, (emso_zavarovanca,))
+    (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
+
+    return rtemplate('zavarovanec_osebni_podatki.html',
+                    ime=ime,
+                    priimek=priimek,
+                    naslov=naslov,
+                    email=email,
+                    rojstvo=rojstvo,
+                    telefon=telefon,
+                    emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                    ime_zavarovanca=ime_zav,
+                    priimek_zavarovanca=priimek_zav, 
+                    napaka=None)
 
 ###########################################################################################################
 ###########################################################################################################
@@ -1268,15 +1317,6 @@ def predstavitev_zavarovanj():
 @post('/predstavitev_zavarovanj')
 def predstavitev_zavarovanj():
     return rtemplate('predstavitev_zavarovanj.html')
-
-
-
-
-
-
-
-
-
 
 # Stran o zaposlenih ==========================================================================
 @get('/zaposleni')

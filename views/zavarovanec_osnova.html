@@ -43,7 +43,6 @@
       <nav class="nav-menu float-right d-none d-lg-block">
         <ul>
           <li><a href="{{ROOT}}zavarovanec/{{emso}}">Domov</a></li>
-          <li><a href="{{ROOT}}zavarovanec/{{emso}}">Osebni podatki</a></li>
           <li class="drop-down"><a href="#">Moja zavarovanja</a>
             <ul>
               <li><a href="{{ROOT}}zavarovanec/{{emso}}/moja_zivljenjska">Življenjska zavarovanja</a></li>
@@ -55,7 +54,7 @@
           <li><a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zavarovanje">Skleni zavarovanje</a></li>
 
           % prijavljen_zavarovanec = ime_zavarovanca + ' ' + priimek_zavarovanca
-          <li><a >{{prijavljen_zavarovanec}}</a></li>
+          <li><a href="{{ROOT}}zavarovanec/{{emso}}/osebni_podatki">{{prijavljen_zavarovanec}}</a></li>
           <li><a href="{{ROOT}}odjava_zavarovanec/{{emso}}">Odjava</a></li>
         </ul>
       </nav><!-- .nav-menu -->
