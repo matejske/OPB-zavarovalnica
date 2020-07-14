@@ -105,6 +105,33 @@ def glavna_stran():
 def glavna_stran():
     return rtemplate('glavna_stran.html')
 
+# Kontaktna stran ==========================================================================
+@get('/kontakt')
+def kontakt():
+    return rtemplate('kontakt.html')
+
+@post('/kontakt')
+def kontakt():
+    return rtemplate('kontakt.html')
+
+# Predstavitev zavarovanj ==========================================================================
+@get('/predstavitev_zavarovanj')
+def predstavitev_zavarovanj():
+    return rtemplate('predstavitev_zavarovanj.html')
+
+@post('/predstavitev_zavarovanj')
+def predstavitev_zavarovanj():
+    return rtemplate('predstavitev_zavarovanj.html')
+
+# Stran o zaposlenih ==========================================================================
+@get('/zaposleni')
+def zaposleni():
+    return rtemplate('zaposleni.html')
+
+@post('/zaposleni')
+def zaposleni():
+    return rtemplate('zaposleni.html')
+
 #######################################################################################################################
 #######################################################################################################################
 #######################################################################################################################
@@ -1015,6 +1042,30 @@ def odjava_zavarovanec(emso_zavarovanca):
     response.delete_cookie('emso', path='/')
     redirect('{0}prijava_zavarovanec'.format(ROOT))
 
+############################## Osebni podatki - zavarovanec ###############################################
+@get('/zavarovanec/<emso_zavarovanca>/osebni_podatki')
+def osebni_podatki_zavarovanec(emso_zavarovanca):
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+
+    cur.execute("""
+    SELECT ime, priimek, naslov, email, rojstvo, telefon
+    FROM osebe 
+    WHERE emso=%s
+    """, (emso_zavarovanca,))
+    (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
+
+    return rtemplate('zavarovanec_osebni_podatki.html',
+                    ime=ime,
+                    priimek=priimek,
+                    naslov=naslov,
+                    email=email,
+                    rojstvo=rojstvo,
+                    telefon=telefon,
+                    emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                    ime_zavarovanca=ime_zav,
+                    priimek_zavarovanca=priimek_zav, 
+                    napaka=None)
+
 ############### Zavarovanja komitenta #####################################################################
 @get('/zavarovanec/<emso_zavarovanca>/moja_zivljenjska')
 def moja_zivljenjska(emso_zavarovanca):
@@ -1097,19 +1148,7 @@ def zavarovanec_skleni_zivljenjsko_post(emso_zavarovanca):
 
     # Ali je komitent s tem emsom sploh v bazi?
     # Mora biti v bazi, saj je prijavljen, torej se je registriral
-    """
-    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_zav,))
-    if cur.fetchone() is None:
-        # Ni ga še v bazi.
-        
-        return rtemplate("zavarovanec_skleni_zivljenjsko.html",
-                        vrsta_zivljenjskega=vrsta_zivljenjskega,
-                        premija=premija, 
-                        emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
-                        ime_zavarovanca=ime_zav,
-                        priimek_zavarovanca=priimek_zav, 
-                        napaka='Ni.')
-    """ 
+
     # Vstavimo v bazo novo polico 
     try:
         cur.execute("""
@@ -1160,8 +1199,6 @@ def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
     vrsta_nepremicninskega = request.forms.vrsta_nepremicninskega
     premija = request.forms.premija
 
-    vrednost = vrednost_nepremicnine(naslov_nepr)
-
     # KER NEPREMIČNINA NIMA LASTNIKA; SE LAHKO ZGODI, DA ZAVAROVANJE SKLENEŠ NEKOMU DRUGEMU???
     # Verjetno ne boš, saj moraš plačati premijo.
 
@@ -1170,8 +1207,19 @@ def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
 
     # Ali je naslov nepremičnine že že v bazi?
     cur.execute("SELECT 1 FROM nepremicnine WHERE naslov_nepr=%s", (naslov_nepr,))
-    if cur.fetchone() is not None:
+    if cur.fetchone() is None:
+        # Nepremičnine še ni v bazi
+        return rtemplate('zavarovanec_skleni_nepremicninsko.html',
+                            naslov_nepr='',
+                            vrsta_nepremicninskega=vrsta_nepremicninskega, 
+                            premija=premija, 
+                            emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                            ime_zavarovanca=ime_zav,
+                            priimek_zavarovanca=priimek_zav, 
+                            napaka='Nepremičnina še ni v bazi') 
+    else:                       
         # Nepremičnina je že v bazi. Vstavimo  zavarovalno polico in ne naslova
+        vrednost = vrednost_nepremicnine(naslov_nepr) # ZA RAČUNAT PREMIJO
         try:
             # Odstraniti je bilo treba UNIQE constraint v tabeli nepremicnine na stolpcu nepr_id,
             # da ima lahko ista nepremičnina več zavarovanj
@@ -1223,16 +1271,25 @@ def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
     vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
     premija = request.forms.premija
 
-    vrednost = vrednost_avtomobila(registrska)
-
-
     # Dobimo podatke zavarovanca, ki sklepa zavarovanje
     (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
 
     # Ali je registrska že v bazi?
     cur.execute("SELECT 1 FROM avtomobili WHERE registrska=%s", (registrska,))
-    if cur.fetchone() is not None:
+    if cur.fetchone() is None:
+        # Avta še ni v bazi.
+        return rtemplate('zavarovanec_skleni_avtomobilsko.html', 
+                            registrska='', 
+                            vrsta_avtomobilskega=vrsta_avtomobilskega,
+                            premija=premija, 
+                            emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                            ime_zavarovanca=ime_zav,
+                            priimek_zavarovanca=priimek_zav, 
+                            napaka='Avtomobil še ni v bazi.') 
+
+    else:
         # Avto je že v bazi. Vstavimo zavarovalno polico 
+        vrednost = vrednost_avtomobila(registrska) # MOGOČE PRIDE PRAV ZA PREMIJO RAČUNAT
         try:
             # Odstraniti je bilo treba UNIQE constraint v tabeli avtomobilska na stolpcu avto_id,
             # da ima lahko isti avto več zavarovanj
@@ -1263,29 +1320,7 @@ def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
 
         redirect('{0}zavarovanec/{1}/moja_avtomobilska'.format(ROOT, emso_zavarovanca))
 
-############################## Osebni podatki - zavarovanec ###############################################
-@get('/zavarovanec/<emso_zavarovanca>/osebni_podatki')
-def osebni_podatki_zavarovanec(emso_zavarovanca):
-    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
 
-    cur.execute("""
-    SELECT ime, priimek, naslov, email, rojstvo, telefon
-    FROM osebe 
-    WHERE emso=%s
-    """, (emso_zavarovanca,))
-    (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
-
-    return rtemplate('zavarovanec_osebni_podatki.html',
-                    ime=ime,
-                    priimek=priimek,
-                    naslov=naslov,
-                    email=email,
-                    rojstvo=rojstvo,
-                    telefon=telefon,
-                    emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
-                    ime_zavarovanca=ime_zav,
-                    priimek_zavarovanca=priimek_zav, 
-                    napaka=None)
 
 ###########################################################################################################
 ###########################################################################################################
@@ -1296,36 +1331,6 @@ def osebni_podatki_zavarovanec(emso_zavarovanca):
 ###########################################################################################################
 ###########################################################################################################
 
-
-
-
-
-# Kontaktna stran ==========================================================================
-@get('/kontakt')
-def kontakt():
-    return rtemplate('kontakt.html')
-
-@post('/kontakt')
-def kontakt():
-    return rtemplate('kontakt.html')
-
-# Predstavitev zavarovanj ==========================================================================
-@get('/predstavitev_zavarovanj')
-def predstavitev_zavarovanj():
-    return rtemplate('predstavitev_zavarovanj.html')
-
-@post('/predstavitev_zavarovanj')
-def predstavitev_zavarovanj():
-    return rtemplate('predstavitev_zavarovanj.html')
-
-# Stran o zaposlenih ==========================================================================
-@get('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
-
-@post('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
 
 
 # Sklenitev zavarovanja =============================================================================
