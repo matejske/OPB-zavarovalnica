@@ -64,6 +64,22 @@ def ime_osebe(emso):
     print(oseba)
     return(oseba)
 
+def vrednost_nepremicnine(naslov_nepr):
+    """ Vrne vrednost nepremicnine na danem naslovu """
+    cur.execute("""
+            SELECT vrednost FROM nepremicnine WHERE naslov_nepr=%s
+            """, (naslov_nepr,))
+    vrednost = cur.fetchone()
+    return(vrednost[0]) # da vrne prvi element seznama
+
+def vrednost_avtomobila(registrska):
+    """ Vrne vrednost avtomobila z dano registrsko"""
+    cur.execute("""
+            SELECT vrednost FROM avtomobili WHERE registrska=%s
+            """, (registrska,))
+    vrednost = cur.fetchone()
+    return(vrednost[0]) # da vrne prvi element seznama
+
 
 def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
     # vrsta je 'kasko', 'kasko +' ali 'avtomobilska asistenca'
@@ -1031,6 +1047,203 @@ def skleni_zavarovanje(emso_zavarovanca):
                         ime_zavarovanca=ime,
                         priimek_zavarovanca=priimek)
 
+# Sklenitev zivljenskih zavarovanj  =======================================================================
+@get('/zavarovanec/<emso_zavarovanca>/skleni_zivljenjsko')
+def zavarovanec_skleni_zivljenjsko_get(emso_zavarovanca):
+    """ Prikaži formo za dodajanje novega življenjskega zavarovanja """
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+    return rtemplate('zavarovanec_skleni_zivljenjsko.html',
+                        vrsta_zivljenjskega='',
+                        premija='', 
+                        emso=emso_zav, # emso od agenta, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                        ime_zavarovanca=ime_zav,
+                        priimek_zavarovanca=priimek_zav, 
+                        napaka=None)
+
+
+@post('/zavarovanec/<emso_zavarovanca>/skleni_zivljenjsko')
+def zavarovanec_skleni_zivljenjsko_post(emso_zavarovanca):
+    vrsta_zivljenjskega = request.forms.vrsta_zivljenjskega
+    premija = request.forms.premija
+
+    # Dobimo podatke zavarovanca, ki sklepa zavarovanje
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+
+    # Ali je komitent s tem emsom sploh v bazi?
+    # Mora biti v bazi, saj je prijavljen, torej se je registriral
+    """
+    cur.execute("SELECT 1 FROM osebe WHERE emso=%s", (emso_zav,))
+    if cur.fetchone() is None:
+        # Ni ga še v bazi.
+        
+        return rtemplate("zavarovanec_skleni_zivljenjsko.html",
+                        vrsta_zivljenjskega=vrsta_zivljenjskega,
+                        premija=premija, 
+                        emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                        ime_zavarovanca=ime_zav,
+                        priimek_zavarovanca=priimek_zav, 
+                        napaka='Ni.')
+    """ 
+    # Vstavimo v bazo novo polico 
+    try:
+        cur.execute("""
+            INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+            VALUES (%s, %s, %s, %s)
+            RETURNING stevilka_police
+        """, (emso_zav, date.today(), premija, 1)) # 1 je za življenjsko
+        stevilka_police, = cur.fetchone()
+        #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+        #stevilka_police = cur.fetchone()[0]
+        # tabela zivljenska ... slovnicno je zivljenjska
+        cur.execute("""
+            INSERT INTO zivljenska (polica_id, vrsta_zivlj) 
+            VALUES (%s, %s)
+            """, (stevilka_police, vrsta_zivljenjskega))
+        conn.commit() 
+
+    except Exception as ex:
+        conn.rollback()
+        return rtemplate('zavarovanec_skleni_zivljenjsko.html',
+                        vrsta_zivljenjskega=vrsta_zivljenjskega, 
+                        premija=premija, 
+                        emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                        ime_zavarovanca=ime_zav,
+                        priimek_zavarovanca=priimek_zav, 
+                        napaka='Zgodila se je napaka: {0}'.format(ex)) 
+
+    redirect('{0}zavarovanec/{1}/moja_zivljenjska'.format(ROOT, emso_zavarovanca))
+
+# Sklenitev nepremicninskih zavarovanj ===================================================================
+@get('/zavarovanec/<emso_zavarovanca>/skleni_nepremicninsko')
+def zavarovanec_skleni_nepremicninsko_get(emso_zavarovanca):
+    """ Prikaži formo za dodajanje novega nepremicninskega zavarovanja """
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+    return rtemplate('zavarovanec_skleni_nepremicninsko.html',
+                        naslov_nepr='',
+                        vrsta_nepremicninskega='',
+                        premija='', 
+                        emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                        ime_zavarovanca=ime_zav,
+                        priimek_zavarovanca=priimek_zav, 
+                        napaka=None)
+
+
+@post('/zavarovanec/<emso_zavarovanca>/skleni_nepremicninsko')
+def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
+    naslov_nepr = request.forms.naslov_nepr
+    vrsta_nepremicninskega = request.forms.vrsta_nepremicninskega
+    premija = request.forms.premija
+
+    vrednost = vrednost_nepremicnine(naslov_nepr)
+
+    # KER NEPREMIČNINA NIMA LASTNIKA; SE LAHKO ZGODI, DA ZAVAROVANJE SKLENEŠ NEKOMU DRUGEMU???
+    # Verjetno ne boš, saj moraš plačati premijo.
+
+    # Dobimo podatke zavarovanca, ki sklepa zavarovanje
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+
+    # Ali je naslov nepremičnine že že v bazi?
+    cur.execute("SELECT 1 FROM nepremicnine WHERE naslov_nepr=%s", (naslov_nepr,))
+    if cur.fetchone() is not None:
+        # Nepremičnina je že v bazi. Vstavimo  zavarovalno polico in ne naslova
+        try:
+            # Odstraniti je bilo treba UNIQE constraint v tabeli nepremicnine na stolpcu nepr_id,
+            # da ima lahko ista nepremičnina več zavarovanj
+            cur.execute("""
+                INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+                VALUES (%s, %s, %s, %s)
+                RETURNING stevilka_police
+            """, (emso_zavarovanca, date.today(), premija, 3)) # 3 je za nepremičninsko
+            stevilka_police, = cur.fetchone()
+            #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+            #stevilka_police = cur.fetchone()[0]
+            cur.execute("""
+                INSERT INTO nepremicninska (polica_id, nepr_id, vrsta_n) 
+                VALUES (%s, %s, %s)
+                """, (stevilka_police, naslov_nepr, vrsta_nepremicninskega))
+            conn.commit() 
+
+        except Exception as ex:
+            conn.rollback()
+            return rtemplate('zavarovanec_skleni_nepremicninsko.html',
+                            naslov_nepr=naslov_nepr,
+                            vrsta_nepremicninskega=vrsta_nepremicninskega, 
+                            premija=premija, 
+                            emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                            ime_zavarovanca=ime_zav,
+                            priimek_zavarovanca=priimek_zav, 
+                            napaka='Zgodila se je napaka: {}'.format(ex)) 
+
+        redirect('{0}zavarovanec/{1}/moja_nepremicninska'.format(ROOT, emso_zavarovanca))
+
+# Sklenitev avtomobilskih zavarovanj =============================================================================
+@get('/zavarovanec/<emso_zavarovanca>/skleni_avtomobilsko')
+def zavarovanec_skleni_avtomobilsko_get(emso_zavarovanca):
+    """ Prikaži formo za dodajanje novega avtomobilskega zavarovanja """
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+    return rtemplate('zavarovanec_skleni_avtomobilsko.html', 
+                        registrska='',
+                        vrsta_avtomobilskega='',
+                        premija='', 
+                        emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                        ime_zavarovanca=ime_zav,
+                        priimek_zavarovanca=priimek_zav, 
+                        napaka=None)
+
+
+@post('/zavarovanec/<emso_zavarovanca>/skleni_avtomobilsko')
+def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
+    registrska = request.forms.registrska
+    vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
+    premija = request.forms.premija
+
+    vrednost = vrednost_avtomobila(registrska)
+
+
+    # Dobimo podatke zavarovanca, ki sklepa zavarovanje
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+
+    # Ali je registrska že v bazi?
+    cur.execute("SELECT 1 FROM avtomobili WHERE registrska=%s", (registrska,))
+    if cur.fetchone() is not None:
+        # Avto je že v bazi. Vstavimo zavarovalno polico 
+        try:
+            # Odstraniti je bilo treba UNIQE constraint v tabeli avtomobilska na stolpcu avto_id,
+            # da ima lahko isti avto več zavarovanj
+            cur.execute("""
+                INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
+                VALUES (%s, %s, %s, %s)
+                RETURNING stevilka_police
+            """, (emso_zavarovanca, date.today(), premija, 2)) # 2 je za avtomobilsko
+            stevilka_police, = cur.fetchone()
+            #cur.execute("SELECT stevilka_police FROM zavarovanja ORDER BY stevilka_police DESC LIMIT 1")
+            #stevilka_police = cur.fetchone()[0]
+            cur.execute("""
+                INSERT INTO avtomobilska (polica_id, vrsta, avto_id) 
+                VALUES (%s, %s, %s)
+                """, (stevilka_police, vrsta_avtomobilskega, registrska))
+            conn.commit() 
+
+        except Exception as ex:
+            conn.rollback()
+            return rtemplate('zavarovanec_skleni_avtomobilsko.html', 
+                            registrska=registrska, 
+                            vrsta_avtomobilskega=vrsta_avtomobilskega,
+                            premija=premija, 
+                            emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
+                            ime_zavarovanca=ime_zav,
+                            priimek_zavarovanca=priimek_zav, 
+                            napaka='Zgodila se je napaka: {}'.format(ex)) 
+
+        redirect('{0}zavarovanec/{1}/moja_avtomobilska'.format(ROOT, emso_zavarovanca))
+
+
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
+###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
 

@@ -1,88 +1,62 @@
-%rebase('zavarovanec_osnova.html', naslov='Zavarovanja')
-
-    <!-- ======= Our Team Section ======= -->
-    <section class="breadcrumbs">
-      <div class="container">
-
-        <div class="d-flex justify-content-between align-items-center">
-          <h2>Zaposleni</h2>
-        </div>
-
+%rebase('zavarovanec_osnova.html', naslov='Skleni zavarovanje')
+<!-- ======= Our Portfolio Section ======= -->
+<section class="breadcrumbs">
+    <div class="container">
+  
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Vrste zavarovanj</h2>
       </div>
-    </section><!-- End Our Team Section -->
+  
+    </div>
+  </section><!-- End Our Portfolio Section -->
+  
+  <!-- ======= Portfolio Section ======= -->
+  <section class="portfolio">
+    <div class="container">
+  
+      <div class="row portfolio-container" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
 
-    <!-- ======= Team Section ======= -->
-    <section class="team" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="member">
-              <div class="member-img">
-                <a href="{{ROOT}}zavarovanec/{{emso}}">
-                    <img src="{{ROOT}}static/img/team/enej_kovac.png" class="img-fluid" alt="">
-                </a>
-                <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
-                  <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
-                  <a href=""><i class="icofont-linkedin"></i></a>
-                </div>
+      <!--Zivljenjska zavarovanja-->  
+        <div class="col-lg-4 col-md-6">
+          <div class="portfolio-item">
+            <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
+              <img src="{{ROOT}}static/img/portfolio/smrti.png" class="img-fluid" alt="">
+            
+              <div class="portfolio-info">
+                <h3 style="color: #ffffff;">Življenjsko zavarovanje</h3>
+              
               </div>
-              <div class="member-info">
-                <h4>Enej Kovač</h4>
-                <span>Zavarovalni agent</span>
-                <p>Napiši neke bučke.</p>
-              </div>
-            </div>
+            </a>
           </div>
+        </div><!--End Zivljenska zavarovanja-->
+  
+  
+      <!--Nepremičninska zavarovanja-->    
+        <div class="col-lg-4 col-md-6">
+            <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko">
+                <div class="portfolio-item">
+                    <img src="{{ROOT}}static/img/portfolio/potres.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h3 style="color: #ffffff;">Nepremičninsko zavarovanje</h3>
+                    </div>
+                </div>        
+            </a>
+        </div> <!--End Nepremičninska zavarovanja--> 
 
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="member">
-              <div class="member-img">
-                <img src="{{ROOT}}static/img/team/tomas_rode.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
-                  <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
-                  <a href=""><i class="icofont-linkedin"></i></a>
+      <!--Avtomobilska zavarovanja-->  
+        <div class="col-lg-4 col-md-6">
+            <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko">
+                <div class="portfolio-item">
+                    <img src="{{ROOT}}static/img/portfolio/kasko_plus.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h3 style="color: #ffffff;">Avtomobilsko zavarovanje</h3>
+                    </div>
                 </div>
-              </div>
-              <div class="member-info">
-                <h4>Tomas Rode</h4>
-                <span>Zavarovalni agent</span>
-                <p>Napiši neke bučke.</p>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="member">
-              <div class="member-img">
-                <img src="{{ROOT}}static/img/team/matej_skerlep.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
-                  <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
-                  <a href=""><i class="icofont-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Matej Škerlep</h4>
-                <span>Zavarovalni agent</span>
-                <p>Napiši neke bučke.</p>
-              </div>
-            </div>
-          </div>
-
-          
-
-        </div>
-
+            </a>
+        </div><!--End Avtomobilska zavarovanja-->
+  
       </div>
-    </section><!-- End Team Section -->
-
-  </main><!-- End #main -->
-
- 
+  
+    </div>
+  </section><!-- End Portfolio Section -->
