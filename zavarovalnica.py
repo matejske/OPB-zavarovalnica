@@ -1032,7 +1032,7 @@ def login_zavarovanec_post():
     # Emso obstaja. Geslo in emso se ujemata.
     else:
         # Vse je v redu, nastavimo cookie, ki potece cez ... časa in preusmerimo na stran za zavarovance
-        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=1)).timetuple())
+        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=10)).timetuple())
         response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
         redirect('{0}zavarovanec/{1}'.format(ROOT, emso))
 
