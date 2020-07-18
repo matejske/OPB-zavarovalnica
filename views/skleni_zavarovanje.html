@@ -1,52 +1,150 @@
 %rebase('zavarovanec_osnova.html', naslov='Skleni zavarovanje')
  
-  <!-- ======= Portfolio Section ======= -->
-  <section class="portfolio">
-    <div class="container">
-  
-      <div class="row portfolio-container" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+<!-- ======= Portfolio Section ======= -->
+<section class="portfolio">
+  <div class="container">
 
-      <!--Zivljenjska zavarovanja-->  
-        <div class="col-lg-4 col-md-6">
-          <div class="portfolio-item">
-            <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
-              <img src="{{ROOT}}static/img/portfolio/smrti.png" class="img-fluid" alt="">
-            
-              <div class="portfolio-info">
-                <h3 style="color: #ffffff;">Življenjsko zavarovanje</h3>
-              
-              </div>
-            </a>
-          </div>
-        </div><!--End Zivljenska zavarovanja-->
-  
-  
-      <!--Nepremičninska zavarovanja-->    
-        <div class="col-lg-4 col-md-6">
-            <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko">
-                <div class="portfolio-item">
-                    <img src="{{ROOT}}static/img/portfolio/potres.jpg" class="img-fluid" alt="">
-                    <div class="portfolio-info">
-                        <h3 style="color: #ffffff;">Nepremičninsko zavarovanje</h3>
-                    </div>
-                </div>        
-            </a>
-        </div> <!--End Nepremičninska zavarovanja--> 
-
-      <!--Avtomobilska zavarovanja-->  
-        <div class="col-lg-4 col-md-6">
-            <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko">
-                <div class="portfolio-item">
-                    <img src="{{ROOT}}static/img/portfolio/kasko_plus.jpg" class="img-fluid" alt="">
-                    <div class="portfolio-info">
-                        <h3 style="color: #ffffff;">Avtomobilsko zavarovanje</h3>
-                    </div>
-                </div>
-
-            </a>
-        </div><!--End Avtomobilska zavarovanja-->
-  
+    <!--Filtracija-->
+    <div class="row">
+      <div class="col-lg-12">
+        <ul id="portfolio-flters">
+          <li data-filter="*" class="filter-active">Vsa zavarovanja</li>
+          <li data-filter=".filter-app">Življenjska</li>
+          <li data-filter=".filter-card">Avtomobilska</li>
+          <li data-filter=".filter-web">Nepremičninska</li>
+        </ul>
       </div>
-  
     </div>
-  </section><!-- End Portfolio Section -->
+    <div class="row portfolio-container" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+
+
+    <!--Avtomobilska zavarovanja-->
+    <div class="col-lg-4 col-md-6 filter-card">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko">
+          <img src="{{ROOT}}static/img/portfolio/kasko.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Kasko</h3>
+          </div>          
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-card">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko">
+          <img src="{{ROOT}}static/img/portfolio/kasko_plus.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Kasko plus</h3>
+          </div>
+        </a>
+        
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-card">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko">
+          <img src="{{ROOT}}static/img/portfolio/asistenca.png" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Avtomobilska asistenca</h3>
+          </div>
+        </a>
+      </div>
+    </div><!--End Avtomobilska zavarovanja-->
+
+
+    <!--Zivljenjska zavarovanja-->  
+      <div class="col-lg-4 col-md-6">
+        <div class="portfolio-item">
+          <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
+            <img src="{{ROOT}}static/img/portfolio/smrti.png" class="img-fluid" alt="">
+          
+            <div class="portfolio-info">
+              <h3 style="color: #ffffff;">Življenjsko zavarovanje</h3>
+            
+            </div>
+          </a>
+        </div>
+      </div>
+      
+    <div class="col-lg-4 col-md-6 filter-app">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
+          <img src="{{ROOT}}static/img/portfolio/pokojninsko.jpg" class="img-fluid">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Pokojninsko</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-app">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
+          <img src="{{ROOT}}static/img/portfolio/invalidsko.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Invalidsko</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-app">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
+          <img src="{{ROOT}}static/img/portfolio/brezposelnost.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Za primer brezposelnosti</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-app">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko">
+          <img src="{{ROOT}}static/img/portfolio/smrti.png" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Za primer smrti</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+      
+      
+    <!--Nepremičninska zavarovanja-->  
+    <div class="col-lg-4 col-md-6 filter-web">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko">
+          <img src="{{ROOT}}static/img/portfolio/poplava.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Poplava</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-web">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko">
+          <img src="{{ROOT}}static/img/portfolio/potres.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Potres</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 filter-web">
+      <div class="portfolio-item">
+        <a href="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko">
+          <img src="{{ROOT}}static/img/portfolio/pozar.jpg" class="img-fluid" alt="">
+          <div class="portfolio-info">
+            <h3 style="color: #ffffff;">Požar</h3>
+          </div>
+        </a>
+      </div>
+    </div><!--End nepremicninska zavarovanja--> 
+  </div>
+</section><!-- End Portfolio Section -->
