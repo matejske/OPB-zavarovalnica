@@ -27,10 +27,12 @@
         %end
         <form action='{{ROOT}}prijava_zavarovanec' method='POST' style="width: 50%">
           <div class="form-group">
-            <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="Emšo" data-rule="minlen:3" data-rule="required" />
+            <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="Emšo" required 
+            oninvalid="this.setCustomValidity('Prosim vnesite vaš EMŠO.')" oninput="setCustomValidity('')" />
           </div>
           <div class="form-group">
-            <input name='geslo' type='password' value="{{geslo}}" class="form-control" placeholder="Geslo" data-rule="minlen:4" data-rule="required"/>
+            <input name='geslo' type='password' value="{{geslo}}" class="form-control" placeholder="Geslo" required 
+            oninvalid="this.setCustomValidity('Prosim vnesite vaše geslo.')" oninput="setCustomValidity('')"/>
           </div>
           <div class="text-center">
             <button type="submit" class="btn btn-secondary">Prijava</button> 
