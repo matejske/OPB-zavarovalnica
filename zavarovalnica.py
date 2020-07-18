@@ -80,6 +80,13 @@ def vrednost_avtomobila(registrska):
     vrednost = cur.fetchone()
     return(vrednost[0]) # da vrne prvi element seznama
 
+def starost_osebe(emso):
+    """Vrne starost zavarovanca z danim EMŠOm"""
+    cur.execute("SELECT rojstvo FROM osebe WHERE emso=%s", (emso,))
+    datum_rojstva = cur.fetchone()[0]
+    razlika = date.today() - datum_rojstva
+    return(razlika.days)
+
 
 def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
     # vrsta je 'kasko', 'kasko +' ali 'avtomobilska asistenca'
@@ -87,11 +94,29 @@ def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
     # za 'kasko +' 8%,
     # za 'avtomobilsko asistenco' pa 100€.
     if vrsta == 'kasko':
-        return(0.05 * vrednost_vozila)
+        return(0.05 * float(vrednost_vozila))
     elif vrsta == 'kasko +':
-        return(0.08 * vrednost_vozila)
+        return(0.08 * float(vrednost_vozila))
     elif vrsta == 'avtomobilska asistenca':
         return(100)
+
+def doloci_premijo_nepremicninskega(vrsta, vrednost_nepremicnine):
+    if vrsta == 'pozar':
+        return(0.01 * float(vrednost_nepremicnine))
+    elif vrsta == 'potres':
+        return(0.0005 * float(vrednost_nepremicnine))
+    elif vrsta == 'poplava':
+        return(0.001 * float(vrednost_nepremicnine))
+
+def doloci_premijo_zivljenjskega(vrsta, starost_osebe):
+    if vrsta == 'pokojninsko':
+        return(0.01 * int(starost_osebe))
+    elif vrsta == 'invalidsko':
+        return(0.005 * int(starost_osebe))
+    elif vrsta == 'za primer brezposelnosti':
+        return(0.008 * int(starost_osebe))
+    elif vrsta == 'za primer smrti':
+        return(0.02 * int(starost_osebe))
 
 # Glavna stran ==========================================================================
 @get('/')
@@ -245,7 +270,7 @@ def login_agent_post():
                             geslo='',
                             emso=emso)
     else:
-        # Vse je v redu, nastavimo cookie, ki potece cez 2 minuti in preusmerimo na stran za agente
+        # Vse je v redu, nastavimo cookie, ki potece cez 15 minut in preusmerimo na stran za agente
         cookie_expires = time.mktime((datetime.now() + timedelta(minutes=15)).timetuple())
         response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
         redirect('{0}agent/{1}'.format(ROOT, emso))
@@ -1131,7 +1156,6 @@ def zavarovanec_skleni_zivljenjsko_get(emso_zavarovanca):
     (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
     return rtemplate('zavarovanec_skleni_zivljenjsko.html',
                         vrsta_zivljenjskega='',
-                        premija='', 
                         emso=emso_zav, # emso od agenta, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                         ime_zavarovanca=ime_zav,
                         priimek_zavarovanca=priimek_zav, 
@@ -1141,8 +1165,6 @@ def zavarovanec_skleni_zivljenjsko_get(emso_zavarovanca):
 @post('/zavarovanec/<emso_zavarovanca>/skleni_zivljenjsko')
 def zavarovanec_skleni_zivljenjsko_post(emso_zavarovanca):
     vrsta_zivljenjskega = request.forms.vrsta_zivljenjskega
-    premija = request.forms.premija
-
     # Dobimo podatke zavarovanca, ki sklepa zavarovanje
     (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
 
@@ -1151,6 +1173,7 @@ def zavarovanec_skleni_zivljenjsko_post(emso_zavarovanca):
 
     # Vstavimo v bazo novo polico 
     try:
+        premija = doloci_premijo_zivljenjskega(vrsta_zivljenjskega, starost_osebe(emso_zav))
         cur.execute("""
             INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
             VALUES (%s, %s, %s, %s)
@@ -1169,8 +1192,7 @@ def zavarovanec_skleni_zivljenjsko_post(emso_zavarovanca):
     except Exception as ex:
         conn.rollback()
         return rtemplate('zavarovanec_skleni_zivljenjsko.html',
-                        vrsta_zivljenjskega=vrsta_zivljenjskega, 
-                        premija=premija, 
+                        vrsta_zivljenjskega=vrsta_zivljenjskega,  
                         emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                         ime_zavarovanca=ime_zav,
                         priimek_zavarovanca=priimek_zav, 
@@ -1197,7 +1219,6 @@ def zavarovanec_skleni_nepremicninsko_get(emso_zavarovanca):
 def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
     naslov_nepr = request.forms.naslov_nepr
     vrsta_nepremicninskega = request.forms.vrsta_nepremicninskega
-    premija = request.forms.premija
 
     # KER NEPREMIČNINA NIMA LASTNIKA; SE LAHKO ZGODI, DA ZAVAROVANJE SKLENEŠ NEKOMU DRUGEMU???
     # Verjetno ne boš, saj moraš plačati premijo.
@@ -1219,7 +1240,7 @@ def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
                             napaka='Nepremičnina še ni v bazi') 
     else:                       
         # Nepremičnina je že v bazi. Vstavimo  zavarovalno polico in ne naslova
-        vrednost = vrednost_nepremicnine(naslov_nepr) # ZA RAČUNAT PREMIJO
+        premija = doloci_premijo_nepremicninskega(vrsta_nepremicninskega, vrednost_nepremicnine(naslov_nepr)) # ZA RAČUNAT PREMIJO
         try:
             # Odstraniti je bilo treba UNIQE constraint v tabeli nepremicnine na stolpcu nepr_id,
             # da ima lahko ista nepremičnina več zavarovanj
@@ -1257,8 +1278,7 @@ def zavarovanec_skleni_avtomobilsko_get(emso_zavarovanca):
     (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
     return rtemplate('zavarovanec_skleni_avtomobilsko.html', 
                         registrska='',
-                        vrsta_avtomobilskega='',
-                        premija='', 
+                        vrsta_avtomobilskega='', 
                         emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                         ime_zavarovanca=ime_zav,
                         priimek_zavarovanca=priimek_zav, 
@@ -1269,11 +1289,9 @@ def zavarovanec_skleni_avtomobilsko_get(emso_zavarovanca):
 def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
     registrska = request.forms.registrska
     vrsta_avtomobilskega = request.forms.vrsta_avtomobilskega
-    premija = request.forms.premija
 
     # Dobimo podatke zavarovanca, ki sklepa zavarovanje
     (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
-
     # Ali je registrska že v bazi?
     cur.execute("SELECT 1 FROM avtomobili WHERE registrska=%s", (registrska,))
     if cur.fetchone() is None:
@@ -1281,15 +1299,14 @@ def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
         return rtemplate('zavarovanec_skleni_avtomobilsko.html', 
                             registrska='', 
                             vrsta_avtomobilskega=vrsta_avtomobilskega,
-                            premija=premija, 
                             emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                             ime_zavarovanca=ime_zav,
                             priimek_zavarovanca=priimek_zav, 
-                            napaka='Avtomobil še ni v bazi.') 
+                            napaka='Avtomobila še ni v bazi.') 
 
     else:
         # Avto je že v bazi. Vstavimo zavarovalno polico 
-        vrednost = vrednost_avtomobila(registrska) # MOGOČE PRIDE PRAV ZA PREMIJO RAČUNAT
+        premija = doloci_premijo_avtomobilskega(vrsta_avtomobilskega, vrednost_avtomobila(registrska))
         try:
             # Odstraniti je bilo treba UNIQE constraint v tabeli avtomobilska na stolpcu avto_id,
             # da ima lahko isti avto več zavarovanj
@@ -1311,8 +1328,7 @@ def zavarovanec_skleni_avtomobilsko_post(emso_zavarovanca):
             conn.rollback()
             return rtemplate('zavarovanec_skleni_avtomobilsko.html', 
                             registrska=registrska, 
-                            vrsta_avtomobilskega=vrsta_avtomobilskega,
-                            premija=premija, 
+                            vrsta_avtomobilskega=vrsta_avtomobilskega, 
                             emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                             ime_zavarovanca=ime_zav,
                             priimek_zavarovanca=priimek_zav, 
