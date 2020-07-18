@@ -246,7 +246,7 @@ def login_agent_post():
                             emso=emso)
     else:
         # Vse je v redu, nastavimo cookie, ki potece cez 2 minuti in preusmerimo na stran za agente
-        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=3)).timetuple())
+        cookie_expires = time.mktime((datetime.now() + timedelta(minutes=15)).timetuple())
         response.set_cookie('emso', emso, path='/', secret=secret, expires=cookie_expires)
         redirect('{0}agent/{1}'.format(ROOT, emso))
 
