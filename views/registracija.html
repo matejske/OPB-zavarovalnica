@@ -1,8 +1,6 @@
 %rebase('osnova.html', naslov='Registracija novega uporabnika')
 
-%if napaka:
-    <div class="alert alert-warning">{{napaka}}</div>
-%end
+
 <!-- ======= Začetna vrstica ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -16,9 +14,12 @@
 <!-- ======= Polja za vnos podatkov ======= -->
 <section class="about" data-aos="fade-up">
   <div class="container" align='center'>
-    <div >
+    <div>
       <h5>Še nimate računa? Za registracijo izpolnite spodnja polja.</h5>
       <form action="{{ROOT}}registracija" method='post' style="width: 48%">
+        %if napaka:
+          <div class="alert alert-warning">{{napaka}}</div>
+        %end
         <div class="form-group">
           <input name="emso" type="text" value="{{emso}}" class="form-control" placeholder="EMŠO" data-rule="minlen:4" data-rule="required" />
         </div>
@@ -47,10 +48,10 @@
           <input type="password" class="form-control" placeholder="Potrdi geslo" name="geslo2" required>
         </div>
         
-
         <div class="text-center"> 
-          <input value='Registriraj se' type='submit' />
+          <button type="submit" class="btn btn-secondary mt-2">Registriraj se</button> 
         </div>
+        
       </form>
     </div>  
   </div>

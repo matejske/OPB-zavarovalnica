@@ -1,9 +1,5 @@
 %rebase('osnova.html', naslov='Prijava za zavarovanca')
 
-%if napaka:
-    <div class="alert alert-warning">{{napaka}}</div>
-%end
-
 <!-- ======= Začetna vrstica ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -21,12 +17,15 @@
     <div class="row">
       <!-- ======= Slika ======= -->
       <div class="col-lg-6" align="center">
-        <img src="{{ROOT}}static/img/logo.png" class="img-fluid" alt="">
+        <img src="{{ROOT}}static/img/logo.png" class="img-fluid" style="padding-bottom: 30px">
       </div>
       <!-- ======= Prijavna polja ======= -->
       <div class="col-lg-6" align="center">
         <h5>Za vstop v spletno zavarovalnico vnesite Emšo in geslo</h5>
-        <form action='{{ROOT}}prijava_zavarovanec'  method='POST' style="width: 50%">
+        %if napaka:
+            <div class="alert alert-warning w-75 p-3">{{napaka}}</div>
+        %end
+        <form action='{{ROOT}}prijava_zavarovanec' method='POST' style="width: 50%">
           <div class="form-group">
             <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="Emšo" data-rule="minlen:3" data-rule="required" />
           </div>
@@ -34,12 +33,15 @@
             <input name='geslo' type='password' value="{{geslo}}" class="form-control" placeholder="Geslo" data-rule="minlen:4" data-rule="required"/>
           </div>
           <div class="text-center">
-            <input value='Prijava' type='submit' /> <br> <br>
-            <a href="{{ROOT}}registracija">Registracija</a>
-            <!-- 
-              <a href="{{ROOT}}">PRESKOČI PRIJAVO</a>
-            -->
+            <button type="submit" class="btn btn-secondary">Prijava</button> 
           </div>
+
+          <button type="button" class="btn btn-link mt-5">
+            <a href="{{ROOT}}registracija">Registracija</a>
+          </button>
+          <!-- 
+            <a href="{{ROOT}}">PRESKOČI PRIJAVO</a>
+          -->
         </form>
       </div>  
 

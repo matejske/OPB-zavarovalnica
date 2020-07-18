@@ -1,9 +1,5 @@
 %rebase('osnova.html', naslov='Prijava za agenta')
 
-%if napaka:
-    <div class="alert alert-warning">{{napaka}}</div>
-%end
-
 <!-- ======= Začetna vrstica ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -21,11 +17,14 @@
     <div class="row">
       <!-- ======= Slika ======= -->
       <div class="col-lg-6">
-        <img src="{{ROOT}}static/img/recent-posts-2.jpg" class="img-fluid" alt="">
+        <img src="{{ROOT}}static/img/recent-posts-2.jpg" class="img-fluid" style="padding-bottom: 30px">
       </div>
       <!-- ======= Prijavna polja ======= -->
       <div class="col-lg-6" align="center">
         <h5>Za vstop v spletno zavarovalnico vnesite Emšo in geslo</h5>
+        %if napaka:
+          <div class="alert alert-warning w-75 p-3">{{napaka}}</div>
+        %end
         <form action='{{ROOT}}prijava_agent' method='POST' style="width: 50%">
           <div class="form-group">
             <input name='emso' type='text' value="{{emso}}" class="form-control" placeholder="Emšo" data-rule="minlen:4" data-rule="required" />
@@ -33,9 +32,8 @@
           <div class="form-group">
             <input name='geslo' type='password' value="{{geslo}}" class="form-control" placeholder="Geslo" data-rule="minlen:4" data-rule="required"/>
           </div>
-          <div class="text-center">
-          <div class="form-group">
-            <input value='Prijava' type='submit' /> 
+          <div class="text-center form-group">
+            <button type="submit" class="btn btn-secondary">Prijava</button> 
           </div>
             
             <!-- Za vpis v spletno poslovalnico za agente
@@ -43,8 +41,6 @@
             <a >Emšo: 000000</a> <br> 
             <a >Geslo: geslo</a>
             -->
-            
-          </div>
         </form>
       </div>  
 
