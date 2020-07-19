@@ -7,6 +7,7 @@
         <tr>
           <th>Naslov nepremicnine</th>
           <th>Vrednost</th>
+          <th>Urejanje</th>
         </tr>
       </thead>
 
@@ -15,6 +16,8 @@
         <tr>
           <td>{{naslov_nepr}}</td>
           <td>{{vrednost}}</td>
+          % sifra_naslov = naslov_nepr.replace('', '_')
+          <td><a type="button" class="btn btn-dark" href="{{ROOT}}agent/{{emso}}/urejanje_nepremicnine/{{sifra_naslov}}">Uredi</a></td>
         </tr>
       </tbody>
       %end

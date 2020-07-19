@@ -18,13 +18,14 @@
           <th>Rojstni datum</th>
           <th>Telefonska številka</th>
           <th>Zaposleni</th>
+          <th>Urejanje</th>
         </tr>
       </thead>
 
-      %for (emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni, geslo) in osebe:
+      %for (emso_komitenta,ime,priimek,naslov,email,rojstvo,telefon,zaposleni, geslo) in osebe:
       <tbody class= "jedro_tabele">
         <tr>
-          <td>{{emso}}</td>
+          <td>{{emso_komitenta}}</td>
           <td>{{ime}}</td>
           <td>{{priimek}}</td>
           <td>{{naslov}}</td>
@@ -32,6 +33,7 @@
           <td>{{rojstvo}}</td>
           <td>{{telefon}}</td>
           <td>{{zaposleni}}</td>
+          <td><a type="button" class="btn btn-dark" href="{{ROOT}}agent/{{emso}}/urejanje_komitenta/{{emso_komitenta}}">Uredi</a></td>
         </tr>
       </tbody>
       %end

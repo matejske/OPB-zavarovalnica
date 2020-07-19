@@ -388,6 +388,53 @@ def dodaj_komitenta_post(emso_agenta):
         conn.commit()
         redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
 
+# Urejanje podatkov o osebi ==========================================================================================
+#tukaj sem se zmotil v poimenovanju, gre za urejanje podatkov katerekoli osebe, ne samo komitentov
+
+@get("/agent/<emso_agenta>/urejanje_komitenta/<emso_komitenta>")
+def uredi_komitenta_get(emso_agenta, emso_komitenta):
+    """Prikaži formo za urejanje podatkov danega komitenta."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    cur.execute("""
+    SELECT ime, priimek, naslov, email, rojstvo, telefon
+    FROM osebe
+    WHERE emso=%s
+    """, (emso_komitenta,)) 
+    (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
+    return rtemplate('uredi_komitenta.html',
+                        emso_komitenta = emso_komitenta,
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE', 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+@post("/agent/<emso_agenta>/urejanje_komitenta/<emso_komitenta>")
+def uredi_komitenta_post(emso_agenta, emso_komitenta):
+    """Uredi podatke komitenta."""
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+
+    cur.execute("""UPDATE osebe
+        SET ime = %s, priimek = %s, naslov = %s, email = %s, rojstvo = %s, telefon = %s
+        WHERE emso = %s;
+        """, (ime, priimek, naslov, email, rojstvo, telefon, emso_komitenta))
+
+    # Uredi v tabelo in preusmeri na tabelo osebe
+    conn.commit()
+    redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
+
 # Dodajanje nove nepremičnine na strani za agente =====================================================================
 @get("/agent/<emso_agenta>/dodaj_nepremicnino")
 def dodaj_nepremicnino_get(emso_agenta):
@@ -431,6 +478,46 @@ def dodaj_nepremicnino_post(emso_agenta):
         conn.commit()
         redirect("{0}agent/{1}/nepremicnine".format(ROOT, emso_agenta))
 
+# Urejanje podatkov o nepremičnini ===================================================================================
+@get("/agent/<emso_agenta>/urejanje_nepremicnine/<sifra_naslov>")
+def uredi_nepremicnino_get(emso_agenta, sifra_naslov):
+    """Prikaži formo za urejanje podatkov dane nepremicnine."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    # v sifra naslov imamo namesto presledkov podčrtaje 
+    naslov = sifra_naslov.replace('_', ' ')
+
+    cur.execute("""
+    SELECT vrednost
+    FROM nepremicnine
+    WHERE naslov_nepr=%s
+    """, (naslov,)) 
+    vrednost = cur.fetchone()[0]
+
+    return rtemplate('uredi_nepremicnino.html',
+                        naslov=naslov, 
+                        vrednost=vrednost,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+@post("/agent/<emso_agenta>/urejanje_nepremicnine/<sifra_naslov>")
+def uredi_nepremicnino_post(emso_agenta, sifra_naslov):
+    """Uredi podatke nepremičnine."""
+    vrednost = request.forms.vrednost
+
+    # v sifra naslov imamo namesto presledkov podčrtaje 
+    naslov = sifra_naslov.replace('_', ' ')
+
+    cur.execute("""UPDATE nepremicnine
+        SET vrednost = %s
+        WHERE naslov_nepr = %s;
+        """, (vrednost, naslov))
+
+    # Uredi v tabelo in preusmeri na tabelo osebe
+    conn.commit()
+    redirect("{0}agent/{1}/nepremicnine".format(ROOT, emso_agenta))
 
 # Dodajanje novega avtomobila na strani za agente =====================================================================
 @get("/agent/<emso_agenta>/dodaj_avtomobil")
@@ -456,7 +543,7 @@ def dodaj_avtomobil_post(emso_agenta):
     model = request.forms.model 
     vrednost = request.forms.vrednost
 
-    # Ali komitent že obstaja?
+    # Ali avtomobil že obstaja?
     cur.execute("SELECT 1 FROM avtomobili WHERE registrska=%s", (registrska,))
     if cur.fetchone():
         (emso_ag, ime_ag, priimek_ag) = get_agent()
@@ -481,6 +568,45 @@ def dodaj_avtomobil_post(emso_agenta):
         conn.commit()
         redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
 
+# Urejanje podatkov o avtomobilu ========================================================================================
+@get("/agent/<emso_agenta>/urejanje_avtomobila/<registrska>")
+def uredi_avtomobil_get(emso_agenta, registrska):
+    """Prikaži formo za urejanje podatkov danega avtomobila."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+
+    cur.execute("""
+    SELECT znamka, model, vrednost
+    FROM avtomobili
+    WHERE registrska=%s
+    """, (registrska,)) 
+    (znamka, model, vrednost) = cur.fetchone()
+
+    return rtemplate('uredi_avtomobil.html',
+                        registrska=registrska,
+                        znamka=znamka,
+                        model=model,
+                        vrednost=vrednost,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+@post("/agent/<emso_agenta>/urejanje_avtomobila/<registrska>")
+def uredi_avtomobil_post(emso_agenta, registrska):
+    """Uredi podatke avtomobila."""
+    znamka = request.forms.znamka
+    model = request.forms.model
+    vrednost = request.forms.vrednost
+
+    cur.execute("""UPDATE avtomobili
+        SET znamka=%s, model=%s, vrednost = %s
+        WHERE registrska = %s;
+        """, (znamka, model, vrednost, registrska))
+
+    # Uredi v tabelo in preusmeri na tabelo osebe
+    conn.commit()
+    redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
 
 ################################# Sklenitev novih zavarovanj na strani za agente ######################################
 
@@ -793,6 +919,42 @@ def agent_skleni_zivljenjsko_post(emso_agenta):
 
     redirect('{0}agent/{1}/zivljenjska'.format(ROOT, emso_agenta))
 
+# Urejanje premije zavarovalne police =================================================================================
+@get("/agent/<emso_agenta>/urejanje_premije/<stevilka_police>")
+def uredi_premijo_get(emso_agenta, stevilka_police):
+    """Prikaži formo za urejanje podatkov danega avtomobila."""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+
+    cur.execute("""
+    SELECT premija
+    FROM zavarovanja
+    WHERE stevilka_police=%s
+    """, (stevilka_police,)) 
+    premija = cur.fetchone()[0]
+
+    return rtemplate('uredi_premijo.html',
+                        stevilka_police=stevilka_police,
+                        premija=premija,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka=None)
+
+@post("/agent/<emso_agenta>/urejanje_premije/<stevilka_police>")
+def uredi_avtomobil_post(emso_agenta, stevilka_police):
+    """Uredi podatke avtomobila."""
+    premija = request.forms.premija
+
+    cur.execute("""UPDATE zavarovanja
+        SET premija=%s
+        WHERE stevilka_police = %s;
+        """, (premija, stevilka_police))
+
+    # Uredi v tabelo in preusmeri na tabelo osebe
+    conn.commit()
+    redirect("{0}agent/{1}/zavarovanja".format(ROOT, emso_agenta))
+
 
 #########################################    Podatkovna baza za agente    #############################################
 
@@ -1101,6 +1263,50 @@ def osebni_podatki_zavarovanec(emso_zavarovanca):
                     ime_zavarovanca=ime_zav,
                     priimek_zavarovanca=priimek_zav, 
                     napaka=None)
+
+# Urejanje osebnih podatkov zavarovanca =========================================================================
+@get("/zavarovanec/<emso_zavarovanca>/urejanje_podatkov")
+def uredi_zavarovanec_get(emso_zavarovanca):
+    """Prikaži formo za urejanje podatkov danega zavarovanca."""
+    (emso_zav, ime_zav, priimek_zav) = get_zavarovanec()
+
+
+    cur.execute("""
+    SELECT ime, priimek, naslov, email, rojstvo, telefon
+    FROM osebe
+    WHERE emso=%s
+    """, (emso_zav,)) 
+    (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
+    return rtemplate('uredi_zavarovanec.html',
+                        emso = emso_zav,
+                        ime_zavarovanca=ime, 
+                        priimek_zavarovanca=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE', 
+                        napaka=None)
+
+@post("/zavarovanec/<emso_zavarovanca>/urejanje_podatkov")
+def uredi_zavarovanec_post(emso_zavarovanca):
+    """Uredi podatke zavarovanca."""
+    ime = request.forms.ime
+    priimek = request.forms.priimek
+    naslov = request.forms.naslov
+    email = request.forms.email
+    rojstvo = request.forms.rojstvo
+    telefon = request.forms.telefon
+
+    cur.execute("""UPDATE osebe
+        SET ime = %s, priimek = %s, naslov = %s, email = %s, rojstvo = %s, telefon = %s
+        WHERE emso = %s;
+        """, (ime, priimek, naslov, email, rojstvo, telefon, emso_zavarovanca))
+
+    # Uredi v tabelo in preusmeri na tabelo osebe
+    conn.commit()
+    redirect('{0}zavarovanec/{1}/osebni_podatki'.format(ROOT, emso_zavarovanca))
+
 
 ############### Zavarovanja komitenta #####################################################################
 @get('/zavarovanec/<emso_zavarovanca>/moja_zivljenjska')

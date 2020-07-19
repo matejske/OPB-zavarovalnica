@@ -1,0 +1,43 @@
+%rebase('zavarovanec_osnova.html', naslov='Urejanje osebnih podatkov')
+
+<!-- ======= Polja za vnos podatkov ======= -->
+<section class="about" data-aos="fade-up">
+  <div class="container" align='center'>
+    <div >
+      <h5>Za urejanje svojih podatkov vnesite spremembe spodnja polja:</h5>
+      <div class="napaka">
+        %if napaka:
+          <div class="alert alert-warning">{{napaka}}</div>
+        %end
+      </div>
+      <form action="{{ROOT}}zavarovanec/{{emso}}/urejanje_podatkov" method='post' style="width: 48%">
+        <div class="form-group">
+          <input name="ime" type="text" value="{{ime_zavarovanca}}" class="form-control" placeholder="Ime" required
+          oninvalid="this.setCustomValidity('Prosim vnesite ime.')" oninput="setCustomValidity('')" />
+        </div>
+        <div class="form-group">
+          <input name="priimek" type="text" value="{{priimek_zavarovanca}}" class="form-control" placeholder="Priimek"  required
+          oninvalid="this.setCustomValidity('Prosim vnesite priimek.')" oninput="setCustomValidity('')" />
+        </div>
+        <div class="form-group">
+          <input name="naslov" type="text" value="{{naslov}}" class="form-control" placeholder="Naslov" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite naslov.')" oninput="setCustomValidity('')" />
+        </div>
+        <div class="form-group">
+          <input name="email" type="email" value="{{email}}" class="form-control" placeholder="Elektronski naslov"/>
+        </div>
+        <div class="form-group">
+          <input name="rojstvo" type="date" value="{{rojstvo}}" class="form-control" placeholder="Rojstni datum" required
+          oninvalid="this.setCustomValidity('Prosim vnesite veljaven rojstni datum.')" oninput="setCustomValidity('')" />
+        </div>
+        <div class="form-group">
+          <input name="telefon" type="text" value="{{telefon}}" class="form-control" placeholder="Telefonska številka"/>
+        </div>       
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-secondary">Shrani spremembe</button> 
+        </div>
+      </form>
+    </div>  
+  </div>
+</section>
