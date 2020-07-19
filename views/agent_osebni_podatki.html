@@ -1,8 +1,5 @@
 %rebase('agent_osnova.html', naslov='Osebni podatki')
 
-%if napaka:
-    <div class="alert alert-warning">{{napaka}}</div>
-%end
 
 <!-- ======= Začetna vrstica ======= -->
 <section class="breadcrumbs">
@@ -18,6 +15,11 @@
   <!-- ======= Polja za prikaz podatkov ======= -->
 <section class="about" data-aos="fade-up">
     <div class="container" align='center'>
+      <div class="napaka">
+        %if napaka:
+          <div class="alert alert-warning">{{napaka}}</div>
+        %end
+      </div>
       <div>
         <form action="{{ROOT}}agent/{{emso}}/osebni_podatki" method='get' style="width: 48%">
           <div class="form-group">

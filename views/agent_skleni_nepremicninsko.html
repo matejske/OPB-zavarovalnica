@@ -1,21 +1,23 @@
 %rebase('agent_osnova.html', naslov='Dodajanje novega nepremičninskega zavarovanja')
 
-%if napaka:
-    <div class="alert alert-warning">{{napaka}}</div>
-%end
-
-
 <!-- ======= Polja za vnos podatkov ======= -->
 <section class="about" data-aos="fade-up">
   <div class="container" align='center'>
     <div >
       <h5>Izpolnite spodnja polja:</h5>
+      <div class="napaka">
+        %if napaka:
+          <div class="alert alert-warning">{{napaka}}</div>
+        %end
+      </div>
       <form action="{{ROOT}}agent/{{emso}}/skleni_nepremicninsko" method='post' style="width: 48%">
         <div class="form-group">
-          <input name="emso_komitenta" type="text" value="{{emso_komitenta}}" class="form-control" placeholder="Emšo komitenta" data-rule="minlen:4" data-rule="required" />
+          <input name="emso_komitenta" type="text" value="{{emso_komitenta}}" class="form-control" placeholder="Emšo komitenta" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite emšo komitenta.')" oninput="setCustomValidity('')" />
         </div>     
         <div class="form-group">
-            <select id="vrsta_nepremicninskega" name="vrsta_nepremicninskega" class="form-control" placeholder="Vrsta nepremičninskega zavarovanja" data-rule="required">
+            <select id="vrsta_nepremicninskega" name="vrsta_nepremicninskega" class="form-control" placeholder="Vrsta nepremičninskega zavarovanja" required 
+          oninvalid="this.setCustomValidity('Prosim izberite vrsto avtomobilskega zavarovanja.')" oninput="setCustomValidity('')"/>
               <option value="" disabled selected>Izberi vrsto nepremičninskega zavarovanja:</option>
               <option value="pozar">Požar</option>
               <option value="potres">Potres</option>
@@ -23,10 +25,12 @@
             </select>
         </div>
         <div class="form-group">
-            <input name="naslov_nepr" type="text" value="{{naslov_nepr}}" class="form-control" placeholder="Naslov nepremičnine" data-rule="minlen:4" data-rule="required" />
+            <input name="naslov_nepr" type="text" value="{{naslov_nepr}}" class="form-control" placeholder="Naslov nepremičnine" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite naslov nepremičnine.')" oninput="setCustomValidity('')" />
         </div>
         <div class="form-group">
-          <input name="vrednost" type="float" value="{{vrednost}}" class="form-control" placeholder="Vrednost nepremičnine" data-rule="minlen:3" data-rule="required" />
+          <input name="vrednost" type="float" value="{{vrednost}}" class="form-control" placeholder="Vrednost nepremičnine" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite tržno vrednost nepremičnine.')" oninput="setCustomValidity('')" />
         </div>
         <div class="form-group">
             <input name="premija" type="float" value="{{premija}}" class="form-control" placeholder="Premija" data-rule="minlen:3" data-rule="required" />
