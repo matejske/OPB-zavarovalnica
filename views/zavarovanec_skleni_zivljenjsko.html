@@ -13,7 +13,7 @@
       <form action="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko" method='post' style="width: 48%">
         <div class="form-group">
             <select id="vrsta_zivljenjskega" name="vrsta_zivljenjskega" class="form-control" placeholder="Vrsta življenjskega zavarovanja" required 
-            oninvalid="this.setCustomValidity('Prosim izberite vrsto življenjskega zavarovanja.')" oninput="setCustomValidity('')"">
+            oninvalid="this.setCustomValidity('Prosim izberite vrsto življenjskega zavarovanja.')" oninput="setCustomValidity('')">
               <option value="" disabled selected>Izberi vrsto življenjskega zavarovanja:</option>
               <option value="pokojninsko">Pokojninsko</option>
               <option value="invalidsko">Invalidsko</option>
@@ -22,7 +22,7 @@
             </select>
         </div>
         <div class="text-center"> 
-          <input value='Skleni zavarovanje' type='submit' /><br> <br>
+          <button type="submit" class="btn btn-secondary">Skleni zavarovanje</button> 
         </div>
       </form>
     </div>  
