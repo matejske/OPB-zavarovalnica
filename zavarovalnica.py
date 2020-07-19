@@ -133,11 +133,13 @@ def glavna_stran():
 # Stran za testiranje ==========================================================================
 @get('/testi')
 def testi():
-    return rtemplate('testi.html')
+    cur.execute("SELECT * FROM avtomobili")
+    return rtemplate('testi.html', avtomobili=cur)
 
 @post('/testi')
 def testi():
-    return rtemplate('testi.html')
+    cur.execute("SELECT * FROM avtomobili")
+    return rtemplate('testi.html', avtomobili=cur)
 
 # Kontaktna stran ==========================================================================
 @get('/kontakt')
