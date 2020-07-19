@@ -13,16 +13,20 @@
           Vaša premija bo 5% vrednosti avtomobila.</h5>
       <form action="{{ROOT}}sklenitev_kaskoplus"  method='post' style="width: 48%"> <!-- class="php-email-form prijava_center"-->
         <div class="form-group">
-          <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska tablica" data-rule="minlen:3" data-rule="required" />
+          <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska številka avtomobila" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite registrsko številko avtomobila.')" oninput="setCustomValidity('')" />
         </div>
         <div class="form-group">
-          <input name="znamka" type="text" value="{{znamka}}" class="form-control" placeholder="Znamka avtomobila" data-rule="required"/>
+          <input name="znamka" type="text" value="{{znamka}}" class="form-control" placeholder="Znamka avtomobila" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite znamko avtomobila.')" oninput="setCustomValidity('')"/>
         </div>
         <div class="form-group">
-          <input name="model" type="text" value="{{model}}" class="form-control" placeholder="Model avtomobila"  data-rule="required" />
+          <input name="model" type="text" value="{{model}}" class="form-control" placeholder="Model avtomobila"  required 
+          oninvalid="this.setCustomValidity('Prosim vnesite model avtomobila.')" oninput="setCustomValidity('')" />
         </div>
         <div class="form-group">
-          <input name="vrednost" type="float" value="{{vrednost}}" class="form-control" placeholder="Vrednost avtomobila" data-rule="minlen:3" data-rule="required" />
+          <input name="vrednost" type="float" value="{{vrednost}}" class="form-control" placeholder="Vrednost avtomobila" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite tržno vrednost avtomobila.')" oninput="setCustomValidity('')" />
         </div>
         <div class="text-center"> 
           <input value='Skleni zavarovanje!' type='submit'/>
