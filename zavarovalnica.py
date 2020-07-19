@@ -130,6 +130,15 @@ def glavna_stran():
 def glavna_stran():
     return rtemplate('glavna_stran.html')
 
+# Stran za testiranje ==========================================================================
+@get('/testi')
+def testi():
+    return rtemplate('testi.html')
+
+@post('/testi')
+def testi():
+    return rtemplate('testi.html')
+
 # Kontaktna stran ==========================================================================
 @get('/kontakt')
 def kontakt():
