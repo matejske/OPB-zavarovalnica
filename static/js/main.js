@@ -186,7 +186,7 @@
 
 })(jQuery);
 
-//Filtriranje tabel: ##########################
+//Iskanje po tabelah: ##########################
 function myFunction() {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue;
@@ -208,3 +208,8 @@ function myFunction() {
     }
   }
 }
+
+
+
+//Sortiranje tabel ##############################
+

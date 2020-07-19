@@ -1,8 +1,9 @@
 %rebase('zavarovanec_osnova.html', naslov='Vaša avtomobilska zavarovanja')
 
-<section class="about aos-init" data-aos="fade-up">
+
+<section  class="about aos-init" data-aos="fade-up" >
   <div class="container">
-      <table class="table table-hover" width="100%">
+    <table id="dtBasicExample" class="table table-hover" width="100%">
       <thead class="glava_tabele">
         <tr>
           <th>Številka police</th>
@@ -14,16 +15,16 @@
       </thead>
 
       %for (stevilka_police, datum_police, vrsta, avto_id, premija) in moja_avtomobilska:
-      <tbody class= "jedro_tabele">
-        <tr>
-          <td>{{stevilka_police}}</td>
-          <td>{{datum_police}}</td>
-          <td>{{vrsta}}</td>
-          <td>{{avto_id}}</td>
-          <td>{{premija}}</td>
-        </tr>
-      </tbody>
+        <tbody class= "jedro_tabele">
+          <tr>
+            <td>{{stevilka_police}}</td>
+            <td>{{datum_police}}</td>
+            <td>{{vrsta}}</td>
+            <td>{{avto_id}}</td>
+            <td>{{premija}}</td>
+          </tr>
+        </tbody>
       %end
-      </table>
+    </table>
   </div>
 </section>
