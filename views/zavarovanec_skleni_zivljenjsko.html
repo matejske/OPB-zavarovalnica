@@ -10,16 +10,19 @@
           <div class="alert alert-warning">{{napaka}}</div>
         %end
       </div>
-      <form action="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko" method='post' style="width: 48%">
+      <form name="skleni_zivl" action="{{ROOT}}zavarovanec/{{emso}}/skleni_zivljenjsko" method='post' style="width: 48%">
         <div class="form-group">
-            <select id="vrsta_zivljenjskega" name="vrsta_zivljenjskega" class="form-control" placeholder="Vrsta življenjskega zavarovanja" required 
-            oninvalid="this.setCustomValidity('Prosim izberite vrsto življenjskega zavarovanja.')" oninput="setCustomValidity('')">
+            <select id="vrsta_zivljenskega" name="vrsta_zivljenskega" class="form-control" placeholder="Vrsta življenjskega zavarovanja" required 
+            oninvalid="this.setCustomValidity('Prosim izberite vrsto življenjskega zavarovanja.')" oninput="setCustomValidity('');izracunajPremijoZivljensko()">
               <option value="" disabled selected>Izberi vrsto življenjskega zavarovanja:</option>
               <option value="pokojninsko">Pokojninsko</option>
               <option value="invalidsko">Invalidsko</option>
               <option value="za primer brezposelnosti">Za primer brezposelnosti</option>
               <option value="za primer smrti">Za primer smrti</option>
             </select>
+        </div>
+        <div class="alert alert-light pb-2 mb-1 pt-0">
+          <output name="rezultat">
         </div>
         <div class="text-center"> 
           <button type="submit" class="btn btn-dark">Skleni zavarovanje</button> 

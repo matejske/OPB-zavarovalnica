@@ -39,6 +39,7 @@ def rtemplate(*largs, **kwargs):
     """
     return template(ROOT=ROOT, *largs, **kwargs)
 
+# Za uvoz statičnih datotek (css, JS, ...)
 @get('/static/<filename:path>')
 def static(filename):
     return static_file(filename, root='static')

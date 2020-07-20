@@ -213,3 +213,5 @@ function myFunction() {
 
 //Sortiranje tabel ##############################
 
+
+//Izračunavanje premije in hkratno izpisovanje na strani ##############################

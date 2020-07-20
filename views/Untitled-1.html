@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transititonal//EN"
+""http://www.w3.org/TR/XHTML1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head></head>
+<body>
+
+<form name="ime_forme">
+    <table>
+        <td>
+            <input  name="vnosno_polje1" onchange="izracunajpremijo();"/>
+        </td>
+        <td>
+            <input  name="vnosno_polje2" onchange="izracunajpremijo();"/>
+        </td>
+        <td>
+            <input  name="rezultat" id="output">
+        </td>
+    <table>
+
+</form>
+
+
+
+
+
+<script type="text/javascript">
+    function izracunajpremijo() {
+    var USERINPUT1 = document.ime_forme.vnosno_polje1.value;
+    var USERINPUT2 = document.ime_forme.vnosno_polje2.value;
+    var CALC1 = USERINPUT1;
+    var CALC2 = USERINPUT2;
+    var PREMIJA = CALC1 + CALC2
+    document.ime_forme.rezultat.value = PREMIJA;
+}
+
+</script>
+</body>
+</html>

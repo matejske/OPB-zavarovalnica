@@ -12,19 +12,22 @@
         %end
       </div>
       
-      <form action="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko" method='post' style="width: 48%">
+      <form name="skleni_avto" action="{{ROOT}}zavarovanec/{{emso}}/skleni_avtomobilsko" method='post' style="width: 48%">
         <div class="form-group">
             <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska številka avtomobila" data-rule="minlen:4" required 
             oninvalid="this.setCustomValidity('Prosim vnesite registrsko številko avtomobila.')" oninput="setCustomValidity('')" />
         </div>
         <div class="form-group">
             <select id="vrsta_avtomobilskega" name="vrsta_avtomobilskega" class="form-control" placeholder="Vrsta avtomobilskega zavarovanja" required 
-            oninvalid="this.setCustomValidity('Prosim izberite vrsto avtomobilskega zavarovanja.')" oninput="setCustomValidity('')">
+            oninvalid="this.setCustomValidity('Prosim izberite vrsto avtomobilskega zavarovanja.')" oninput="setCustomValidity('');izracunajPremijoAvtomobilsko()" />
               <option value="" disabled selected>Izberi vrsto avtomobilskega zavarovanja:</option>
               <option value="kasko">Kasko</option>
               <option value="kasko +">Kasko Plus</option>
               <option value="avtomobilska asistenca">Avtomobilska asistenca</option>
             </select>
+        </div>
+        <div class="alert alert-light pb-2 mb-1 pt-0">
+          <output name="rezultat">
         </div>
         <div class="text-center"> 
           <button type="submit" class="btn btn-dark">Skleni zavarovanje</button> 
@@ -33,3 +36,4 @@
     </div>  
   </div>
 </section>
+

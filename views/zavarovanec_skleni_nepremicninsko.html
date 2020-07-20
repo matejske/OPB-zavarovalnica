@@ -13,19 +13,22 @@
         %end
       </div>
 
-      <form action="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko" method='post' style="width: 48%">
+      <form name="skleni_nepr" action="{{ROOT}}zavarovanec/{{emso}}/skleni_nepremicninsko" method='post' style="width: 48%">
         <div class="form-group">
           <input name="naslov_nepr" type="text" value="{{naslov_nepr}}" class="form-control" placeholder="Naslov nepremičnine" data-rule="minlen:4" required 
           oninvalid="this.setCustomValidity('Prosim vnesite naslov nepremičnine.')" oninput="setCustomValidity('')" />
         </div>
         <div class="form-group">
             <select id="vrsta_nepremicninskega" name="vrsta_nepremicninskega" class="form-control" placeholder="Vrsta nepremičninskega zavarovanja" required 
-          oninvalid="this.setCustomValidity('Prosim izberite vrsto nepremičninskega zavarovanja.')" oninput="setCustomValidity('')">
+          oninvalid="this.setCustomValidity('Prosim izberite vrsto nepremičninskega zavarovanja.')" oninput="setCustomValidity('');izracunajPremijoNepremicninsko()">
               <option value="" disabled selected>Izberi vrsto nepremičninskega zavarovanja:</option>
               <option value="pozar">Požar</option>
               <option value="potres">Potres</option>
               <option value="poplava">Poplava</option>
             </select>
+        </div>
+        <div class="alert alert-light pb-2 mb-1 pt-0">
+          <output name="rezultat">
         </div>
         <div class="text-center"> 
           <button type="submit" class="btn btn-dark">Skleni zavarovanje</button> 
@@ -34,3 +37,6 @@
     </div>  
   </div>
 </section>
+<script>
+
+                </script>
