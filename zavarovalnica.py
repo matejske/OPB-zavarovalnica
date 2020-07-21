@@ -95,29 +95,29 @@ def doloci_premijo_avtomobilskega(vrsta, vrednost_vozila):
     # za 'kasko +' 8%,
     # za 'avtomobilsko asistenco' pa 100€.
     if vrsta == 'kasko':
-        return(0.05 * float(vrednost_vozila))
+        return(round(0.05 * float(vrednost_vozila), 2))
     elif vrsta == 'kasko +':
-        return(0.08 * float(vrednost_vozila))
+        return(round(0.08 * float(vrednost_vozila), 2))
     elif vrsta == 'avtomobilska asistenca':
         return(100)
 
 def doloci_premijo_nepremicninskega(vrsta, vrednost_nepremicnine):
     if vrsta == 'pozar':
-        return(0.01 * float(vrednost_nepremicnine))
+        return(round(0.01 * float(vrednost_nepremicnine), 2))
     elif vrsta == 'potres':
-        return(0.0005 * float(vrednost_nepremicnine))
+        return(round(0.0005 * float(vrednost_nepremicnine), 2))
     elif vrsta == 'poplava':
-        return(0.001 * float(vrednost_nepremicnine))
+        return(round(0.001 * float(vrednost_nepremicnine), 2))
 
 def doloci_premijo_zivljenjskega(vrsta, starost_osebe):
     if vrsta == 'pokojninsko':
-        return(0.01 * int(starost_osebe))
+        return(round(0.01 * int(starost_osebe), 2))
     elif vrsta == 'invalidsko':
-        return(0.005 * int(starost_osebe))
+        return(round(0.005 * int(starost_osebe), 2))
     elif vrsta == 'za primer brezposelnosti':
-        return(0.008 * int(starost_osebe))
+        return(round(0.008 * int(starost_osebe), 2))
     elif vrsta == 'za primer smrti':
-        return(0.02 * int(starost_osebe))
+        return(round(0.02 * int(starost_osebe), 2))
 
 def tip_zavarovanja(stevilka_police):
     """Vrne vrsto zavarovanja dane police ("nepremicninska", "zivljenjska", "avtomobilska")"""
@@ -233,12 +233,82 @@ def stran_agenta(emso_agenta):
     (emso, ime, priimek) = get_agent()
     #print(emso, ime, priimek)
 
-    # Vrnemo predlogo za stran za agente
+    #preštejemo vse police
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja")
+    stevilo_polic = cur.fetchone()[0]
 
-    return rtemplate("agent.html", napaka=None,
-                            emso=emso,
-                            ime_agenta=ime,
-                            priimek_agenta=priimek) #,
+    #preštejemo vse komitente
+    cur.execute("SELECT COUNT(emso) FROM osebe WHERE zaposleni=%s", ('FALSE',))
+    stevilo_komitentov = cur.fetchone()[0]
+
+    #preštejemo vse agente
+    cur.execute("SELECT COUNT(emso) FROM osebe WHERE zaposleni=%s", ('TRUE',))
+    stevilo_agentov = cur.fetchone()[0]
+
+    #povprecna premija
+    cur.execute("SELECT AVG(premija) FROM zavarovanja")
+    povprecna_premija = round(cur.fetchone()[0], 2)
+
+    #vsota premij
+    cur.execute("SELECT SUM(premija) FROM zavarovanja")
+    vsota_premij = round(cur.fetchone()[0], 2)
+
+    #stevilo polic nepremičninska
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=%s", (3,))
+    stevilo_polic_n = cur.fetchone()[0]
+
+    #povprecna premija nepremicninska
+    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (3,))
+    povprecna_premija_n = round(cur.fetchone()[0], 2)
+
+    #vsota premij nepremicninska
+    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (3,))
+    vsota_premij_n = round(cur.fetchone()[0], 2)
+
+    #stevilo polic avtomobilska
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=%s", (2,))
+    stevilo_polic_a = cur.fetchone()[0]
+
+    #povprecna premija avtomobilska
+    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (2,))
+    povprecna_premija_a = round(cur.fetchone()[0], 2)
+
+    #vsota premij avtomobilska
+    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (2,))
+    vsota_premij_a = round(cur.fetchone()[0], 2)
+
+    #stevilo polic življenjska
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=%s", (1,))
+    stevilo_polic_z = cur.fetchone()[0]
+
+    #povprecna premija življenjska
+    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (1,))
+    povprecna_premija_z = round(cur.fetchone()[0], 2)
+
+    #vsota premij življenjska
+    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (1,))
+    vsota_premij_z = round(cur.fetchone()[0], 2)
+    
+    # Vrnemo predlogo za stran za agente
+    return rtemplate("agent.html",
+                        stevilo_polic=stevilo_polic,
+                        stevilo_komitentov=stevilo_komitentov,
+                        stevilo_agentov=stevilo_agentov,
+                        povprecna_premija=povprecna_premija,
+                        vsota_premij=vsota_premij,
+                        stevilo_polic_n=stevilo_polic_n,
+                        stevilo_polic_a=stevilo_polic_a,
+                        stevilo_polic_z=stevilo_polic_z,
+                        vsota_premij_a=vsota_premij_a,
+                        vsota_premij_n=vsota_premij_n,
+                        vsota_premij_z=vsota_premij_z,
+                        povprecna_premija_a=povprecna_premija_a,
+                        povprecna_premija_n=povprecna_premija_n,
+                        povprecna_premija_z=povprecna_premija_z,
+                        napaka=None,
+                        emso=emso,
+                        ime_agenta=ime,
+                        priimek_agenta=priimek) #,
                             # sporocilo=sporocilo)
 
 @get("/prijava_agent")
@@ -1537,7 +1607,12 @@ def zavarovanec_skleni_zivljenjsko_post(emso_zavarovanca):
 
     # Vstavimo v bazo novo polico 
     try:
-        premija = doloci_premijo_zivljenjskega(vrsta_zivljenjskega, starost_osebe(emso_zav))
+        print(vrsta_zivljenjskega)
+        starost = starost_osebe(emso_zav)
+        print(starost)
+        
+        premija = doloci_premijo_zivljenjskega(vrsta_zivljenjskega, starost)
+        print(premija)
         cur.execute("""
             INSERT INTO zavarovanja (komitent_id, datum_police, premija, tip_zavarovanja)
             VALUES (%s, %s, %s, %s)
