@@ -960,7 +960,7 @@ def uredi_avtomobil_post(emso_agenta, stevilka_police):
 @get('/agent/<emso_agenta>/osebe')
 def osebe(emso_agenta):
     (emso, ime, priimek) = get_agent()
-    cur.execute("SELECT emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni FROM osebe")
+    cur.execute("SELECT emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni FROM osebe WHERE zaposleni=False")
     print(cur)
     return rtemplate('osebe.html', napaka=None,
                         osebe=cur,
