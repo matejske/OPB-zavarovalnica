@@ -8,39 +8,70 @@
         </h2>
         <h1>DOBRODOŠLI V SPLETNI POSLOVALNICI!</h1>
     </div>
+</section>
 
-    <div class="container">
-        <div class="row text-center">
-            <div class="col flex-column p-5">
-                <h2 class="title pb-4"><b>Podatki o zavarovanjih</b> </h2>
-                <p class="description">Število polic: <b>{{stevilo_polic}}</b> </p>
-                <p class="description">Število komitentov: <b>{{stevilo_komitentov}}</b> </p>
-                <p class="description">Število agentov: <b>{{stevilo_agentov}}</b> </p>
-                <p class="description">Povprečna premija: <b>{{povprecna_premija}}</b> </p>
-                <p class="description">Vsota vseh premij: <b>{{vsota_premij}}</b> </p>
-            </div>
-        </div>
-    </div>
+<!-- ======= Service Details Section ======= -->
+<section class="service-details">
     <div class="container">
         <div class="row">
-            <div class="col flex-column p-5">
-                <h2 class="title pb-4"><b>Podatki o nepremičninskih zavarovanjih</b> </h2>
-                <p class="description">Število polic: <b>{{stevilo_polic_n}}</b> </p>
-                <p class="description">Povprečna premija: <b>{{povprecna_premija_n}}</b> </p>
-                <p class="description">Vsota vseh premij: <b>{{vsota_premij_n}}</b> </p>
-            </div>
-            <div class="col flex-column p-5 text-center">
-                <h2 class="title pb-4"><b>Podatki o življenjskih zavarovanjih</b> </h2>
-                <p class="description">Število polic: <b>{{stevilo_polic_z}}</b> </p>
-                <p class="description">Povprečna premija: <b>{{povprecna_premija_z}}</b> </p>
-                <p class="description">Vsota vseh premij: <b>{{vsota_premij_z}}</b> </p>
-            </div>
-            <div class="col flex-column p-5 text-right">
-                <h2 class="title pb-4"><b>Podatki o avtomobilskih zavarovanjih</b> </h2>
-                <p class="description">Število polic: <b>{{stevilo_polic_a}}</b> </p>
-                <p class="description">Povprečna premija: <b>{{povprecna_premija_a}}</b> </p>
-                <p class="description">Vsota vseh premij: <b>{{vsota_premij_a}}</b> </p>
+            <div class="col-md-12 d-flex align-items-stretch" data-aos="fade-up">
+                <div class="card col-md-12 col-sm-12 col-lg-12 col-xl-12 col-12">
+                    <div class="card-body">
+                        <h2 class="card-title">PODATKI O ZAVAROVANJIH</h2>
+                        <p class="card-text">Število polic: <b>{{stevilo_polic}}</b> </p>
+                        <p class="card-text">Število komitentov: <b>{{stevilo_komitentov}}</b> </p>
+                        <p class="card-text">Število agentov: <b>{{stevilo_agentov}}</b> </p>
+                        <p class="card-text">Povprečna premija: <b>{{povprecna_premija}}</b> </p>
+                        <p class="card-text">Vsota vseh premij: <b>{{vsota_premij}}</b> </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up">
+            <div class="card">
+                <div class="card-img">
+                <img src="{{ROOT}}static/img/portfolio/pozar.jpg" alt="...">
+                </div>
+                <div class="card-body">
+                <h4 class="card-title">NEPREMIČNISKA ZAVAROVANJA</h4>
+                <p class="card-text">Število polic: <b>{{stevilo_polic_n}}</b> </p>
+                <p class="card-text">Povprečna premija: <b>{{povprecna_premija_n}}</b> </p>
+                <p class="card-text">Vsota vseh premij: <b>{{vsota_premij_n}}</b> </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up">
+            <div class="card">
+                <div class="card-img">
+                <img src="{{ROOT}}static/img/portfolio/pokojninsko.jpg" alt="...">
+                </div>
+                <div class="card-body">
+                <h4 class="card-title">ŽIVLJENSKA ZAVAROVANJA</h4>
+                <p class="card-text">Število polic: <b>{{stevilo_polic_z}}</b> </p>
+                <p class="card-text">Povprečna premija: <b>{{povprecna_premija_z}}</b> </p>
+                <p class="card-text">Vsota vseh premij: <b>{{vsota_premij_z}}</b> </p>
+                </div>
+        </div>
+
+            </div>
+            <div class="col-md-4 d-flex align-items-stretch" data-aos="fade-up">
+            <div class="card">
+                <div class="card-img">
+                <img src="{{ROOT}}static/img/portfolio/kasko.jpg" alt="...">
+                </div>
+                <div class="card-body">
+                <h4 class="card-title">AVTOMOBILSKA ZAVAROVANJA</h4>
+                <p class="card-text">Število polic: <b>{{stevilo_polic_a}}</b> </p>
+                <p class="card-text">Povprečna premija: <b>{{povprecna_premija_a}}</b> </p>
+                <p class="card-text">Vsota vseh premij: <b>{{vsota_premij_a}}</b> </p>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </section><!-- End Service Details Section -->
