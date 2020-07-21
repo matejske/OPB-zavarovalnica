@@ -119,6 +119,15 @@ def doloci_premijo_zivljenjskega(vrsta, starost_osebe):
     elif vrsta == 'za primer smrti':
         return(0.02 * int(starost_osebe))
 
+def tip_zavarovanja(stevilka_police):
+    """Vrne vrsto zavarovanja dane police ("nepremicninska", "zivljenjska", "avtomobilska")"""
+    cur.execute("""SELECT tip_zavarovanja 
+                FROM zavarovanja 
+                WHERE stevilka_police = %s""",(stevilka_police,))
+    
+    tip = cur.fetchone()[0]
+    return tip
+
 # Glavna stran ==========================================================================
 @get('/')
 def glavna_stran():
@@ -432,6 +441,48 @@ def uredi_komitenta_post(emso_agenta, emso_komitenta):
     conn.commit()
     redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
 
+# Odstranjevanje osebe ================================================================================================
+
+@post("/agent/<emso_agenta>/odstranjevanje_komitenta/<emso_komitenta>")
+def odstrani_komitententa_post(emso_agenta, emso_komitenta):
+    """Odstrani podatke komitenta"""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    try:
+        # Poizkusimo izbirisati osebo
+        cur.execute(""" DELETE FROM osebe
+            WHERE emso = %s
+            """, (emso_komitenta,))
+    
+        # Uredi v tabelo
+        conn.commit()
+
+    except Exception as ex:
+        conn.rollback()
+
+        cur.execute("""
+            SELECT ime, priimek, naslov, email, rojstvo, telefon
+            FROM osebe
+            WHERE emso=%s
+            """, (emso_komitenta,)) 
+        
+        (ime, priimek, naslov, email, rojstvo, telefon) = cur.fetchone()
+
+        return rtemplate('uredi_komitenta.html',
+                        emso_komitenta = emso_komitenta,
+                        ime=ime, 
+                        priimek=priimek, 
+                        naslov=naslov, 
+                        email=email, 
+                        rojstvo=rojstvo, 
+                        telefon=telefon, 
+                        zaposleni='FALSE', 
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka='Zgodila se je napaka: {}'.format(ex))
+    redirect("{0}agent/{1}/osebe".format(ROOT, emso_agenta))
+
 # Dodajanje nove nepremičnine na strani za agente =====================================================================
 @get("/agent/<emso_agenta>/dodaj_nepremicnino")
 def dodaj_nepremicnino_get(emso_agenta):
@@ -511,10 +562,50 @@ def uredi_nepremicnino_post(emso_agenta, sifra_naslov):
         SET vrednost = %s
         WHERE naslov_nepr = %s;
         """, (vrednost, naslov))
+    
 
     # Uredi v tabelo in preusmeri na tabelo osebe
     conn.commit()
+    print("prisel sem do sem")
     redirect("{0}agent/{1}/nepremicnine".format(ROOT, emso_agenta))
+
+# Odstranjevanje nepremičnine ========================================================================================
+
+@post("/agent/<emso_agenta>/odstranjevanje_nepremicnine/<sifra_naslov>")
+def odstrani_nepremicnino_post(emso_agenta, sifra_naslov):
+    """Odstrani podatke komitenta"""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    naslov = sifra_naslov.replace('_', ' ')
+
+    try:
+        # Poizkusimo izbirisati osebo
+        cur.execute(""" DELETE FROM nepremicnine
+            WHERE naslov_nepr = %s
+            """, (naslov,))
+    
+        # Uredi v tabelo
+        conn.commit()
+        #print("izbrisali smo nepremicnino")
+
+    except Exception as ex:
+        conn.rollback()
+
+        cur.execute("""
+            SELECT vrednost
+            FROM nepremicnine
+            WHERE naslov_nepr=%s
+            """, (naslov,)) 
+        vrednost = cur.fetchone()[0]
+
+        return rtemplate('uredi_nepremicnino.html',
+                        naslov=naslov, 
+                        vrednost=vrednost,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka='Zgodila se je napaka: {}'.format(ex))
+    redirect("{0}agent/{1}/nepremicnine".format(ROOT, emso_agenta))
+
 
 # Dodajanje novega avtomobila na strani za agente =====================================================================
 @get("/agent/<emso_agenta>/dodaj_avtomobil")
@@ -604,6 +695,45 @@ def uredi_avtomobil_post(emso_agenta, registrska):
     # Uredi v tabelo in preusmeri na tabelo osebe
     conn.commit()
     redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
+
+# Odstranjevanje avtomobila ===========================================================================================
+
+@post("/agent/<emso_agenta>/odstranjevanje_avtomobila/<registrska>")
+def odstrani_avtomobil_post(emso_agenta, registrska):
+    """Odstrani podatke komitenta"""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+
+    try:
+        # Poizkusimo izbirisati osebo
+        cur.execute(""" DELETE FROM avtomobili
+            WHERE registrska = %s
+            """, (registrska,))
+    
+        # Uredi v tabelo
+        conn.commit()
+
+    except Exception as ex:
+        conn.rollback()
+
+        cur.execute("""
+            SELECT znamka, model, vrednost
+            FROM avtomobili
+            WHERE registrska=%s
+            """, (registrska,)) 
+        (znamka, model, vrednost) = cur.fetchone()
+
+        return rtemplate('uredi_avtomobil.html',
+                        registrska=registrska,
+                        znamka=znamka,
+                        model=model,
+                        vrednost=vrednost,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka='Zgodila se je napaka: {}'.format(ex))
+
+    redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
+
 
 ################################# Sklenitev novih zavarovanj na strani za agente ######################################
 
@@ -951,6 +1081,55 @@ def uredi_avtomobil_post(emso_agenta, stevilka_police):
     # Uredi v tabelo in preusmeri na tabelo osebe
     conn.commit()
     redirect("{0}agent/{1}/zavarovanja".format(ROOT, emso_agenta))
+
+# Odstranjevanje pogodbe ==============================================================================================================
+
+@post("/agent/<emso_agenta>/odstranjevanje_police/<stevilka_police>")
+def odstrani_polico_post(emso_agenta, stevilka_police):
+    """Odstrani podatke police"""
+    (emso_ag, ime_ag, priimek_ag) = get_agent()
+    tip = tip_zavarovanja(stevilka_police)
+
+    try:
+        if tip == 1:
+            cur.execute(""" DELETE FROM zivljenska
+                WHERE polica_id = %s
+                """, (stevilka_police,))
+        elif tip == 2:
+            cur.execute(""" DELETE FROM avtomobilska
+                WHERE polica_id = %s
+                """, (stevilka_police,))
+        else:
+            cur.execute(""" DELETE FROM nepremicninska
+                WHERE polica_id = %s
+                """, (stevilka_police,))
+        
+        cur.execute(""" DELETE FROM zavarovanja
+            WHERE stevilka_police = %s
+            """, (stevilka_police,))
+    
+        # Uredi v tabelo
+        conn.commit()
+
+    except Exception as ex:
+        conn.rollback()
+
+        cur.execute("""
+            SELECT premija
+            FROM zavarovanja
+            WHERE stevilka_police=%s
+            """, (stevilka_police,)) 
+        premija = cur.fetchone()[0]
+
+        return rtemplate('uredi_premijo.html',
+                        stevilka_police=stevilka_police,
+                        premija=premija,
+                        emso=emso_ag, # emso od agenta, ker rabimo v agent_osnova, da se izpiše kdo je prijavljen
+                        ime_agenta=ime_ag,
+                        priimek_agenta=priimek_ag,
+                        napaka='Zgodila se je napaka: {}'.format(ex))
+
+    redirect("{0}agent/{1}/avtomobili".format(ROOT, emso_agenta))
 
 
 #########################################    Podatkovna baza za agente    #############################################
