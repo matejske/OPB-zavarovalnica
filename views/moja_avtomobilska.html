@@ -2,6 +2,7 @@
 
 
 <section  class="about aos-init" data-aos="fade-up" >
+  %if int(moja_avtomobilska.rowcount) != 0:
   <div class="container">
     <table id="naprednaTabela" class="table table-hover" width="100%">
       <thead class="glava_tabele" style="text-align:center;">
@@ -27,4 +28,27 @@
       </tbody>
     </table>
   </div>
+  %else:
+  <div class="container p-4">
+    <div class="text-center">
+        <img src="{{ROOT}}static/img/empty.jpg" style="width:20%">
+    </div>
+  </div>
+
+  <div class="container p-4 text-center">
+    <div>
+      <h2 class="title pb-4 text-center"><b>Pri nas še nimate sklenjenih avtomobilskih zavarovanj.</b> </h2>
+    </div>
+    <div class="row">
+      <div class="col text-centre">
+        <form action="{{ROOT}}zavarovanec/{{emso}}/skleni_zavarovanje" method='get'>
+          <div class="text-center">
+            <button type="submit" class="btn btn-dark">Skleni zavarovanje</button> 
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  %end
 </section>
