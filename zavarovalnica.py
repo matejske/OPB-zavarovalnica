@@ -146,10 +146,6 @@ def testi():
     cur.execute("SELECT * FROM avtomobili")
     return rtemplate('testi.html', avtomobili=cur)
 
-@post('/testi')
-def testi():
-    cur.execute("SELECT * FROM avtomobili")
-    return rtemplate('testi.html', avtomobili=cur)
 
 # Kontaktna stran ==========================================================================
 @get('/kontakt')
@@ -1142,8 +1138,9 @@ def odstrani_polico_post(emso_agenta, stevilka_police):
 # Podstrani za vsako tabelo iz baze, ki jih lahko vidi le agent =======================================================
 @get('/agent/<emso_agenta>/osebe')
 def osebe(emso_agenta):
-    cur.execute("SELECT * FROM Osebe")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT emso,ime,priimek,naslov,email,rojstvo,telefon,zaposleni FROM osebe WHERE zaposleni=False")
+    print(cur)
     return rtemplate('osebe.html', napaka=None,
                         osebe=cur,
                         emso=emso,
@@ -1152,8 +1149,8 @@ def osebe(emso_agenta):
 
 @get('/agent/<emso_agenta>/zavarovanja')
 def zavarovanja(emso_agenta):
-    cur.execute("SELECT * FROM zavarovanja")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT * FROM zavarovanja")
     return rtemplate('zavarovanja.html', napaka=None,
                         zavarovanja=cur,
                         emso=emso,
@@ -1162,8 +1159,8 @@ def zavarovanja(emso_agenta):
 
 @get('/agent/<emso_agenta>/nepremicnine')
 def nepremicnine(emso_agenta):
-    cur.execute("SELECT * FROM nepremicnine")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT * FROM nepremicnine")
     return rtemplate('nepremicnine.html', napaka=None,
                         nepremicnine=cur,
                         emso=emso,
@@ -1172,28 +1169,18 @@ def nepremicnine(emso_agenta):
 
 @get('/agent/<emso_agenta>/nepremicninska')
 def nepremicninska(emso_agenta):
-    cur.execute("SELECT * FROM nepremicninska")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT * FROM nepremicninska")
     return rtemplate('nepremicninska.html', napaka=None,
                         nepremicninska=cur,
                         emso=emso,
                         ime_agenta=ime,
                         priimek_agenta=priimek)
 
-@get('/agent/<emso_agenta>/vrste_nepr')
-def vrste_avto(emso_agenta):
-    cur.execute("SELECT * FROM Mozne_vrste_nepr_tb")
-    (emso, ime, priimek) = get_agent()
-    return rtemplate('vrste_nepr.html', napaka=None,
-                        Mozne_vrste_nepr_tb=cur,
-                        emso=emso,
-                        ime_agenta=ime,
-                        priimek_agenta=priimek)
-
 @get('/agent/<emso_agenta>/avtomobili')
 def avtomobili(emso_agenta):
-    cur.execute("SELECT * FROM avtomobili")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT * FROM avtomobili")
     return rtemplate('avtomobili.html', napaka=None,
                         avtomobili=cur,
                         emso=emso,
@@ -1202,40 +1189,20 @@ def avtomobili(emso_agenta):
 
 @get('/agent/<emso_agenta>/avtomobilska')
 def avtomobilska(emso_agenta):
-    cur.execute("SELECT * FROM avtomobilska")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT * FROM avtomobilska")
     return rtemplate('avtomobilska.html', napaka=None,
                         avtomobilska=cur,
                         emso=emso,
                         ime_agenta=ime,
                         priimek_agenta=priimek)
 
-@get('/agent/<emso_agenta>/vrste_avto')
-def vrste_avto(emso_agenta):
-    cur.execute("SELECT * FROM Mozne_vrste_avto_tb")
-    (emso, ime, priimek) = get_agent()
-    return rtemplate('vrste_avto.html', napaka=None,
-                        Mozne_vrste_avto_tb=cur,
-                        emso=emso,
-                        ime_agenta=ime,
-                        priimek_agenta=priimek)
-
 @get('/agent/<emso_agenta>/zivljenjska')
 def zivljenjska(emso_agenta):
-    cur.execute("SELECT * FROM zivljenska")
     (emso, ime, priimek) = get_agent()
+    cur.execute("SELECT * FROM zivljenska")
     return rtemplate('zivljenjska.html', napaka=None,
                         zivljenjska=cur,
-                        emso=emso,
-                        ime_agenta=ime,
-                        priimek_agenta=priimek)
-
-@get('/agent/<emso_agenta>/vrste_zivlj')
-def vrste_zivlj(emso_agenta):
-    cur.execute("SELECT * FROM Mozne_vrste_zivlj_tb")
-    (emso, ime, priimek) = get_agent()
-    return rtemplate('vrste_zivlj.html', napaka=None,
-                        Mozne_vrste_zivlj_tb=cur,
                         emso=emso,
                         ime_agenta=ime,
                         priimek_agenta=priimek)

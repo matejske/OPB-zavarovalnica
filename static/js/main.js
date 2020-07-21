@@ -1,9 +1,36 @@
-/**
-* Template Name: Moderna - v2.1.0
-* Template URL: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
+// IZRACUNAVANJE PREMIJE NA STRANI DIREKTNO ###############
+function izracunajPremijoAvtomobilsko() {
+  var VRSTA = document.skleni_avto.vrsta_avtomobilskega.value;
+  if (VRSTA == "kasko") { return document.skleni_avto.rezultat.value = 'Vaša premija bo znašala 5 odstotkov vrednosti vozila.'; }
+  else if (VRSTA == "kasko +") { return document.skleni_avto.rezultat.value = 'Vaša premija bo znašala 8 odstotkov vrednosti vozila.'; }
+  else if (VRSTA == "avtomobilska asistenca") { return document.skleni_avto.rezultat.value = 'Vaša premija bo znašala 100 €.'; }
+}
+
+function izracunajPremijoNepremicninsko() {
+  var VRSTA = document.skleni_nepr.vrsta_nepremicninskega.value;
+  if (VRSTA == "pozar") { return document.skleni_nepr.rezultat.value = 'Vaša premija bo znašala 1 odstotek vrednosti nepremičnine.'; }
+  else if (VRSTA == "potres") { return document.skleni_nepr.rezultat.value = 'Vaša premija bo znašala 0,05 odstotka vrednosti nepremičnine.'; }
+  else if (VRSTA == "poplava") { return document.skleni_nepr.rezultat.value = 'Vaša premija bo znašala 0,1 odstotek vrednosti nepremičnine.'; }
+}
+
+function izracunajPremijoZivljensko() {
+  var VRSTA = document.skleni_zivl.vrsta_zivljenskega.value;
+  if (VRSTA == "pokojninsko") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 1 odstotek vaše starosti.'; }
+  else if (VRSTA == "invalidsko") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 0,5 odstotka vaše starosti.'; }
+  else if (VRSTA == "za primer brezposelnosti") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 0,8 odstotka vaše starosti.'; }
+  else if (VRSTA == "za primer smrti") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 2 odstotka vaše starosti.'; }
+}
+
+
+// FILTRIRANJE TABEL ####################
+$(document).ready(function () {
+  $('#dtBasicExample').DataTable();
+  $('.dataTables_length').addClass('bs-select');
+  }); 
+
+
+
+// Template JS ##############
 !(function($) {
   "use strict";
 
@@ -185,33 +212,3 @@
   });
 
 })(jQuery);
-
-//Iskanje po tabelah: ##########################
-function myFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
-
-
-
-//Sortiranje tabel ##############################
-
-
-//Izračunavanje premije in hkratno izpisovanje na strani ##############################

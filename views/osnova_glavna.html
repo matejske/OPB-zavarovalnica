@@ -35,8 +35,7 @@
         <link href="{{ROOT}}static/css/style.css" rel="stylesheet">
 
         <!--OBLIKOVNE LASTNOSTI TABEL-->
-        <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="{{ROOT}}static/css/main.css">
+        <link rel="stylesheet" type="text/css" href="{{ROOT}}static/vendor/bootstrap/css/bootstrap.min.css">
 
         <!-- FILTRIRANJE TABEL -->
         <!-- Font Awesome -->
@@ -84,41 +83,5 @@
         <!-- FILTRIRANJE TABEL -->
         <!-- MDBootstrap Datatables  -->
         <script type="text/javascript" src="{{ROOT}}static/js/datatables.min.js"></script>
-        <script>
-            $(document).ready(function () {
-            $('#dtBasicExample').DataTable();
-            $('.dataTables_length').addClass('bs-select');
-            }); 
-        </script>
-
-        <!-- IZRACUNAVANJE PREMIJE NA STRANI DIREKTNO -->
-        <script>
-                function izracunajPremijoAvtomobilsko() {
-                    var VRSTA = document.skleni_avto.vrsta_avtomobilskega.value;
-                    if (VRSTA == "kasko") { return document.skleni_avto.rezultat.value = 'Vaša premija bo znašala 5 odstotkov vrednosti vozila.'; }
-                    else if (VRSTA == "kasko +") { return document.skleni_avto.rezultat.value = 'Vaša premija bo znašala 8 odstotkov vrednosti vozila.'; }
-                    else if (VRSTA == "avtomobilska asistenca") { return document.skleni_avto.rezultat.value = 'Vaša premija bo znašala 100 €.'; }
-                }
-
-                function izracunajPremijoNepremicninsko() {
-                    var VRSTA = document.skleni_nepr.vrsta_nepremicninskega.value;
-                    if (VRSTA == "pozar") { return document.skleni_nepr.rezultat.value = 'Vaša premija bo znašala 1 odstotek vrednosti nepremičnine.'; }
-                    else if (VRSTA == "potres") { return document.skleni_nepr.rezultat.value = 'Vaša premija bo znašala 0,05 odstotka vrednosti nepremičnine.'; }
-                    else if (VRSTA == "poplava") { return document.skleni_nepr.rezultat.value = 'Vaša premija bo znašala 0,1 odstotek vrednosti nepremičnine.'; }
-                }
-
-                function izracunajPremijoZivljensko() {
-                    var VRSTA = document.skleni_zivl.vrsta_zivljenskega.value;
-                    if (VRSTA == "pokojninsko") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 1 odstotek vaše starosti.'; }
-                    else if (VRSTA == "invalidsko") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 0,5 odstotka vaše starosti.'; }
-                    else if (VRSTA == "za primer brezposelnosti") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 0,8 odstotka vaše starosti.'; }
-                    else if (VRSTA == "za primer smrti") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 2 odstotka vaše starosti.'; }
-                }
-
-
-                
-
-
-        </script>
     </body>
 </html>
