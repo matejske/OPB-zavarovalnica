@@ -24,7 +24,7 @@ function izracunajPremijoZivljensko() {
 
 // FILTRIRANJE TABEL ####################
 $(document).ready(function () {
-  $('#dtBasicExample').DataTable();
+  $('#naprednaTabela').DataTable();
   $('.dataTables_length').addClass('bs-select');
   }); 
 

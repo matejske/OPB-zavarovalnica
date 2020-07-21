@@ -4,7 +4,7 @@
 <!-- Tabela -->
 <section class="about aos-init" data-aos="fade-up">
   <div class="container-fluid table-responsive">
-      <table class="table table-hover" id="myTable" width="100%">
+      <table id="naprednaTabela" class="table table-hover" id="myTable" width="100%">
       <thead class="glava_tabele" style="text-align:center;">
         <tr>
           <th>Emšo</th>
@@ -17,9 +17,9 @@
           <th>Urejanje</th>
         </tr>
       </thead>
-
-      %for (emso_komitenta,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) in osebe:
       <tbody class= "jedro_tabele">
+      %for (emso_komitenta,ime,priimek,naslov,email,rojstvo,telefon,zaposleni) in osebe:
+
         <tr>
           <td>{{emso_komitenta}}</td>
           <td>{{ime}}</td>
@@ -30,8 +30,9 @@
           <td>{{telefon}}</td>
           <td><a type="button" class="btn btn-dark" href="{{ROOT}}agent/{{emso}}/urejanje_komitenta/{{emso_komitenta}}">Uredi</a></td>
         </tr>
-      </tbody>
       %end
+      </tbody>
+
       </table>
   </div>
 </section>

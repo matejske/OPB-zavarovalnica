@@ -3,7 +3,7 @@
 
 <section  class="about aos-init" data-aos="fade-up" >
   <div class="container">
-    <table id="dtBasicExample" class="table table-hover" width="100%">
+    <table id="naprednaTabela" class="table table-hover" width="100%">
       <thead class="glava_tabele" style="text-align:center;">
         <tr>
           <th>Številka police</th>
@@ -14,17 +14,17 @@
         </tr>
       </thead>
 
-      %for (stevilka_police, datum_police, vrsta, avto_id, premija) in moja_avtomobilska:
-        <tbody class= "jedro_tabele">
-          <tr>
-            <td>{{stevilka_police}}</td>
-            <td>{{datum_police}}</td>
-            <td>{{vrsta}}</td>
-            <td>{{avto_id}}</td>
-            <td>{{premija}}</td>
-          </tr>
-        </tbody>
-      %end
+      <tbody class= "jedro_tabele"> 
+        %for (stevilka_police, datum_police, vrsta, avto_id, premija) in moja_avtomobilska:
+            <tr>
+              <td>{{stevilka_police}}</td>
+              <td>{{datum_police}}</td>
+              <td>{{vrsta}}</td>
+              <td>{{avto_id}}</td>
+              <td>{{premija}}</td>
+            </tr>
+        %end
+      </tbody>
     </table>
   </div>
 </section>

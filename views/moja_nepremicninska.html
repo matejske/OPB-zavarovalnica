@@ -2,7 +2,7 @@
 
 <section class="about aos-init" data-aos="fade-up">
   <div class="container">
-      <table class="table table-hover" width="100%">
+      <table id="naprednaTabela" class="table table-hover" width="100%">
       <thead class="glava_tabele" style="text-align:center;">
         <tr>
           <th>Številka police</th>
@@ -12,9 +12,9 @@
           <th>Plačana premija</th>
         </tr>
       </thead>
-
-      %for (stevilka_police, datum_police, vrsta_n, nepr_id, premija) in moja_nepremicninska:
       <tbody class= "jedro_tabele">
+      %for (stevilka_police, datum_police, vrsta_n, nepr_id, premija) in moja_nepremicninska:
+
         <tr>
           <td>{{stevilka_police}}</td>
           <td>{{datum_police}}</td>
@@ -22,8 +22,10 @@
           <td>{{nepr_id}}</td>
           <td>{{premija}}</td>
         </tr>
-      </tbody>
       %end
+      </tbody>
+
+
       </table>
   </div>
 </section>

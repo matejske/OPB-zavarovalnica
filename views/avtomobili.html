@@ -2,7 +2,7 @@
 
 <section class="about aos-init" data-aos="fade-up">
   <div class="container">
-      <table class="table table-hover" width="100%">
+      <table id="naprednaTabela" class="table table-hover" width="100%">
       <thead class="glava_tabele">
         <tr style="text-align:center;">
           <th>Registrska številka</th>
@@ -13,17 +13,18 @@
         </tr>
       </thead>
 
-      %for (registrska,znamka,model,vrednost) in avtomobili: 
       <tbody class="jedro_tabele">
-        <tr>
-          <td>{{registrska}}</td>
-          <td>{{znamka}}</td>
-          <td>{{model}}</td>
-          <td>{{vrednost}}</td>
-          <td><a type="button" class="btn btn-dark" href="{{ROOT}}agent/{{emso}}/urejanje_avtomobila/{{registrska}}">Uredi</a></td>
-        </tr>
+        %for (registrska,znamka,model,vrednost) in avtomobili: 
+          <tr>
+            <td>{{registrska}}</td>
+            <td>{{znamka}}</td>
+            <td>{{model}}</td>
+            <td>{{vrednost}}</td>
+            <td><a type="button" class="btn btn-dark" href="{{ROOT}}agent/{{emso}}/urejanje_avtomobila/{{registrska}}">Uredi</a></td>
+          </tr>
+        %end
       </tbody>
-      %end
+
       </table>
   </div>
 </section>
