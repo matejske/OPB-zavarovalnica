@@ -4,6 +4,8 @@ Projekt pri predmetu Osnove podatkovnih baz v letu 2020.
 
 Avtorji: Enej Kovač, Tomas Rode, Matej Škerlep)
 
+Zagon aplikacije z orodjem Binder: [![bottle.py](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/matejske/OPB-zavarovalnica/master?urlpath=proxy/8080/)
+
 # ER diagram
 
 <img src="./ER diagram/ER_diagram_zavarovalnica.png" alt="ER diagram"/>
