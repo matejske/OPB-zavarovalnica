@@ -140,12 +140,6 @@ def glavna_stran():
 def glavna_stran():
     return rtemplate('glavna_stran.html')
 
-# Stran za testiranje ==========================================================================
-@get('/testi')
-def testi():
-    cur.execute("SELECT * FROM avtomobili")
-    return rtemplate('testi.html', avtomobili=cur)
-
 
 # Kontaktna stran ==========================================================================
 @get('/kontakt')
