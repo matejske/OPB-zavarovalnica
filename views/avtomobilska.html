@@ -2,7 +2,7 @@
 
 <section class="about aos-init" data-aos="fade-up">
   <div class="container">
-      <table class="table table-hover" width="100%">
+      <table id="naprednaTabela" class="table table-hover" width="100%">
       <thead class="glava_tabele" style="text-align:center;">
         <tr>
           <th>Številka police</th>
@@ -10,16 +10,17 @@
           <th>Registrska številka avtomobila</th>
         </tr>
       </thead>
-
-      %for (polica_id,vrsta,avto_id) in avtomobilska:
       <tbody class= "jedro_tabele">
+      %for (polica_id,vrsta,avto_id) in avtomobilska:
+
         <tr>
           <td>{{polica_id}}</td>
           <td>{{vrsta}}</td>
           <td>{{avto_id}}</td>
         </tr>
       </tbody>
-      %end
+
       </table>
+      %end
   </div>
 </section>

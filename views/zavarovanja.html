@@ -2,7 +2,7 @@
 
 <section class="about aos-init" data-aos="fade-up">
   <div class="container">
-      <table class="table table-hover" width="100%">
+      <table id="naprednaTabela" class="table table-hover" width="100%">
       <thead class="glava_tabele" style="text-align:center;">
         <tr>
           <th>Številka police</th>
@@ -13,9 +13,9 @@
           <th>Urejanje</th>
         </tr>
       </thead>
-
-      %for (stevilka_police,komitent_id,datum_police,premija,tip_zavarovanja) in zavarovanja:
       <tbody class= "jedro_tabele">
+      %for (stevilka_police,komitent_id,datum_police,premija,tip_zavarovanja) in zavarovanja:
+
         <tr>
           <td>{{stevilka_police}}</td>
           <td>{{komitent_id}}</td>
@@ -24,8 +24,9 @@
           <td>{{tip_zavarovanja}}</td>
           <td><a type="button" class="btn btn-dark" href="{{ROOT}}agent/{{emso}}/urejanje_premije/{{stevilka_police}}">Uredi</a></td>
         </tr>
-      </tbody>
       %end
+      </tbody>
+
       </table>
   </div>
 </section>
