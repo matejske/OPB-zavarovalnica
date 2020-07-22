@@ -12,7 +12,7 @@
       </div>
       <form action="{{ROOT}}agent/{{emso}}/dodaj_avtomobil" method='post' style="width: 48%">
         <div class="form-group">
-            <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska številka avtomobila" required 
+            <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska številka avtomobila" max="10000000" required 
           oninvalid="this.setCustomValidity('Prosim vnesite registrsko številko vašega avtomobila.')" oninput="setCustomValidity('')" />
         </div>  
         <div class="form-group">
@@ -24,7 +24,7 @@
           oninvalid="this.setCustomValidity('Prosim vnesite model avtomobila.')" oninput="setCustomValidity('')" />
           </div>
         <div class="form-group">
-          <input name="vrednost" type="number" value="{{vrednost}}" class="form-control" placeholder="Vrednost avtomobila" required 
+          <input name="vrednost" type="number" value="{{vrednost}}" class="form-control" placeholder="Vrednost avtomobila" max="100000000" required 
           oninvalid="this.setCustomValidity('Prosim vnesite tržno vrednost avtomobila.')" oninput="setCustomValidity('')" />
         </div>       
 

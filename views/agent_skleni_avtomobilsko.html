@@ -26,8 +26,8 @@
             </select>
         </div>
         <div class="form-group">
-            <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska številka avtomobila" data-rule="minlen:4" required 
-          oninvalid="this.setCustomValidity('Prosim vnesite registrsko številko avtomobila.')" oninput="setCustomValidity('')" />
+            <input name="registrska" type="number" value="{{registrska}}" class="form-control" placeholder="Registrska številka avtomobila" max="10000000" required 
+          oninvalid="this.setCustomValidity('Prosim vnesite veljavno registrsko številko avtomobila.')" oninput="setCustomValidity('')"  />
         </div>
         <div class="form-group">
           <input name="znamka" type="text" value="{{znamka}}" class="form-control" placeholder="Znamka avtomobila" required 

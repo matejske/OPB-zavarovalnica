@@ -136,17 +136,9 @@ def glavna_stran():
 
     return rtemplate('glavna_stran.html')
 
-@post('/')
-def glavna_stran():
-    return rtemplate('glavna_stran.html')
-
 
 # Kontaktna stran ==========================================================================
 @get('/kontakt')
-def kontakt():
-    return rtemplate('kontakt.html')
-
-@post('/kontakt')
 def kontakt():
     return rtemplate('kontakt.html')
 
@@ -155,18 +147,12 @@ def kontakt():
 def predstavitev_zavarovanj():
     return rtemplate('predstavitev_zavarovanj.html')
 
-@post('/predstavitev_zavarovanj')
-def predstavitev_zavarovanj():
-    return rtemplate('predstavitev_zavarovanj.html')
 
 # Stran o zaposlenih ==========================================================================
 @get('/zaposleni')
 def zaposleni():
     return rtemplate('zaposleni.html')
 
-@post('/zaposleni')
-def zaposleni():
-    return rtemplate('zaposleni.html')
 
 #######################################################################################################################
 #######################################################################################################################
