@@ -7,6 +7,7 @@ import hashlib # računanje MD5 kriptografski hash za gesla
 
 # uvozimo ustrezne podatke za povezavo
 import auth_matej as auth
+# Od lastnika baze, saj sicer ne moremo vstavljati v tabele (preko binderja)
 
 #uvozimo paket za delo z datumi
 from datetime import date
