@@ -6,7 +6,7 @@ from bottle import *
 import hashlib # računanje MD5 kriptografski hash za gesla
 
 # uvozimo ustrezne podatke za povezavo
-import auth_matej as auth
+import auth_public as auth
 # Od lastnika baze, saj sicer ne moremo vstavljati v tabele (preko binderja)
 
 #uvozimo paket za delo z datumi
