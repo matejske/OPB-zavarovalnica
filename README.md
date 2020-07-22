@@ -6,6 +6,14 @@ Avtorji: Enej Kovač, Tomas Rode, Matej Škerlep
 
 Zagon aplikacije z orodjem Binder: [![bottle.py](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/matejske/OPB-zavarovalnica/master?urlpath=proxy/8080/)
 
+# Opis
+
+Po zagonu aplikacije se nam odpre domača stran Zavarovanice ETM, kjer lahko dobimo osnovne informacije kot so naprimer kontakt, podatki o zaposlenih in možne zavarovalne police. Če hočemo skleniti zavarovanje se moramo prijaviti v spletno poslovalnico za zavarovance oziroma se najprej registrirati, če uporabniškega računa še nimamo. V spletni poslovalnici lahko sklenemo nova zavarovanja, vidimo že sklenjene police ter svoje osebne podatke. Poleg spletne poslovalnice za zavarovance obstaja tudi spletna poslovalnica za agente, kamor se lahko prijavijo zaposleni na Zavarovalnici ETM. Poslovalnica agentom omogoča hiter pregled nad osnovnimi statističnimi podatki zavarovalnice, dostop do baze podatkov ter sklepanje zavarovanj za svoje komitente.
+
+Obstaja že račun agenta (in tudi zavarovanca) z naslednjimi potrebnimi podatki za prijavo:
+Emšo: 1111
+geslo: enej
+
 # ER diagram
 
 <img src="./ER diagram/ER_diagram_zavarovalnica.png" alt="ER diagram"/>
