@@ -1651,8 +1651,7 @@ def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
         # Nepremičnine še ni v bazi
         return rtemplate('zavarovanec_skleni_nepremicninsko.html',
                             naslov_nepr='',
-                            vrsta_nepremicninskega=vrsta_nepremicninskega, 
-                            premija=premija, 
+                            vrsta_nepremicninskega=vrsta_nepremicninskega,  
                             emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                             ime_zavarovanca=ime_zav,
                             priimek_zavarovanca=priimek_zav, 
