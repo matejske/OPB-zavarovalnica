@@ -232,11 +232,11 @@ def stran_agenta(emso_agenta):
     stevilo_polic = cur.fetchone()[0]
 
     #preštejemo vse komitente
-    cur.execute("SELECT COUNT(emso) FROM osebe WHERE zaposleni=%s", ('FALSE',))
+    cur.execute("SELECT COUNT(emso) FROM osebe WHERE zaposleni=FALSE")
     stevilo_komitentov = cur.fetchone()[0]
 
     #preštejemo vse agente
-    cur.execute("SELECT COUNT(emso) FROM osebe WHERE zaposleni=%s", ('TRUE',))
+    cur.execute("SELECT COUNT(emso) FROM osebe WHERE zaposleni=TRUE")
     stevilo_agentov = cur.fetchone()[0]
 
     #povprecna premija
@@ -248,39 +248,39 @@ def stran_agenta(emso_agenta):
     vsota_premij = round(cur.fetchone()[0], 2)
 
     #stevilo polic nepremičninska
-    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=%s", (3,))
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=3")
     stevilo_polic_n = cur.fetchone()[0]
 
     #povprecna premija nepremicninska
-    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (3,))
+    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=3")
     povprecna_premija_n = round(cur.fetchone()[0], 2)
 
     #vsota premij nepremicninska
-    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (3,))
+    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=3")
     vsota_premij_n = round(cur.fetchone()[0], 2)
 
     #stevilo polic avtomobilska
-    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=%s", (2,))
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=2")
     stevilo_polic_a = cur.fetchone()[0]
 
     #povprecna premija avtomobilska
-    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (2,))
+    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=2")
     povprecna_premija_a = round(cur.fetchone()[0], 2)
 
     #vsota premij avtomobilska
-    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (2,))
+    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=2")
     vsota_premij_a = round(cur.fetchone()[0], 2)
 
     #stevilo polic življenjska
-    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=%s", (1,))
+    cur.execute("SELECT COUNT(stevilka_police) FROM zavarovanja WHERE tip_zavarovanja=1")
     stevilo_polic_z = cur.fetchone()[0]
 
     #povprecna premija življenjska
-    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (1,))
+    cur.execute("SELECT AVG(premija) FROM zavarovanja WHERE tip_zavarovanja=1")
     povprecna_premija_z = round(cur.fetchone()[0], 2)
 
     #vsota premij življenjska
-    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=%s", (1,))
+    cur.execute("SELECT SUM(premija) FROM zavarovanja WHERE tip_zavarovanja=1")
     vsota_premij_z = round(cur.fetchone()[0], 2)
     
     # Vrnemo predlogo za stran za agente
