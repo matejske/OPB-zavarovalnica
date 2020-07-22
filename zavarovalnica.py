@@ -4,7 +4,6 @@
 # uvozimo bottle.py (bottle je knjiznica funkcij)
 from bottle import *
 import hashlib # računanje MD5 kriptografski hash za gesla
-import inflect
 
 # uvozimo ustrezne podatke za povezavo
 import auth_matej as auth
