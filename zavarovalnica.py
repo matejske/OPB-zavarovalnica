@@ -1655,7 +1655,7 @@ def zavarovanec_skleni_nepremicninsko_post(emso_zavarovanca):
                             emso=emso_zav, # emso od zavarovanca, ker rabimo v zavarovanec_osnova, da se izpiše kdo je prijavljen
                             ime_zavarovanca=ime_zav,
                             priimek_zavarovanca=priimek_zav, 
-                            napaka='Nepremičnina še ni v bazi') 
+                            napaka='Nepremičnine še ni v bazi') 
     else:                       
         # Nepremičnina je že v bazi. Vstavimo  zavarovalno polico in ne naslova
         premija = doloci_premijo_nepremicninskega(vrsta_nepremicninskega, vrednost_nepremicnine(naslov_nepr)) # ZA RAČUNAT PREMIJO
