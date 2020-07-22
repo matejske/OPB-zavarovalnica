@@ -1,6 +1,5 @@
 jupyter-server-proxy
 psycopg2
-hashlib
 inflect
 datetime
 os
