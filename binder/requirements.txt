@@ -2,4 +2,3 @@ jupyter-server-proxy
 psycopg2
 inflect
 datetime
-os
