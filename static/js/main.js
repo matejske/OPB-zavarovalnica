@@ -14,7 +14,7 @@ function izracunajPremijoNepremicninsko() {
 }
 
 function izracunajPremijoZivljensko() {
-  var VRSTA = document.skleni_zivl.vrsta_zivljenskega.value;
+  var VRSTA = document.skleni_zivl.vrsta_zivljenjskega.value;
   if (VRSTA == "pokojninsko") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 1 odstotek vaše starosti.'; }
   else if (VRSTA == "invalidsko") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 0,5 odstotka vaše starosti.'; }
   else if (VRSTA == "za primer brezposelnosti") { return document.skleni_zivl.rezultat.value = 'Vaša premija bo znašala 0,8 odstotka vaše starosti.'; }
